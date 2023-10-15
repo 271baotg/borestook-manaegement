@@ -10,7 +10,7 @@ import OrderHistory from "../components/OrderHistory/OrderHistory";
 import Customer from "../components/Customer/Customer";
 import Statistic from "../components/Statistic/Statistic";
 import Layout from "../components/Layout";
-import Storage from "../components/Storage/Storage";
+import {Storage} from "../components/Storage/Storage";
 
 const Routes = () => {
   const router = createBrowserRouter(

@@ -1,0 +1,98 @@
+.tableContainer{
+    width: 70%;
+    height: 90vh;
+    background-color: #fff5;
+    backdrop-filter: blur(7px);
+    box-shadow: 0 .4rem .8rem  
+    ;
+    border-radius: .8rem;
+    overflow: hidden;
+
+    margin: 0.5rem;
+    
+}
+
+table{
+    width: 100%;
+    align-items: center;
+}
+
+
+
+.table__header{
+    width: 100%;
+    height: 10%;
+    background-color: #fff4;
+    padding: .8rem 1rem;
+}
+
+.table__body{
+    width: 95%;
+    max-height: calc(89% - .8rem);
+    margin: 0.8rem auto;
+
+    border-radius: .6rem;
+    overflow: auto;
+}
+
+.table__body::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.table__body::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.table__body:hover::-webkit-scrollbar-thumb{
+    visibility: visible;
+}
+
+
+.table, th, td{
+    
+    padding: 1rem;
+    border-collapse: collapse;
+}
+
+
+
+/* tr{
+    width: 100%;
+    background-color: #fff4;
+} */
+
+
+td img{
+    width: 36px;
+    height: 36px;
+    margin-right: .5rem;
+    border-radius: 10%;
+
+    vertical-align: middle;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: #d5d1defe;
+}
+
+tbody tr:nth-child(even){
+    background-color: #0000000b;
+}
+
+/* 
+.storage-desktop{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "list bill";
+}
+
+.list{
+    grid-area: list;
+    background-color: red;
+} */

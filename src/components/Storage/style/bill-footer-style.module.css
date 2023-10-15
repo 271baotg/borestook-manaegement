@@ -1,0 +1,8 @@
+.sticky{
+    height: 20%;
+    bottom: 0px;
+    position: sticky;
+    background-color: red;
+    padding: 1em 1em;
+    margin: 1rem;
+}
