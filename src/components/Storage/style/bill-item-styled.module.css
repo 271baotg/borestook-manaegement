@@ -1,0 +1,48 @@
+.tableData{
+    padding: .5rem;
+    border-collapse: collapse;
+    height: 50;
+}
+
+.tableData img{
+    width: 100px;
+    height: 100px;
+    margin-right: .5rem;
+    border-radius: 10%;
+
+    vertical-align: middle;
+}
+
+.tableRow{
+    width: 100%;
+    background-color: #fff4;
+}
+
+.qtyContainer{
+    display: flex;
+    align-items: center;
+}
+
+.qtyBtnContainer{
+    margin-left: 1rem;
+}
+
+
+.qtyBtn{
+    width: 23px;
+    background-color: #f0f8ff;
+    height: 30px;
+    border-width: 1px;
+}
+
+.qtyBtnLeft{
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+
+}
+
+.qtyBtnRight{
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border-left: none;
+}

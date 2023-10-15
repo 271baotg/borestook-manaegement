@@ -1,0 +1,22 @@
+.tableData{
+    
+    padding: 1rem;
+    border-collapse: collapse;
+}
+
+.tableData img{
+    width: 100px;
+    height: 100px;
+    margin-right: .5rem;
+    border-radius: 10%;
+
+    vertical-align: middle;
+}
+
+.tableRow{
+    width: 100%;
+    background-color: #fff4;
+}
+
+
+
