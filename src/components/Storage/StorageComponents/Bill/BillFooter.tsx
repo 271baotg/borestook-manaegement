@@ -10,7 +10,8 @@ export const BillFooter:React.FC<{checkOut: Function, billItem: BillItemModel[]}
     });
     
     const handleCheckOut = () => {
-        props.checkOut();
+        props.billItem.forEach((billItem) => {billItem.logInfor})
+        console.log(total);
     }
     
 

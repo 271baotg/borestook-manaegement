@@ -43,3 +43,9 @@
 .table__body:hover::-webkit-scrollbar-thumb{
     visibility: visible;
 }
+
+.table, th, td{
+    
+    padding: 1rem;
+    border-collapse: collapse;
+}

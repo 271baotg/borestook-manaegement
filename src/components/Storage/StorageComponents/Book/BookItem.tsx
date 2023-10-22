@@ -102,7 +102,7 @@ export const BookItem: React.FC<{ book: BookModel, isChecked: boolean, addToBill
             <td className={st.tableData}>{props.book.author}</td>
             <td className={st.tableData}>{props.book.copies}</td>
             <td className={st.tableData}>{props.book.copiesAvailable}</td>
-            <td className={st.tableData} style={{backgroundColor: st.tableData.backgroundColor + 100}}>
+            <td className={st.tableData}>
                 <button className={`${''} btn btn-outline-primary`} style={{borderWidth:'2px'}} onClick={handleAddToBill}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus" viewBox="0 0 16 16">
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
