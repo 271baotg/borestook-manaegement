@@ -68,7 +68,8 @@ export const Storage = () => {
   }
 
   const removeBillItem = (id:number) => {
-    
+    const removed = billItems.filter((billItem) => billItem.book.id !== id);
+    setBillItems(removed);
   }
 
   const setQuantity = (id: number, quantity: number) => {
