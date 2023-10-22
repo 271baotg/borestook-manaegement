@@ -30,13 +30,6 @@ const Main = styled(BaseMain)`
 export const BookList: React.FC<{ bookList: BookModel[], addToBill: Function}> = (props) => {
 
   return (
-
-    <main className={st.tableContainer}>
-      <section className={st.table__header}>
-        <h1>Books</h1>
-        <SearchBar></SearchBar>
-      </section>
-      <section className={st.table__body}>
         <table className={st.table}>
           <thead>
             <tr>
@@ -57,8 +50,6 @@ export const BookList: React.FC<{ bookList: BookModel[], addToBill: Function}> =
             }
           </tbody>
         </table>
-      </section>
-    </main>
 
   );
 }

@@ -5,6 +5,7 @@ import { Bill } from "./StorageComponents/Bill/Bill";
 // import "./style.css";
 import st from './style/storage-style.module.css';
 import BillItemModel from "../../models/BillItemModel";
+import { BookTable } from "./StorageComponents/Book/BookTable";
 
 export const Storage = () => {
   const [booklist, setBookList] = useState<BookModel[]>([]);
@@ -115,12 +116,12 @@ export const Storage = () => {
     <>
       <div className={`${st.storageDesktop} d-none d-lg-flex`}>
         {/* Desktop */}
-        <BookList bookList={booklist} addToBill={handleAddToBill} />
+        <BookTable bookList={booklist} addToBill={handleAddToBill}/>
         <Bill billItems={billItems} setQuantity={setQuantity} removeBillItem={removeBillItem} checkOut={checkOut} ></Bill>
       </div>
       <div className={`${st.storageDesktop} d-block d-lg-none`}>
         {/* Desktop */}
-        <BookList bookList={booklist} addToBill={handleAddToBill} />
+        <BookTable bookList={booklist} addToBill={handleAddToBill}/>
         <Bill billItems={billItems} setQuantity={setQuantity} removeBillItem={removeBillItem} checkOut={checkOut}></Bill>
       </div>
     </>
