@@ -12,7 +12,7 @@ export const SearchBar: React.FC<{}> = (props) => {
     return (<>
         <div className={st.searchBarContainer}>
             <input className={st.input}></input>
-            <button  type="button" className={`${st.button} btn btn-primary`}>
+            <button type="button" className={`${st.button} btn btn-primary`}>
                 Search
             </button>
         </div>

@@ -13,7 +13,6 @@ export const Storage = () => {
   const [billItems, setBillItems] = useState<BillItemModel[]>([]);
 
   useEffect(() => {
-
     const baseUrl: string = 'http://localhost:8080/api/books';
     const key = 'books';
     const url: string = `${baseUrl}?page=0`;
