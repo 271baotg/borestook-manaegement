@@ -13,7 +13,8 @@ export const BillItem: React.FC<{ billItem: BillItemModel, setQuantity: Function
     }
 
     const handleDecreaseQuantity = () => {
-        
+        props.setQuantity(book?.id, props.billItem.quantity - 1);
+        setQuantity(props.billItem.quantity - 1);
     }
 
     return (

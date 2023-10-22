@@ -1,0 +1,25 @@
+.searchBarContainer{
+    display: flex;
+    width: 100%;
+}
+
+.button, .input{
+    margin: auto;
+    height: 73%;
+    border-radius: .8rem;
+    border: 0px;
+    
+}
+
+.input{
+    margin-right: 6px;
+    width: 70%;
+    padding-left: 10px;
+}
+
+.button{
+    margin-left: 0px;
+    padding: 10px;
+    padding-bottom: 15px;
+    text-align: center;
+}

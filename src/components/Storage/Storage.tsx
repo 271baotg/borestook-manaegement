@@ -6,12 +6,15 @@ import { Bill } from "./StorageComponents/Bill/Bill";
 // import "./style.css";
 import st from './style/storage-style.module.css';
 import styled from "styled-components";
+import BillItemModel from "../../models/BillItemModel";
+import { SearchBar } from "./StorageComponents/SearchBar/SearcherBar";
 
 export const Storage = () => {
   const [booklist, setBookList] = useState<BookModel[]>([]);
   const [checkedBookList, setCheckedBookList] = useState<BookModel[]>([]);
   const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [billItems, setBillItems] = useState<BillItemModel[]>([]);
 
   useEffect(() => {
 
@@ -21,6 +24,7 @@ export const Storage = () => {
 
     const getBookList = async () => {
       const response = await fetch(url);
+
 
       const responseJson = await response.json();
 
@@ -38,7 +42,7 @@ export const Storage = () => {
           copiesAvailable: book.copiesAvailable,
 
         })
-        console.log(book);
+
       }
       setBookList(tempBookList)
       setIsLoading(false);
@@ -48,6 +52,42 @@ export const Storage = () => {
     });
 
   }, [])
+  
+  useEffect(() => {
+    if (checkedBookList.length > billItems.length) {
+      //thêm vào sách mới
+      if (checkedBookList.length === 0) {
+        return;
+      }
+      const newBook: BookModel = checkedBookList[checkedBookList.length - 1];
+      const defaultQuantity: number = 1;
+      const amount: number = newBook.copies ?? 0;//vì trong model chưa có price nên set tạm copies
+      setBillItems([...billItems, new BillItemModel(newBook, defaultQuantity, amount)]);
+    }
+    else if (checkedBookList.length < billItems.length) {
+      //xóa sách cũ đi
+      if (checkedBookList.length === 0) {
+        setBillItems([]);
+        return;
+      }
+      let differenceIndex: number = -1;
+      for (let i: number = 0; i < checkedBookList.length; i++) {
+        if (checkedBookList[i].id !== billItems[i].book.id) {
+          differenceIndex = i;
+          break;
+        }
+      }
+      if (differenceIndex === -1) {
+        setBillItems([...billItems.slice(0, billItems.length - 1)])
+      } else {
+        setBillItems([...billItems.slice(0, differenceIndex), ...billItems.slice(differenceIndex + 1, billItems.length)])
+      }
+    } else {
+
+    }
+
+
+  }, [checkedBookList]);
 
   const handleCheckBook = (book: BookModel, isChecked: boolean) => {
     if (isChecked) {
@@ -61,7 +101,27 @@ export const Storage = () => {
     }
   }
 
-  if(isLoading){
+
+  const setQuantity = (id: number, quantity: number) => {
+    for (let i: number = 0; i < billItems.length; i++) {
+      if (billItems[i].book.id === id) {
+        billItems[i].quantity = quantity;
+        billItems[i].amount = quantity * (billItems[i].book.copies ?? 1);
+        break;
+      }
+    }
+  }
+
+  const checkOut = () => {
+    billItems.forEach(element => {
+      element.logInfor();
+      setCheckedBookList([]);
+      
+    });
+  }
+
+
+  if (isLoading) {
     return (
       <div>
         <h1>Is Loading ...</h1>
@@ -77,19 +137,18 @@ export const Storage = () => {
   //   );
   // }
 
-
   return (
     <>
-    <div className={`${st.storageDesktop} d-none d-lg-flex`}>
-      {/* Desktop */}
-      <BookList bookList={booklist} checkBookHandler={handleCheckBook} />
-      <Bill checkedBookList={checkedBookList}></Bill>
-    </div>
-    <div className={`${st.storageDesktop} d-block d-lg-none`}>
-      {/* Desktop */}
-      <BookList bookList={booklist} checkBookHandler={handleCheckBook} />
-      <Bill checkedBookList={checkedBookList}></Bill>
-    </div>
+      <div className={`${st.storageDesktop} d-none d-lg-flex`}>
+        {/* Desktop */}
+        <BookList bookList={booklist} checkBookList={checkedBookList} checkBookHandler={handleCheckBook}/>
+        <Bill billItems={billItems} setQuantity={setQuantity} checkOut={checkOut} ></Bill>
+      </div>
+      <div className={`${st.storageDesktop} d-block d-lg-none`}>
+        {/* Desktop */}
+        <BookList bookList={booklist} checkBookList={checkedBookList} checkBookHandler={handleCheckBook}/>
+        <Bill billItems={billItems} setQuantity={setQuantity} checkOut={checkOut}></Bill>
+      </div>
     </>
   );
 };

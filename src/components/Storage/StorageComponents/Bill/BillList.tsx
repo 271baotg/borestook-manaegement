@@ -7,7 +7,7 @@ export const BillList: React.FC<{ billItem?: BillItemModel[], setQuantity: Funct
     return (
         <main className={st.tableContainer}>
             <section className={st.table__header}>
-                <h1>Books</h1>
+                <h1>Bill</h1>
             </section>
             <section className={st.table__body}>
                 <table className={st.table}>
@@ -22,7 +22,7 @@ export const BillList: React.FC<{ billItem?: BillItemModel[], setQuantity: Funct
                     </thead>
                     <tbody>
                         {props.billItem?.map((billItem) => {
-                            return(<BillItem billItem={billItem} setQuantity={props.setQuantity}/>)
+                            return(<BillItem key={billItem.book.id} billItem={billItem} setQuantity={props.setQuantity}/>)
                         })}
                     </tbody>
                 </table>

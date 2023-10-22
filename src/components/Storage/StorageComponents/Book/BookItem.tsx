@@ -62,7 +62,7 @@ import img from '../../images/book.png';
 // const TableData = styled(BaseTableData)`
 //     padding: 1rem;
 //     border-collapse: collapse;
-    
+
 //     width: 36px;
 //     height: 36px;
 
@@ -75,27 +75,36 @@ import img from '../../images/book.png';
 //     background-color: #fff4;
 // `;
 
-export const BookItem: React.FC<{ book: BookModel, checkBookHandler: Function }> = (props) => {
-    const [isChecked, setIsChecked] = useState(false);
+export const BookItem: React.FC<{ book: BookModel, isChecked: boolean, checkBookHandler: Function}> = (props) => {
+    // const [isChecked, setIsChecked] = useState(false);
+    // useEffect(()=> {
+    //     props.checkBookHandler(props.book, isChecked);
+    // }, [isChecked])
 
-    useEffect(()=> {
-        props.checkBookHandler(props.book, isChecked);
-    }, [isChecked])
+    // const [isChecked, setIsChecked] = useState(props.isChecked);
+    // useEffect(() => {
+    //     props.checkBookHandler(props.book, isChecked);
+    // }, [isChecked])
+    
+    const handleCheckBook = () => {
+        props.checkBookHandler(props.book, !props.isChecked);
+    }
+
 
     return (
         <tr className={st.tableRow}>
-                <td className={st.tableData}>{props.book.id}</td>
-                <td className={st.tableData}>
-                        <img className={''} src={props.book.img} />
-                    </td>
-                <td className={st.tableData}>{props.book.title}</td>
-                <td className={st.tableData}>{props.book.author}</td>
-                <td className={st.tableData}>{props.book.copies}</td>
-                <td className={st.tableData}>{props.book.copiesAvailable}</td>
-                <td className={st.tableData}>{props.book.description}</td>
-                <td className={st.tableData}>
-                    <input onClick={()=> {setIsChecked(!isChecked)}} className="check-box" type="checkbox" value="" checked={isChecked} />
-                </td>
-              </tr>
+            <td className={st.tableData}>{props.book.id}</td>
+            <td className={st.tableData}>
+                <img className={''} src={props.book.img} />
+            </td>
+            <td className={st.tableData}>{props.book.title}</td>
+            <td className={st.tableData}>{props.book.author}</td>
+            <td className={st.tableData}>{props.book.copies}</td>
+            <td className={st.tableData}>{props.book.copiesAvailable}</td>
+            <td className={st.tableData}>{props.book.description}</td>
+            <td className={st.tableData}>
+                <input onClick={handleCheckBook} onChange={() => {}} className="check-box" type="checkbox" value="" checked={props.isChecked} />
+            </td>
+        </tr>
     );
 }
