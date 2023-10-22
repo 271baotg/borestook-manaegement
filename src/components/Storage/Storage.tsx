@@ -72,6 +72,10 @@ export const Storage = () => {
   }
 
   const setQuantity = (id: number, quantity: number) => {
+    if(quantity === 0) {
+      removeBillItem(id);
+      return;
+    }
     const temp:BillItemModel[] = [...billItems];
     for (let i: number = 0; i < temp.length; i++) {
       if (temp[i].book.id === id) {
