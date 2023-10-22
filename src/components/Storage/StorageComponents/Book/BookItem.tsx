@@ -75,7 +75,7 @@ import img from '../../images/book.png';
 //     background-color: #fff4;
 // `;
 
-export const BookItem: React.FC<{ book: BookModel, isChecked: boolean, checkBookHandler: Function}> = (props) => {
+export const BookItem: React.FC<{ book: BookModel, isChecked: boolean, addToBill: Function}> = (props) => {
     // const [isChecked, setIsChecked] = useState(false);
     // useEffect(()=> {
     //     props.checkBookHandler(props.book, isChecked);
@@ -86,8 +86,9 @@ export const BookItem: React.FC<{ book: BookModel, isChecked: boolean, checkBook
     //     props.checkBookHandler(props.book, isChecked);
     // }, [isChecked])
     
-    const handleCheckBook = () => {
-        props.checkBookHandler(props.book, !props.isChecked);
+
+    const handleAddToBill = () =>{
+        props.addToBill(props.book);
     }
 
 
@@ -101,9 +102,8 @@ export const BookItem: React.FC<{ book: BookModel, isChecked: boolean, checkBook
             <td className={st.tableData}>{props.book.author}</td>
             <td className={st.tableData}>{props.book.copies}</td>
             <td className={st.tableData}>{props.book.copiesAvailable}</td>
-            <td className={st.tableData}>{props.book.description}</td>
             <td className={st.tableData}>
-                <input onClick={handleCheckBook} onChange={() => {}} className="check-box" type="checkbox" value="" checked={props.isChecked} />
+                <button className={`${''} btn btn-primary`} onClick={handleAddToBill}>Add</button>
             </td>
         </tr>
     );

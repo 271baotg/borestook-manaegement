@@ -27,7 +27,7 @@ const Main = styled(BaseMain)`
 
 `;
 
-export const BookList: React.FC<{ bookList: BookModel[], checkBookList: BookModel[], checkBookHandler: Function}> = (props) => {
+export const BookList: React.FC<{ bookList: BookModel[], addToBill: Function}> = (props) => {
 
   return (
 
@@ -46,29 +46,14 @@ export const BookList: React.FC<{ bookList: BookModel[], checkBookList: BookMode
               <th>Author</th>
               <th>Copies</th>
               <th>Copies Available</th>
-              <th>Description</th>
               <th>Choose</th>
             </tr>
           </thead>
           <tbody>
             {
-              props.bookList.map((book)=>{
-                let isFound = false;
-                props.checkBookList.forEach(bookList => {
-                  if(bookList.id === book.id){
-                    isFound = true;
-                  }
-                });
-
-                if(isFound){
-                  return (<BookItem book={book} isChecked={true} checkBookHandler={props.checkBookHandler} key={book.id} />);
-
-                } else{
-                  return (
-                    <BookItem book={book} isChecked={false} checkBookHandler={props.checkBookHandler} key={book.id}/>
-                  )
-                }
-              })
+              props.bookList.map((book)=>
+                 (<BookItem book={book} isChecked={true} addToBill={props.addToBill} key={book.id} />)
+              )
             }
           </tbody>
         </table>

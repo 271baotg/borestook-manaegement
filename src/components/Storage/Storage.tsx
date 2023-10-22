@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Wrapper } from "../Wrapper";
+import { useEffect, useState } from "react";
 import { BookList } from "./StorageComponents/Book/BookList";
 import BookModel from "../../models/BookModel";
 import { Bill } from "./StorageComponents/Bill/Bill";
 // import "./style.css";
 import st from './style/storage-style.module.css';
-import styled from "styled-components";
 import BillItemModel from "../../models/BillItemModel";
-import { SearchBar } from "./StorageComponents/SearchBar/SearcherBar";
 
 export const Storage = () => {
   const [booklist, setBookList] = useState<BookModel[]>([]);
-  const [checkedBookList, setCheckedBookList] = useState<BookModel[]>([]);
   const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [billItems, setBillItems] = useState<BillItemModel[]>([]);
@@ -52,72 +48,46 @@ export const Storage = () => {
     });
 
   }, [])
-  
-  useEffect(() => {
-    if (checkedBookList.length > billItems.length) {
-      //thêm vào sách mới
-      if (checkedBookList.length === 0) {
-        return;
-      }
-      const newBook: BookModel = checkedBookList[checkedBookList.length - 1];
-      const defaultQuantity: number = 1;
-      const amount: number = newBook.copies ?? 0;//vì trong model chưa có price nên set tạm copies
-      setBillItems([...billItems, new BillItemModel(newBook, defaultQuantity, amount)]);
-    }
-    else if (checkedBookList.length < billItems.length) {
-      //xóa sách cũ đi
-      if (checkedBookList.length === 0) {
-        setBillItems([]);
-        return;
-      }
-      let differenceIndex: number = -1;
-      for (let i: number = 0; i < checkedBookList.length; i++) {
-        if (checkedBookList[i].id !== billItems[i].book.id) {
-          differenceIndex = i;
-          break;
-        }
-      }
-      if (differenceIndex === -1) {
-        setBillItems([...billItems.slice(0, billItems.length - 1)])
-      } else {
-        setBillItems([...billItems.slice(0, differenceIndex), ...billItems.slice(differenceIndex + 1, billItems.length)])
-      }
+
+
+  const handleAddToBill = (book: BookModel) => {
+    if (book === undefined) {
+      return;
     } else {
+      const index = billItems.findIndex((billItem) => billItem.book.id === book.id)
+      const alreadyInBill = index !== -1;
+      if (alreadyInBill) {
+        setQuantity(book.id, billItems[index].quantity + 1);
+        
+      }else{
+        const newBillItem:BillItemModel = new BillItemModel(book, 1, book.copies);
+        setBillItems([...billItems, newBillItem]);
+      }
 
-    }
-
-
-  }, [checkedBookList]);
-
-  const handleCheckBook = (book: BookModel, isChecked: boolean) => {
-    if (isChecked) {
-      setCheckedBookList([...checkedBookList, book]);
-    }
-    else {
-      let tempList = checkedBookList.filter(item =>
-        book.id !== item.id
-      );
-      setCheckedBookList(tempList);
     }
   }
 
+  const removeBillItem = (id:number) => {
+    
+  }
 
   const setQuantity = (id: number, quantity: number) => {
-    for (let i: number = 0; i < billItems.length; i++) {
-      if (billItems[i].book.id === id) {
-        billItems[i].quantity = quantity;
-        billItems[i].amount = quantity * (billItems[i].book.copies ?? 1);
+    const temp:BillItemModel[] = [...billItems];
+    for (let i: number = 0; i < temp.length; i++) {
+      if (temp[i].book.id === id) {
+        temp[i].quantity = quantity;
+        temp[i].amount = quantity * (temp[i].book.copies ?? 1);
         break;
       }
     }
+    setBillItems(temp);
   }
 
   const checkOut = () => {
     billItems.forEach(element => {
       element.logInfor();
-      setCheckedBookList([]);
-      
     });
+    setBillItems([]);
   }
 
 
@@ -141,13 +111,13 @@ export const Storage = () => {
     <>
       <div className={`${st.storageDesktop} d-none d-lg-flex`}>
         {/* Desktop */}
-        <BookList bookList={booklist} checkBookList={checkedBookList} checkBookHandler={handleCheckBook}/>
-        <Bill billItems={billItems} setQuantity={setQuantity} checkOut={checkOut} ></Bill>
+        <BookList bookList={booklist} addToBill={handleAddToBill} />
+        <Bill billItems={billItems} setQuantity={setQuantity} removeBillItem={removeBillItem} checkOut={checkOut} ></Bill>
       </div>
       <div className={`${st.storageDesktop} d-block d-lg-none`}>
         {/* Desktop */}
-        <BookList bookList={booklist} checkBookList={checkedBookList} checkBookHandler={handleCheckBook}/>
-        <Bill billItems={billItems} setQuantity={setQuantity} checkOut={checkOut}></Bill>
+        <BookList bookList={booklist} addToBill={handleAddToBill} />
+        <Bill billItems={billItems} setQuantity={setQuantity} removeBillItem={removeBillItem} checkOut={checkOut}></Bill>
       </div>
     </>
   );

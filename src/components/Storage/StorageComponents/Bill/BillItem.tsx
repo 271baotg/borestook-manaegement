@@ -2,19 +2,22 @@ import {useState} from 'react';
 import BillItemModel from "../../../../models/BillItemModel";
 import st from '../../style/bill-item-styled.module.css';
 
-export const BillItem: React.FC<{ billItem: BillItemModel, setQuantity: Function}> = (props) => {
+export const BillItem: React.FC<{ billItem: BillItemModel, setQuantity: Function, removeBillItem:Function}> = (props) => {
     
     const book = props.billItem.book;
-    const [quantity, setQuantity] = useState(props.billItem.quantity);
     
     const handleIncreaseQuantity = () => {
         props.setQuantity(book?.id, props.billItem.quantity + 1);
-        setQuantity(props.billItem.quantity + 1);
+        // setQuantity(props.billItem.quantity + 1);
     }
 
     const handleDecreaseQuantity = () => {
         props.setQuantity(book?.id, props.billItem.quantity - 1);
-        setQuantity(props.billItem.quantity - 1);
+        // setQuantity(props.billItem.quantity - 1);
+    }
+
+    const handleRemove = () => {
+        props.removeBillItem(book.id);
     }
 
     return (
@@ -34,6 +37,9 @@ export const BillItem: React.FC<{ billItem: BillItemModel, setQuantity: Function
 
             </td>
             <td>{props.billItem.amount}</td>
+            <td>
+                <button onClick={handleRemove}>Remove</button>
+            </td>
         </tr>
     );
 }
