@@ -16,14 +16,12 @@ export const Storage = () => {
 
   useEffect(() => {
 
-    let baseUrl: string = 'http://localhost:8080/api/books';
-    const key = 'books';
+    let baseUrl: string = 'http://localhost:8081/books';
     let url: string = '';
 
     if (searchKeyWord !== '') {
       url = `${baseUrl}/${searchKeyWord}`;
       console.log(url);
-      
     }
     else {
       url = `${baseUrl}`;
@@ -52,11 +50,10 @@ export const Storage = () => {
 
       const responseJson = await response.json();
 
-      const responeData = responseJson._embedded[key];
 
       let tempBookList: BookModel[] = [];
 
-      for (const book of responeData) {
+      for (const book of responseJson) {
         tempBookList.push({
           id: book.id,
           title: book.title,
