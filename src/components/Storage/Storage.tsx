@@ -12,15 +12,43 @@ export const Storage = () => {
   const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [billItems, setBillItems] = useState<BillItemModel[]>([]);
+  const [searchKeyWord, setSearchKeyWord] = useState('');
 
   useEffect(() => {
-    const baseUrl: string = 'http://localhost:8080/api/books';
+
+    let baseUrl: string = 'http://localhost:8080/api/books';
     const key = 'books';
-    const url: string = `${baseUrl}?page=0`;
+    let url: string = '';
+
+    if (searchKeyWord !== '') {
+      url = `${baseUrl}/${searchKeyWord}`;
+      console.log(url);
+      
+    }
+    else {
+      url = `${baseUrl}`;
+    }
+
+    const getBookById = async () => {
+      const response = await fetch(url);
+
+      const responseJson = await response.json();
+
+      const tempBookList:BookModel[] = [];
+      tempBookList.push({
+        id: responseJson.id,
+          title: responseJson.title,
+          author: responseJson.author,
+          img: responseJson.img,
+          copies: responseJson.copies,
+          copiesAvailable: responseJson.copiesAvailable,
+      })
+      setBookList(tempBookList);
+      setIsLoading(false);
+    }
 
     const getBookList = async () => {
       const response = await fetch(url);
-
 
       const responseJson = await response.json();
 
@@ -43,11 +71,21 @@ export const Storage = () => {
       setBookList(tempBookList)
       setIsLoading(false);
     }
-    getBookList().catch(error => {
-      setIsLoading(true);
-    });
 
-  }, [])
+    if (searchKeyWord !== '') {
+      getBookById().catch(error => {
+        console.log(error);
+        setIsLoading(true);
+      });
+    }
+    else {
+      getBookList().catch(error => {
+        setIsLoading(true);
+      });
+    }
+    
+
+  }, [searchKeyWord])
 
 
   const handleAddToBill = (book: BookModel) => {
@@ -58,26 +96,26 @@ export const Storage = () => {
       const alreadyInBill = index !== -1;
       if (alreadyInBill) {
         setQuantity(book.id, billItems[index].quantity + 1);
-        
-      }else{
-        const newBillItem:BillItemModel = new BillItemModel(book, 1, book.copies);
+
+      } else {
+        const newBillItem: BillItemModel = new BillItemModel(book, 1, book.copies);
         setBillItems([...billItems, newBillItem]);
       }
 
     }
   }
 
-  const removeBillItem = (id:number) => {
+  const removeBillItem = (id: number) => {
     const removed = billItems.filter((billItem) => billItem.book.id !== id);
     setBillItems(removed);
   }
 
   const setQuantity = (id: number, quantity: number) => {
-    if(quantity === 0) {
+    if (quantity === 0) {
       removeBillItem(id);
       return;
     }
-    const temp:BillItemModel[] = [...billItems];
+    const temp: BillItemModel[] = [...billItems];
     for (let i: number = 0; i < temp.length; i++) {
       if (temp[i].book.id === id) {
         temp[i].quantity = quantity;
@@ -96,13 +134,13 @@ export const Storage = () => {
   }
 
 
-  if (isLoading) {
-    return (
-      <div>
-        <h1>Is Loading ...</h1>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div>
+  //       <h1>Is Loading ...</h1>
+  //     </div>
+  //   );
+  // }
 
   // if(httpError) {
   //   return (
@@ -116,12 +154,12 @@ export const Storage = () => {
     <>
       <div className={`${st.storageDesktop} d-none d-lg-flex`}>
         {/* Desktop */}
-        <BookTable bookList={booklist} addToBill={handleAddToBill}/>
+        <BookTable bookList={booklist} addToBill={handleAddToBill} searchKeyWord={searchKeyWord} setSearchKeyWord={setSearchKeyWord} />
         <Bill billItems={billItems} setQuantity={setQuantity} removeBillItem={removeBillItem} checkOut={checkOut} ></Bill>
       </div>
       <div className={`${st.storageDesktop} d-block d-lg-none`}>
         {/* Desktop */}
-        <BookTable bookList={booklist} addToBill={handleAddToBill}/>
+        <BookTable bookList={booklist} addToBill={handleAddToBill} searchKeyWord={searchKeyWord} setSearchKeyWord={setSearchKeyWord} />
         <Bill billItems={billItems} setQuantity={setQuantity} removeBillItem={removeBillItem} checkOut={checkOut}></Bill>
       </div>
     </>
