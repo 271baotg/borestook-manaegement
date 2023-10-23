@@ -4,8 +4,9 @@ import { BookList } from "./StorageComponents/Book/BookList";
 import BookModel from "../../models/BookModel";
 import { Bill } from "./StorageComponents/Bill/Bill";
 // import "./style.css";
-import st from './style/storage-style.module.css';
+import st from "./style/storage-style.module.css";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 export const Storage = () => {
   const [booklist, setBookList] = useState<BookModel[]>([]);
@@ -14,9 +15,8 @@ export const Storage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-
-    const baseUrl: string = 'http://localhost:8080/api/books';
-    const key = 'books';
+    const baseUrl: string = "http://localhost:8080/api/books";
+    const key = "books";
     const url: string = `${baseUrl}?page=0`;
 
     const getBookList = async () => {
@@ -36,32 +36,27 @@ export const Storage = () => {
           img: book.img,
           copies: book.copies,
           copiesAvailable: book.copiesAvailable,
-
-        })
+        });
         console.log(book);
       }
-      setBookList(tempBookList)
+      setBookList(tempBookList);
       setIsLoading(false);
-    }
-    getBookList().catch(error => {
+    };
+    getBookList().catch((error) => {
       setIsLoading(true);
     });
-
-  }, [])
+  }, []);
 
   const handleCheckBook = (book: BookModel, isChecked: boolean) => {
     if (isChecked) {
       setCheckedBookList([...checkedBookList, book]);
-    }
-    else {
-      let tempList = checkedBookList.filter(item =>
-        book.id !== item.id
-      );
+    } else {
+      let tempList = checkedBookList.filter((item) => book.id !== item.id);
       setCheckedBookList(tempList);
     }
-  }
+  };
 
-  if(isLoading){
+  if (isLoading) {
     return (
       <div>
         <h1>Is Loading ...</h1>
@@ -77,20 +72,18 @@ export const Storage = () => {
   //   );
   // }
 
-
   return (
     <>
-    <div className={`${st.storageDesktop} d-none d-lg-flex`}>
-      {/* Desktop */}
-      <BookList bookList={booklist} checkBookHandler={handleCheckBook} />
-      <Bill checkedBookList={checkedBookList}></Bill>
-    </div>
-    <div className={`${st.storageDesktop} d-block d-lg-none`}>
-      {/* Desktop */}
-      <BookList bookList={booklist} checkBookHandler={handleCheckBook} />
-      <Bill checkedBookList={checkedBookList}></Bill>
-    </div>
+      <div className={`${st.storageDesktop} d-none d-lg-flex`}>
+        {/* Desktop */}
+        <BookList bookList={booklist} checkBookHandler={handleCheckBook} />
+        <Bill checkedBookList={checkedBookList}></Bill>
+      </div>
+      <div className={`${st.storageDesktop} d-block d-lg-none`}>
+        {/* Desktop */}
+        <BookList bookList={booklist} checkBookHandler={handleCheckBook} />
+        <Bill checkedBookList={checkedBookList}></Bill>
+      </div>
     </>
   );
 };
-

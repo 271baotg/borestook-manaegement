@@ -1,6 +1,6 @@
 package com.example.bookstore_backend.security;
 
-import com.course_management.repository.StudentRepository;
+import com.example.bookstore_backend.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
 
-    private final StudentRepository studentRepository;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(
@@ -43,12 +43,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             jwtToken = authHeader.substring(7);
             username = jwtServices.extractUsername(jwtToken);
             if(username != null && SecurityContextHolder.getContext().getAuthentication()==null){
-                UserDetails student = userDetailsService.loadUserByUsername(username);
+                UserDetails user = userDetailsService.loadUserByUsername(username);
                 if(jwtServices.validateToken(jwtToken)) {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                            student,
+                            user,
                             null,
-                            student.getAuthorities());
+                            user.getAuthorities());
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
