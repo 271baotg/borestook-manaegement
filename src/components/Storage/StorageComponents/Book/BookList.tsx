@@ -3,10 +3,11 @@ import BookModel from '../../../../models/BookModel';
 import { BookItem } from './BookItem';
 import styled from 'styled-components';
 import st from '../../style/book-list-style.module.css'
+import { SearchBar } from '../SearchBar/SearcherBar';
 
-const BaseMain = ({className, children}:{className?:string, children: any}) => (
+const BaseMain = ({ className, children }: { className?: string, children: any }) => (
   <main className={`table list ${className}`}>
-      {children}
+    {children}
   </main>
 )
 
@@ -26,34 +27,29 @@ const Main = styled(BaseMain)`
 
 `;
 
-export const BookList: React.FC<{ bookList: BookModel[], checkBookHandler: Function }> = (props) => {
-  return (
-      <main className={st.tableContainer}>
-        <section className={st.table__header}>
-          <h1>Books</h1>
-        </section>
-        <section className={st.table__body}>
-          <table className={st.table}>
-            <thead>
-              <tr>
-                <th>id</th>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Copies</th>
-                <th>Copies Available</th>
-                <th>Description</th>
-                <th>Choose</th>
-              </tr>
-            </thead>
-            <tbody>
-              {props.bookList.map(book => (
-                <BookItem book={book} checkBookHandler={props.checkBookHandler}></BookItem>
-              ))}
+export const BookList: React.FC<{ bookList: BookModel[], addToBill: Function}> = (props) => {
 
-            </tbody>
-          </table>
-        </section>
-      </main>
+  return (
+        <table className={st.table}>
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Copies</th>
+              <th>Copies Available</th>
+              <th>Choose</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              props.bookList.map((book)=>
+                 (<BookItem book={book} isChecked={true} addToBill={props.addToBill} key={book.id} />)
+              )
+            }
+          </tbody>
+        </table>
+
   );
 }
