@@ -1,41 +1,44 @@
 import React from 'react';
-import { useEffect, useState } from "react";
-import BookModel from "../../../../models/BookModel";
-import styled from "styled-components";
 import st from '../../style/bill-style.module.css';
 import { BillFooter } from './BillFooter';
 import BillItemModel from '../../../../models/BillItemModel';
-import BillModel from '../../../../models/BillModel';
-import { BillItem } from './BillItem';
-import { BookList } from '../Book/BookList';
 import { BillList } from './BillList';
 
-export const Bill: React.FC<{ checkedBookList: BookModel[]}> = (props) => {
-    const temp: BillItemModel[] = [];
-    const billItems : BillItemModel[] = [];
-    props.checkedBookList.map((data)=> {billItems.push(new BillItemModel(data, 1, 0))});
+// export const Bill: React.FC<{ checkedBookList: BookModel[]}> = (props) => {
+//     const temp: BillItemModel[] = [];
+//     const billItems : BillItemModel[] = [];
+//     props.checkedBookList.map((data)=> {billItems.push(new BillItemModel(data, 1, 0))});
     
 
 
-    const checkOut = () => {
-        console.log(billItems);
-    }
+//     const checkOut = () => {
+//         console.log(billItems);
+//     }
 
-    const setQuantity = (id: number, quantity: number) =>{
+//     const setQuantity = (id: number, quantity: number) =>{
         
-        for(let i: number = 0; i < billItems.length; i++){
-            if(billItems[i].book.id ===id){
-                billItems[i].quantity = quantity;
-                console.log(billItems[i]);
-                break;
-            }
-        }
-    }
+//         for(let i: number = 0; i < billItems.length; i++){
+//             if(billItems[i].book.id ===id){
+//                 billItems[i].quantity = quantity;
+//                 console.log(billItems[i]);
+//                 break;
+//             }
+//         }
+//     }
 
+//     return (
+//         <div className={st.billContainer}>
+//             <BillList billItem={billItems} setQuantity={setQuantity}></BillList>
+//             <BillFooter></BillFooter>
+//         </div>
+//     );
+// }
+
+export const Bill: React.FC<{ billItems: BillItemModel[], setQuantity:Function, checkOut:Function, removeBillItem: Function}> = (props) => {
     return (
         <div className={st.billContainer}>
-            <BillList billItem={billItems} setQuantity={setQuantity}></BillList>
-            <BillFooter></BillFooter>
+            <BillList billItem={props.billItems} setQuantity={props.setQuantity} removeBillItem={props.removeBillItem}></BillList>
+            <BillFooter checkOut={props.checkOut} billItem={props.billItems}></BillFooter>
         </div>
     );
 }

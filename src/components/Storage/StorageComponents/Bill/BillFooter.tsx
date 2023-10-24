@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+import {useEffect} from 'react';
 import st from '../../style/bill-footer-style.module.css'
-export const BillFooter = () => {
+import BillItemModel from '../../../../models/BillItemModel';
+export const BillFooter:React.FC<{checkOut: Function, billItem: BillItemModel[]}> = (props) => {
+    let total = 0;
+
+    props.billItem.forEach(billItem => {
+        total += billItem.amount??0;
+    });
+    
+    const handleCheckOut = () => {
+        props.billItem.forEach((billItem) => {billItem.logInfor()})
+        console.log(total);
+    }
+    
+
+
     return (
+
         <div className={st.sticky}>
-            <button>Check out</button>
+            <p>{`Total: ${total}`}</p>
+            <button className={`${st.button} btn btn-success`} onClick={handleCheckOut}>Check out</button>
         </div>
     )
 }

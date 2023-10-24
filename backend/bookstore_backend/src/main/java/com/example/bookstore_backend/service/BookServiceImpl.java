@@ -6,6 +6,7 @@ import com.example.bookstore_backend.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService{
@@ -38,5 +39,9 @@ public class BookServiceImpl implements BookService{
     public void deleteById(int id) {
          bookRepository.deleteById(id);
 
+    }
+
+    public Optional<Book> Get(Integer id){
+        return bookRepository.findById(id);
     }
 }

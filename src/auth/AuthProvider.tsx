@@ -8,7 +8,9 @@ import {
   useEffect,
   useState,
 } from "react";
+import React from "react";
 import { json, useLocation } from "react-router-dom";
+import { AuthContextType, AuthObject } from "../models/Auth";
 
 const AuthContext = createContext({} as AuthContextType);
 
