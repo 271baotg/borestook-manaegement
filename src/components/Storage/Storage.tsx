@@ -3,27 +3,30 @@ import { BookList } from "./StorageComponents/Book/BookList";
 import BookModel from "../../models/BookModel";
 import { Bill } from "./StorageComponents/Bill/Bill";
 // import "./style.css";
-import st from './style/storage-style.module.css';
+
+import st from "./style/storage-style.module.css";
 import BillItemModel from "../../models/BillItemModel";
 import { BookTable } from "./StorageComponents/Book/BookTable";
+import React from "react";
+import { axiosPrivate } from "../../api/axios";
+import { useAxiosPrivate } from "../../api/useAxiosHook";
 
 export const Storage = () => {
+  const axios = useAxiosPrivate();
   const [booklist, setBookList] = useState<BookModel[]>([]);
   const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [billItems, setBillItems] = useState<BillItemModel[]>([]);
-  const [searchKeyWord, setSearchKeyWord] = useState('');
+  const [searchKeyWord, setSearchKeyWord] = useState("");
 
   useEffect(() => {
+    let baseUrl: string = "http://localhost:8081/books";
+    let url: string = "";
 
-    let baseUrl: string = 'http://localhost:8081/books';
-    let url: string = '';
-
-    if (searchKeyWord !== '') {
+    if (searchKeyWord !== "") {
       url = `${baseUrl}/${searchKeyWord}`;
       console.log(url);
-    }
-    else {
+    } else {
       url = `${baseUrl}`;
     }
 
@@ -32,80 +35,97 @@ export const Storage = () => {
 
       const responseJson = await response.json();
 
-      const tempBookList:BookModel[] = [];
+      const tempBookList: BookModel[] = [];
       tempBookList.push({
         id: responseJson.id,
-          title: responseJson.title,
-          author: responseJson.author,
-          img: responseJson.img,
-          copies: responseJson.copies,
-          copiesAvailable: responseJson.copiesAvailable,
-      })
+        title: responseJson.title,
+        author: responseJson.author,
+        img: responseJson.img,
+        copies: responseJson.copies,
+        copiesAvailable: responseJson.copiesAvailable,
+      });
       setBookList(tempBookList);
       setIsLoading(false);
-    }
+    };
 
-    const getBookList = async () => {
-      const response = await fetch(url);
-
-      const responseJson = await response.json();
-
-
-      let tempBookList: BookModel[] = [];
-
-      for (const book of responseJson) {
-        tempBookList.push({
-          id: book.id,
-          title: book.title,
-          author: book.author,
-          img: book.img,
-          copies: book.copies,
-          copiesAvailable: book.copiesAvailable,
-
-        })
-
+    // GetBookListAxios
+    const getBookListAxios = async () => {
+      try {
+        const response: BookModel[] = await axios({
+          method: "get",
+          url: "http://localhost:8081/books",
+        });
+        console.log(response);
+        const list = response as BookModel[];
+        console.log("List book: " + list);
+        setBookList(list);
+      } catch (error) {
+        console.log(error);
       }
-      setBookList(tempBookList)
-      setIsLoading(false);
-    }
+    };
 
-    if (searchKeyWord !== '') {
-      getBookById().catch(error => {
+    getBookListAxios();
+
+    // GetBookListFetch
+    // const getBookList = async () => {
+    //   const response = await fetch(url);
+
+    //   const responseJson = await response.json();
+
+    //   let tempBookList: BookModel[] = [];
+
+    //   for (const book of responseJson) {
+    //     tempBookList.push({
+    //       id: book.id,
+    //       title: book.title,
+    //       author: book.author,
+    //       img: book.img,
+    //       copies: book.copies,
+    //       copiesAvailable: book.copiesAvailable,
+    //     });
+    //   }
+    //   setBookList(tempBookList);
+    //   setIsLoading(false);
+    // };
+
+    // getBookList();
+    if (searchKeyWord !== "") {
+      getBookById().catch((error) => {
         console.log(error);
         setIsLoading(true);
       });
-    }
-    else {
-      getBookList().catch(error => {
+    } else {
+      getBookListAxios().catch((error) => {
         setIsLoading(true);
       });
     }
-    
-
-  }, [searchKeyWord])
-
+  }, [searchKeyWord]);
 
   const handleAddToBill = (book: BookModel) => {
     if (book === undefined) {
       return;
     } else {
-      const index = billItems.findIndex((billItem) => billItem.book.id === book.id)
+      const index = billItems.findIndex(
+        (billItem) => billItem.book.id === book.id
+      );
       const alreadyInBill = index !== -1;
       if (alreadyInBill) {
         setQuantity(book.id, billItems[index].quantity + 1);
-
       } else {
-        const newBillItem: BillItemModel = new BillItemModel(book, 1, book.copies);
+        const newBillItem: BillItemModel = new BillItemModel(
+          book,
+          1,
+          book.copies
+        );
         setBillItems([...billItems, newBillItem]);
       }
-
     }
-  }
+  };
 
   const removeBillItem = (id: number) => {
     const removed = billItems.filter((billItem) => billItem.book.id !== id);
     setBillItems(removed);
-  }
+  };
 
   const setQuantity = (id: number, quantity: number) => {
     if (quantity === 0) {
@@ -121,15 +141,14 @@ export const Storage = () => {
       }
     }
     setBillItems(temp);
-  }
+  };
 
   const checkOut = () => {
-    billItems.forEach(element => {
+    billItems.forEach((element) => {
       element.logInfor();
     });
     setBillItems([]);
-  }
-
+  };
 
   // if (isLoading) {
   //   return (
@@ -151,15 +170,35 @@ export const Storage = () => {
     <>
       <div className={`${st.storageDesktop} d-none d-lg-flex`}>
         {/* Desktop */}
-        <BookTable bookList={booklist} addToBill={handleAddToBill} searchKeyWord={searchKeyWord} setSearchKeyWord={setSearchKeyWord} />
-        <Bill billItems={billItems} setQuantity={setQuantity} removeBillItem={removeBillItem} checkOut={checkOut} ></Bill>
+
+        <BookTable
+          bookList={booklist}
+          addToBill={handleAddToBill}
+          searchKeyWord={searchKeyWord}
+          setSearchKeyWord={setSearchKeyWord}
+        />
+        <Bill
+          billItems={billItems}
+          setQuantity={setQuantity}
+          removeBillItem={removeBillItem}
+          checkOut={checkOut}
+        ></Bill>
       </div>
       <div className={`${st.storageDesktop} d-block d-lg-none`}>
         {/* Desktop */}
-        <BookTable bookList={booklist} addToBill={handleAddToBill} searchKeyWord={searchKeyWord} setSearchKeyWord={setSearchKeyWord} />
-        <Bill billItems={billItems} setQuantity={setQuantity} removeBillItem={removeBillItem} checkOut={checkOut}></Bill>
+        <BookTable
+          bookList={booklist}
+          addToBill={handleAddToBill}
+          searchKeyWord={searchKeyWord}
+          setSearchKeyWord={setSearchKeyWord}
+        />
+        <Bill
+          billItems={billItems}
+          setQuantity={setQuantity}
+          removeBillItem={removeBillItem}
+          checkOut={checkOut}
+        ></Bill>
       </div>
     </>
   );
 };
-
