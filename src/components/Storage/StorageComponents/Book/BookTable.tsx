@@ -11,7 +11,7 @@ export const BookTable: React.FC<{
   setSearchKeyWord: Function;
 }> = (props) => {
   return (
-    <main className={st.tableContainer}>
+    <main className={`${st.tableContainer} card`}>
       <section className={st.table__header}>
         <h1>Books</h1>
         <SearchBar

@@ -4,11 +4,11 @@ import { BillItem } from "./BillItem";
 
 export const BillList: React.FC<{ billItem?: BillItemModel[], setQuantity: Function, removeBillItem:Function}> = (props) => {
     return (
-        <main className={st.tableContainer}>
+        <main className={`${st.tableContainer} card`}>
             <section className={st.table__header}>
                 <h1>Bill</h1>
             </section>
-            <section className={st.table__body}>
+            <section className={`${st.table__body} card`}>
                 <table className={st.table}>
                     <thead>
                         <tr>
