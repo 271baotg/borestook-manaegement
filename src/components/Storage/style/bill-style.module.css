@@ -1,5 +1,5 @@
 .billContainer{
-    width: 30%;
+    flex:auto;
     height: 90vh;
     background-color: #fff5;
     backdrop-filter: blur(7px);
@@ -11,5 +11,4 @@
     overflow: hidden;
     margin: 0.5rem;
     font-size: small;
-    border: black;
 }

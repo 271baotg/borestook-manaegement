@@ -9,6 +9,7 @@ export const BookTable: React.FC<{
   addToBill: Function;
   searchKeyWord: string;
   setSearchKeyWord: Function;
+  openModalDetail:Function
 }> = (props) => {
   return (
     <main className={`${st.tableContainer} card`}>
@@ -23,6 +24,7 @@ export const BookTable: React.FC<{
         <BookList
           bookList={props.bookList}
           addToBill={props.addToBill}
+          openModalDetail={props.openModalDetail}
         ></BookList>
       </section>
     </main>

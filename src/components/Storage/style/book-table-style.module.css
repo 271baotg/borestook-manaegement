@@ -1,5 +1,6 @@
 .tableContainer{
-    width: 70%;
+    /* width: 70%; */
+    flex:auto;
     height: 90vh;
     background-color: #fff5;
     backdrop-filter: blur(7px);
