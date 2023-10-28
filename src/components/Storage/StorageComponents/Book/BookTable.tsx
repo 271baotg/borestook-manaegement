@@ -9,9 +9,10 @@ export const BookTable: React.FC<{
   addToBill: Function;
   searchKeyWord: string;
   setSearchKeyWord: Function;
+  openModalDetail:Function
 }> = (props) => {
   return (
-    <main className={st.tableContainer}>
+    <main className={`${st.tableContainer} card`}>
       <section className={st.table__header}>
         <h1>Books</h1>
         <SearchBar
@@ -23,6 +24,7 @@ export const BookTable: React.FC<{
         <BookList
           bookList={props.bookList}
           addToBill={props.addToBill}
+          openModalDetail={props.openModalDetail}
         ></BookList>
       </section>
     </main>

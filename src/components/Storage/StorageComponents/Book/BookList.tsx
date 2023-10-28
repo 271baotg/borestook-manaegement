@@ -27,7 +27,10 @@ const Main = styled(BaseMain)`
 
 `;
 
-export const BookList: React.FC<{ bookList: BookModel[], addToBill: Function}> = (props) => {
+export const BookList: React.FC<{ 
+  bookList: BookModel[], 
+  addToBill: Function, 
+  openModalDetail:Function}> = (props) => {
 
   return (
         <table className={st.table}>
@@ -42,10 +45,10 @@ export const BookList: React.FC<{ bookList: BookModel[], addToBill: Function}> =
               <th>Choose</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className={st.tbody}>
             {
               props.bookList.map((book)=>
-                 (<BookItem book={book} isChecked={true} addToBill={props.addToBill} key={book.id} />)
+                 (<BookItem book={book} isChecked={true} addToBill={props.addToBill} key={book.id} openModalDetail={props.openModalDetail}/>)
               )
             }
           </tbody>

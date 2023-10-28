@@ -76,6 +76,7 @@ export const BookItem: React.FC<{
   book: BookModel;
   isChecked: boolean;
   addToBill: Function;
+  openModalDetail: Function
 }> = (props) => {
   // const [isChecked, setIsChecked] = useState(false);
   // useEffect(()=> {
@@ -86,19 +87,23 @@ export const BookItem: React.FC<{
   // useEffect(() => {
   //     props.checkBookHandler(props.book, isChecked);
   // }, [isChecked])
-
-  const handleAddToBill = () => {
+  const handleAddToBill = (e: any) => {
+    e.stopPropagation(); //Chặn sự kiện tiếp tục trên parent của nó
     props.addToBill(props.book);
   };
+  
+  const handleOnClickItem = () => {
+    props.openModalDetail(props.book.id);
+  }
 
   return (
-    <tr className={st.tableRow}>
+    <tr onClick={handleOnClickItem} className={st.tableRow}>
       <td className={st.tableData}>{props.book.id}</td>
       <td className={st.tableData}>
         <img className={""} src={props.book.img} />
       </td>
       <td className={st.tableData}>{props.book.title}</td>
-      <td className={st.tableData}>{props.book.author}</td>
+      <td className={`${st.tableData} text-primary`}>{props.book.author}</td>
       <td className={st.tableData}>{props.book.copies}</td>
       <td className={st.tableData}>{props.book.copiesAvailable}</td>
       <td className={st.tableData}>
