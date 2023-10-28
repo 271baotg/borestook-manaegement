@@ -3,6 +3,7 @@ import { Wrapper } from "../Wrapper";
 import basic_css from "./style/basic.module.css";
 import { useAxiosPrivate } from "../../api/useAxiosHook";
 import BookModel from "../../models/BookModel";
+import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
 
 const ModalBookDetail: React.FC<{currentBook:BookModel|undefined}> = (props) => {
     // const id = props.id;
@@ -30,11 +31,9 @@ const ModalBookDetail: React.FC<{currentBook:BookModel|undefined}> = (props) => 
         <Wrapper>
             {props.currentBook ? (
                 <div>
-                    <div
-                        className={`${basic_css.color_black} container d-none d-lg-block`}
-                    >
+                    <div className={`${basic_css.color_black} container d-none d-lg-block`}>
                         <div className="row mt-5">
-                            <div className="col-sm-3 col-md-3">
+                            <div className="col-sm-2 col-md-3">
                                 <img
                                     src={props.currentBook.img}
                                     width="300"
@@ -43,7 +42,7 @@ const ModalBookDetail: React.FC<{currentBook:BookModel|undefined}> = (props) => 
                                 ></img>
                             </div>
                             <div className="col-4 col-md-4 container">
-                                <div className="ml-2">
+                                <div>
                                     <h2>{props.currentBook.title}</h2>
                                     <h5 className="text-primary">{props.currentBook.author}</h5>
                                     <p className={`${basic_css.font_1_0} lead`}>
@@ -51,10 +50,10 @@ const ModalBookDetail: React.FC<{currentBook:BookModel|undefined}> = (props) => 
                                     </p>
                                 </div>
                             </div>
-                            {/* <CheckoutAndReviewBox
+                            <CheckoutAndReviewBox
                                 mobile={false}
-                                bookModel={book}
-                            ></CheckoutAndReviewBox> */}
+                                bookModel={props.currentBook}
+                            ></CheckoutAndReviewBox>
                         </div>
                         <hr></hr>
                     </div>
@@ -76,7 +75,7 @@ const ModalBookDetail: React.FC<{currentBook:BookModel|undefined}> = (props) => 
                                 <p className="lead">{props.currentBook.description}</p>
                             </div>
                         </div>
-                        {/* <CheckoutAndReviewBox mobile={true} bookModel={book} /> */}
+                        <CheckoutAndReviewBox mobile={true} bookModel={props.currentBook} />
                         <hr />
                     </div>
                 </div>

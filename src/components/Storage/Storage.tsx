@@ -20,7 +20,8 @@ export const Storage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [billItems, setBillItems] = useState<BillItemModel[]>([]);
   const [searchKeyWord, setSearchKeyWord] = useState("");
-  const[currentBook, setCurrentBook] = useState<BookModel>();
+  const [currentBook, setCurrentBook] = useState<BookModel>();
+
 
   useEffect(() => {
     let baseUrl: string = "http://localhost:8081/books";
@@ -146,19 +147,21 @@ export const Storage = () => {
     setBillItems(temp);
   };
 
-  const openModalDetail =  (id:number) =>{
-    const temp:BookModel = booklist[booklist.findIndex((book)=>book.id = id)];
+  const openModalDetail = (id: number) => {
+    const temp: BookModel = booklist[booklist.findIndex((book) => book.id === id)];
     setCurrentBook(temp);
-    const modal:any= document.querySelector('[data-book-detail]') ;
+    const modal: any = document.querySelector('[data-book-detail]');
     modal.showModal();
   }
 
-  const closeModalDetail =  () =>{
-    const modal:any= document.querySelector('[data-book-detail]') ;
+  const closeModalDetail = () => {
+    const modal: any = document.querySelector('[data-book-detail]');
     modal.close();
   }
 
   const checkOut = () => {
+    console.log(`Bill: ${Math.floor(Math.random() * 100)}`)
+
     billItems.forEach((element) => {
       element.logInfor();
     });
@@ -216,12 +219,15 @@ export const Storage = () => {
           checkOut={checkOut}
         ></Bill>
       </div>
-      <dialog data-book-detail>
-        <ModalBookDetail currentBook={currentBook}></ModalBookDetail>
-        <button>Ok</button>
-        <button onClick={closeModalDetail}>Close</button>
-      </dialog>
+
+        <dialog data-book-detail className={`${st.modal} m-5`}>
+          <div className=" d-flex justify-content-end">
+            <button type="button" className="btn-close" onClick={closeModalDetail} aria-label="Close"></button>
+          </div>
+          <ModalBookDetail currentBook={currentBook}></ModalBookDetail>
+        </dialog>
+
     </>
-    
+
   );
 };

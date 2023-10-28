@@ -13,8 +13,7 @@ export const BillFooter: React.FC<{ checkOut: Function, billItem: BillItemModel[
     const total = subtotal;
 
     const handleCheckOut = () => {
-        props.billItem.forEach((billItem) => { billItem.logInfor() })
-        console.log(subtotal);
+        props.checkOut();
     }
 
 
@@ -24,7 +23,7 @@ export const BillFooter: React.FC<{ checkOut: Function, billItem: BillItemModel[
         <div className={st.billFooter}>
             <p>{`Subtotal: ${subtotal}`}</p>
             <p className='text-success' style={{fontSize:20}}>{`Total: ${total}`}</p>
-            
+            <button className={`btn btn-success`} onClick={handleCheckOut}>Checkout</button>
         </div>
     )
 }

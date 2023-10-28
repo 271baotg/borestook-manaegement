@@ -88,9 +88,10 @@ export const BookItem: React.FC<{
   //     props.checkBookHandler(props.book, isChecked);
   // }, [isChecked])
   const handleAddToBill = (e: any) => {
-    e.stopPropagation();
+    e.stopPropagation(); //Chặn sự kiện tiếp tục trên parent của nó
     props.addToBill(props.book);
   };
+  
   const handleOnClickItem = () => {
     props.openModalDetail(props.book.id);
   }
