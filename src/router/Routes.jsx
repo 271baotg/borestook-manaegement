@@ -24,7 +24,7 @@ const Routes = () => {
 
         <Route path="login" element={<Login />} />
         <Route element={<ProtectedRoutes />}>
-          <Route path="/" element={<Storage />} />
+          <Route index element={<Storage />} />
           <Route path="order" element={<OrderHistory />} />
           <Route path="customer" element={<Customer />} />
           <Route path="statistic" element={<Statistic />} />

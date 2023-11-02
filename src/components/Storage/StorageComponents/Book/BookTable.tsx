@@ -1,8 +1,9 @@
+import React from "react";
 import { BookList } from "./BookList";
 import st from "../../style/book-table-style.module.css";
 import { SearchBar } from "../SearchBar/SearcherBar";
 import BookModel from "../../../../models/BookModel";
-import React from "react";
+
 
 export const BookTable: React.FC<{
   bookList: BookModel[];
@@ -10,7 +11,10 @@ export const BookTable: React.FC<{
   searchKeyWord: string;
   setSearchKeyWord: Function;
   openModalDetail:Function
-}> = (props) => {
+}> = props => {
+
+  console.log('BookTable.tsx', props.bookList);
+
   return (
     <main className={`${st.tableContainer} card`}>
       <section className={st.table__header}>
