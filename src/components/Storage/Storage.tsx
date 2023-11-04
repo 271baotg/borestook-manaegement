@@ -15,7 +15,7 @@ import ModalBookDetail from "../BookDetail/ModalBookDetail";
 import { useDebounce } from "../../hooks/useDebounce";
 
 export const Storage = () => {
-  const axios = useAxiosPrivate();
+  useAxiosPrivate();
   const [booklist, setBookList] = useState<BookModel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [billItems, setBillItems] = useState<BillItemModel[]>([]);
@@ -27,13 +27,12 @@ export const Storage = () => {
     const search = async (query: string) => {
       try {
         if (query === "") {
-          const loadCourse = async () => {
+          const loadBook = async () => {
             try {
               const response: BookModel[] = await axiosPrivate({
                 method: "get",
                 url: "http://localhost:8081/books",
               });
-              console.log(response);
               const list = response as BookModel[];
               setBookList(list);
             } catch (error) {
@@ -41,7 +40,7 @@ export const Storage = () => {
             }
           };
 
-          loadCourse();
+          loadBook();
           return;
         }
 
