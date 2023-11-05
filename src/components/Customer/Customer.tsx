@@ -131,8 +131,9 @@ export const Customer = () => {
       updateCustomer={updateCustomer}
       ></CustomerModal>}
 
-      {isShowCreateModal && <NewCustomerModal createCustomer={createCustomer} closeModal={closeCreateNewModal}/>}
-    <button className="btn btn-success p-3" onClick={openCreateNewModal} style={{position:'fixed', bottom:30, right:30}}>ADD</button>
+      {true && <NewCustomerModal createCustomer={createCustomer} closeModal={closeCreateNewModal}/>}
+    {/* <button className="btn btn-success p-3" onClick={openCreateNewModal} style={{position:'fixed', bottom:30, right:30}}>ADD</button> */}
+    <button className="btn btn-success p-3" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" style={{position:'fixed', bottom:30, right:30}}>ADD</button>
   </>
   );
 };
