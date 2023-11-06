@@ -8,7 +8,8 @@ import st from './style/customer_styled.modul.css'
 import { CustomerTable } from "./CustomerComponents/CustomerTable";
 import ModalBookDetail from "../BookDetail/ModalBookDetail";
 import { CustomerModal } from "./CustomerComponents/CustomerModal";
-import { NewCustomerModal } from "./CustomerComponents/NewCustomerModal";
+import { CreateCusModal } from "./CustomerComponents/CreateCustomerModal";
+
 
 
 export const Customer = () => {
@@ -18,7 +19,6 @@ export const Customer = () => {
   const [searchKeyWord, setSearchKeyWord] = useState('');
   const [currentCustomer, setCurrentCustomer] = useState<CustomerModel | null>(null);
   const [isShowDetailModal, setIsShowDetailModal] = useState<boolean>(false);
-  const [isShowCreateModal, setIsShowCreateModal] = useState<boolean>(false);
   useAxiosPrivate();
 
   //GET CUSTOMER HERE
@@ -52,34 +52,14 @@ export const Customer = () => {
     
   }, [isShowDetailModal])
 
-  useEffect(() => {
-    const modal: HTMLDialogElement|null = document.querySelector('[data-create-customer-form]');
-    if(modal){
-      if (isShowCreateModal) {
-        modal.showModal();
-      }
-      else{
-        modal.close();
-      }
-    }
-    
-  }, [isShowCreateModal])
-
   //HANDLE FUNCTION HERE
   const openModalDetail = () => {
     setIsShowDetailModal(true);
+
   }
 
   const closeModalDetail = () => {
     setIsShowDetailModal(false);
-  }
-  
-  const openCreateNewModal = () => {
-    setIsShowCreateModal(true);
-  }
-
-  const closeCreateNewModal = () => {
-    setIsShowCreateModal(false);
   }
 
   const updateCustomer =  async () => {
@@ -125,15 +105,16 @@ export const Customer = () => {
       />
 
     </div>
-    {isShowDetailModal && currentCustomer && <CustomerModal customer={currentCustomer}
+    {/* {isShowDetailModal && currentCustomer && <CustomerModal customer={currentCustomer}
       setCurrentCustomer={setCurrentCustomer} 
       closeModal={closeModalDetail}
       updateCustomer={updateCustomer}
-      ></CustomerModal>}
+      ></CustomerModal>} */}
+      {currentCustomer &&<CustomerModal customer={currentCustomer} setCurrentCustomer={setCurrentCustomer} closeModal={closeModalDetail} updateCustomer={updateCustomer}/>}
 
-      {true && <NewCustomerModal createCustomer={createCustomer} closeModal={closeCreateNewModal}/>}
+      <CreateCusModal createCustomer={createCustomer}/>
     {/* <button className="btn btn-success p-3" onClick={openCreateNewModal} style={{position:'fixed', bottom:30, right:30}}>ADD</button> */}
-    <button className="btn btn-success p-3" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" style={{position:'fixed', bottom:30, right:30}}>ADD</button>
+    <button className="btn btn-success p-3" data-bs-toggle="modal" data-bs-target="#createCustomerModal" style={{position:'fixed', bottom:30, right:30}}>ADD</button>
   </>
   );
 };

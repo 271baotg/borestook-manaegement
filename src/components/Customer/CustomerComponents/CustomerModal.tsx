@@ -1,10 +1,12 @@
-import { HtmlHTMLAttributes, ReactEventHandler, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { CustomerModel } from "../../../models/CustomerModel"
 import styled from "styled-components";
 
 
-export const CustomerModal: React.FC<{ customer: CustomerModel, closeModal: Function, setCurrentCustomer: Function, updateCustomer:Function}> = (props) => {
-    
+export const CustomerModal: React.FC<{ customer: CustomerModel, closeModal: Function, setCurrentCustomer: Function, updateCustomer: Function }> = (props) => {
+    const modalRef = useRef(null);
+
+
     console.log('customer modal render')
     //HANDLE FUNCTION
     const handleOnClickCloseButton = () => {
@@ -12,14 +14,15 @@ export const CustomerModal: React.FC<{ customer: CustomerModel, closeModal: Func
     }
     const handleOnInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
-        props.setCurrentCustomer({ ...props.customer, [name]: value })
+        props.setCurrentCustomer({ id: props.customer.id, [name]: value })
     };
     const handleOnSendButton = () => {
         props.updateCustomer();
     }
+
     return (
         <>
-            <dialog data-customer-form className={`m-5 w-50`}>
+            {true && <dialog data-customer-form className={`m-5 w-50`}>
                 <div className="container" >
                     <form className="w-100 m-4" action="" method="post" style={{ backgroundColor: 'white' }} id='customer_form'>
                         <fieldset>
@@ -48,7 +51,7 @@ export const CustomerModal: React.FC<{ customer: CustomerModel, closeModal: Func
                                 <label className="col-md-4 control-label">Fullname</label>
                                 <div className="col-md-4 inputGroupContainer">
                                     <div className="input-group">
-                                        <input className="form-control" name="fullName" value={props.customer.fullName} type="text"
+                                        <input className="form-control" name="fullName" value={props.customer.fullName?? ""} type="text"
                                             onChange={handleOnInputChanged} />
                                     </div>
                                 </div>
@@ -57,11 +60,11 @@ export const CustomerModal: React.FC<{ customer: CustomerModel, closeModal: Func
                             {/* <!-- Text input--/> */}
 
                             <div className="form-group d-flex m-1">
-                                <label className="col-md-4 control-label">Phone #</label>
+                                <label className="col-md-4 control-label">Phone number</label>
                                 <div className="col-md-4 inputGroupContainer">
                                     <div className="input-group">
                                         <input name="phoneNumber"
-                                            value={props.customer.phoneNumber}
+                                            value={props.customer.phoneNumber ?? ""}
                                             className="form-control" type="text"
                                             onChange={handleOnInputChanged} />
                                     </div>
@@ -75,7 +78,7 @@ export const CustomerModal: React.FC<{ customer: CustomerModel, closeModal: Func
                                 <label className="col-md-4 control-label">Spent</label>
                                 <div className="col-md-4 inputGroupContainer">
                                     <div className="input-group">
-                                        <input name="spent" value={props.customer.spent} className="form-control" type="text" onChange={handleOnInputChanged} />
+                                        <input name="spent" value={props.customer.spent ?? ""} className="form-control" type="text" onChange={handleOnInputChanged} />
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +89,7 @@ export const CustomerModal: React.FC<{ customer: CustomerModel, closeModal: Func
                                 <label className="col-md-4 control-label">Ranking</label>
                                 <div className="col-md-4 inputGroupContainer">
                                     <div className="input-group">
-                                        <input name="ranking" value={props.customer.ranking} className="form-control" type="text" onChange={handleOnInputChanged} />
+                                        <input name="ranking" value={props.customer.ranking??""} className="form-control" type="text" onChange={handleOnInputChanged} />
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +114,8 @@ export const CustomerModal: React.FC<{ customer: CustomerModel, closeModal: Func
                     </div>
                 </div>
 
-            </dialog >
+            </dialog >}
         </>
     )
 }
+
