@@ -13,7 +13,7 @@ export const BookTable: React.FC<{
   openModalDetail:Function
 }> = props => {
 
-  console.log('BookTable.tsx', props.bookList);
+  // console.log('BookTable.tsx', props.bookList);
 
   return (
     <main className={`${st.tableContainer} card`}>

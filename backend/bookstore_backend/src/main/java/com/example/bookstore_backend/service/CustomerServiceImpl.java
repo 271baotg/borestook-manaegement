@@ -1,5 +1,6 @@
 package com.example.bookstore_backend.service;
 
+import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.model.Customer;
 import com.example.bookstore_backend.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,10 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public Optional<Customer> update(Customer cus) {
         return Optional.of(customerRepository.saveAndFlush(cus));
+    }
+
+    @Override
+    public List<Customer> findCustomerByQuery(String query) {
+        return customerRepository.findCustomerByName(query);
     }
 }

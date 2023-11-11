@@ -1,5 +1,6 @@
 package com.example.bookstore_backend.controller;
 
+import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.model.Customer;
 import com.example.bookstore_backend.service.CustomerServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ public class CustomerController {
     List<Customer> findAll(){
         return customerService.findAll();
     }
+    @GetMapping("customers/search")
+    List<Customer> findCustomerByQuery(@RequestParam("query") String query){ return customerService.findCustomerByQuery(query);}
     @PostMapping("customers")
     Optional<Customer> createCustomer(@RequestBody Customer cus){
         return customerService.create(cus);
@@ -29,4 +32,6 @@ public class CustomerController {
     Optional<Customer> updateCustomer(@RequestBody Customer cus){
         return customerService.update(cus);
     }
+
+
 }

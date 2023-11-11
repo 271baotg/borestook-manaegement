@@ -9,6 +9,7 @@ import { CustomerTable } from "./CustomerComponents/CustomerTable";
 import ModalBookDetail from "../BookDetail/ModalBookDetail";
 import { CustomerModal } from "./CustomerComponents/CustomerModal";
 import { CreateCusModal } from "./CustomerComponents/CreateCustomerModal";
+import { useDebounce } from "../../hooks/useDebounce";
 
 
 
@@ -19,10 +20,11 @@ export const Customer = () => {
   const [searchKeyWord, setSearchKeyWord] = useState('');
   const [currentCustomer, setCurrentCustomer] = useState<CustomerModel | null>(null);
   const [isShowDetailModal, setIsShowDetailModal] = useState<boolean>(false);
+  const debouned = useDebounce(searchKeyWord);
   useAxiosPrivate();
 
   //GET CUSTOMER HERE
-  const loadCustomer = async () => {
+  const loadAllCustomer = async () => {
     const url: string = 'http://localhost:8081/customers';
     try {
       const response: CustomerModel[] = await axiosPrivate({
@@ -36,8 +38,31 @@ export const Customer = () => {
     }
   }
   useEffect(() => {
-    loadCustomer();
-  }, [])
+    const loadCustomerByQuery = async (query: string) => {
+      const url:string = 'http://localhost:8081/customers/search';
+      if(query === ""||query === null||query.trim() === ""){
+        return;
+      }
+
+      try{
+        const response: CustomerModel[] = await axiosPrivate({
+          method:'get',
+          url: url,
+          params: {
+            query: query,
+          }
+        })
+        setCustomerList(response)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    if(searchKeyWord === ""){
+      loadAllCustomer();
+    }
+    loadCustomerByQuery(searchKeyWord);
+  }, [debouned])
 
   useEffect(() => {
     const modal: HTMLDialogElement|null = document.querySelector('[data-customer-form]');
@@ -68,7 +93,7 @@ export const Customer = () => {
         url,
         currentCustomer
       )
-      loadCustomer();
+      loadAllCustomer();
       console.log(response);
   }
 
@@ -78,7 +103,7 @@ export const Customer = () => {
       url, 
       customer
     )
-    loadCustomer();
+    loadAllCustomer();
   }
 
   return (<>
@@ -109,7 +134,7 @@ export const Customer = () => {
       setCurrentCustomer={setCurrentCustomer} 
       closeModal={closeModalDetail}
       updateCustomer={updateCustomer}
-      ></CustomerModal>} */}
+      ></CustomerModal>} */}  
       {currentCustomer &&<CustomerModal customer={currentCustomer} setCurrentCustomer={setCurrentCustomer} closeModal={closeModalDetail} updateCustomer={updateCustomer}/>}
 
       <CreateCusModal createCustomer={createCustomer}/>

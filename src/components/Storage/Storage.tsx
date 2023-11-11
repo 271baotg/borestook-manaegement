@@ -51,7 +51,7 @@ export const Storage = () => {
             query: query,
           },
         });
-        console.log("Search result: " + JSON.stringify(response));
+        // console.log("Search result: " + JSON.stringify(response));
         setBookList(response);
       } catch (error) {
         console.log(error);
@@ -59,6 +59,8 @@ export const Storage = () => {
     };
     search(searchKeyWord);
   }, [debounce]);
+
+  
 
 
   // useEffect(() => {
