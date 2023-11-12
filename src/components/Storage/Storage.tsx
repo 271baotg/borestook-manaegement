@@ -195,7 +195,7 @@ export const Storage = () => {
           bookList={booklist}
           addToBill={handleAddToBill}
           searchKeyWord={searchKeyWord}
-          setSearchKeyWord={setSearchKeyWord}
+          setSearchKeyWord={setSearchKeyWord  }
           openModalDetail={openModalDetail}
         />
         <Bill

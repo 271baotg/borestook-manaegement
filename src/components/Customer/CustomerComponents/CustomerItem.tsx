@@ -13,7 +13,6 @@ export const CustomerItem: React.FC<{
 }> = (props) => {
   
   const handleOnClickItem = () => {
-    console.log(props.customer);
     props.setCurrentCustomer(props.customer);
     props.openModalDetail();
   }

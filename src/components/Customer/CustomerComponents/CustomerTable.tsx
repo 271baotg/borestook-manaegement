@@ -8,11 +8,9 @@ export const CustomerTable: React.FC<{
   customerList: CustomerModel[];
   searchKeyWord: string;
   setSearchKeyWord: Function;
-  openModalDetail:Function;
-  setCurrentCustomer:Function
+  openModalDetail: Function;
+  setCurrentCustomer: Function
 }> = props => {
-
-  console.log('BookTable.tsx', props.customerList);
 
   return (
     <main className={`${st.tableContainer} card`}>

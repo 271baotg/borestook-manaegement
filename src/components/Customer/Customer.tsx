@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Wrapper } from "../Wrapper";
 import { CustomerModel } from "../../models/CustomerModel";
 import { axiosPrivate } from "../../api/axios";
 import AuthContext from "../../auth/AuthProvider";
 import { useAxiosPrivate } from "../../api/useAxiosHook";
 import st from './style/customer_styled.modul.css'
 import { CustomerTable } from "./CustomerComponents/CustomerTable";
-import ModalBookDetail from "../BookDetail/ModalBookDetail";
-import { CustomerModal } from "./CustomerComponents/CustomerModal";
+import { UpdateCustomerModal } from "./CustomerComponents/UpdateCustomerModal";
 import { CreateCusModal } from "./CustomerComponents/CreateCustomerModal";
 import { useDebounce } from "../../hooks/useDebounce";
 
@@ -19,9 +17,11 @@ export const Customer = () => {
   const [customerList, setCustomerList] = useState<CustomerModel[]>([]);
   const [searchKeyWord, setSearchKeyWord] = useState('');
   const [currentCustomer, setCurrentCustomer] = useState<CustomerModel | null>(null);
-  const [isShowDetailModal, setIsShowDetailModal] = useState<boolean>(false);
+  const [isShowUpdateInforModal, setIsShowUpdateInforModal] = useState<boolean>(false);
+  const [isShowInputInforModal, setIsShowInputInforModal] = useState<boolean>(false);
   const debouned = useDebounce(searchKeyWord);
   useAxiosPrivate();
+
 
   //GET CUSTOMER HERE
   const loadAllCustomer = async () => {
@@ -39,14 +39,14 @@ export const Customer = () => {
   }
   useEffect(() => {
     const loadCustomerByQuery = async (query: string) => {
-      const url:string = 'http://localhost:8081/customers/search';
-      if(query === ""||query === null||query.trim() === ""){
+      const url: string = 'http://localhost:8081/customers/search';
+      if (query === "" || query === null || query.trim() === "") {
         return;
       }
 
-      try{
+      try {
         const response: CustomerModel[] = await axiosPrivate({
-          method:'get',
+          method: 'get',
           url: url,
           params: {
             query: query,
@@ -57,50 +57,49 @@ export const Customer = () => {
         console.log(error);
       }
     }
-    
-    if(searchKeyWord === ""){
+
+    if (searchKeyWord === "") {
       loadAllCustomer();
     }
     loadCustomerByQuery(searchKeyWord);
   }, [debouned])
 
-  useEffect(() => {
-    const modal: HTMLDialogElement|null = document.querySelector('[data-customer-form]');
-    if(modal != null){
-      if (isShowDetailModal) {
-        modal.showModal();
-      }
-      else{
-        modal.close();
-      }
-    }
-    
-  }, [isShowDetailModal])
+  // useEffect(() => {
+  //   const modal: HTMLDialogElement | null = document.querySelector('[data-customer-form]');
+  //   if (modal != null) {
+  //     if (isShowUpdateInforModal) {
+  //       modal.showModal();
+  //     }
+  //     else {
+  //       modal.close();
+  //     }
+  //   }
+
+  // }, [isShowUpdateInforModal])
 
   //HANDLE FUNCTION HERE
   const openModalDetail = () => {
-    setIsShowDetailModal(true);
-
+    setIsShowUpdateInforModal(true);
   }
 
   const closeModalDetail = () => {
-    setIsShowDetailModal(false);
+    setIsShowUpdateInforModal(false);
   }
 
-  const updateCustomer =  async () => {
+  const updateCustomer = async () => {
     const url: string = 'http://localhost:8081/customers';
-      const response = await axiosPrivate.put(
-        url,
-        currentCustomer
-      )
-      loadAllCustomer();
-      console.log(response);
+    const response = await axiosPrivate.put(
+      url,
+      currentCustomer
+    )
+    loadAllCustomer();
+    console.log(response);
   }
 
-  const createCustomer =async (customer:CustomerModel) => {
+  const createCustomer = async (customer: CustomerModel) => {
     const url: string = 'http://localhost:8081/customers';
     const response = await axiosPrivate.post(
-      url, 
+      url,
       customer
     )
     loadAllCustomer();
@@ -130,16 +129,10 @@ export const Customer = () => {
       />
 
     </div>
-    {/* {isShowDetailModal && currentCustomer && <CustomerModal customer={currentCustomer}
-      setCurrentCustomer={setCurrentCustomer} 
-      closeModal={closeModalDetail}
-      updateCustomer={updateCustomer}
-      ></CustomerModal>} */}  
-      {currentCustomer &&<CustomerModal customer={currentCustomer} setCurrentCustomer={setCurrentCustomer} closeModal={closeModalDetail} updateCustomer={updateCustomer}/>}
-
-      <CreateCusModal createCustomer={createCustomer}/>
-    {/* <button className="btn btn-success p-3" onClick={openCreateNewModal} style={{position:'fixed', bottom:30, right:30}}>ADD</button> */}
-    <button className="btn btn-success p-3" data-bs-toggle="modal" data-bs-target="#createCustomerModal" style={{position:'fixed', bottom:30, right:30}}>ADD</button>
+    {currentCustomer &&
+      <UpdateCustomerModal customer={currentCustomer} setCurrentCustomer={setCurrentCustomer} isShowUpdateCustomerModal={isShowUpdateInforModal} setIsShowUpdateCustomerModal={setIsShowUpdateInforModal} updateCustomer={updateCustomer} />}
+    <CreateCusModal isShowInputInforModal={isShowInputInforModal} setIsShowInputInforModal={setIsShowInputInforModal} createCustomer={createCustomer} />
+    <button className="btn btn-success p-3" onClick={() => { setIsShowInputInforModal(true) }} style={{ position: 'fixed', bottom: 30, right: 30 }}>ADD</button>
   </>
   );
 };
