@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Master from "../components/Master/Master";
 import OrderHistory from "../components/OrderHistory/OrderHistory";
-import Customer from "../components/Customer/Customer";
+import {Customer} from "../components/Customer/Customer";
 import Statistic from "../components/Statistic/Statistic";
 import Layout from "../components/Layout";
 
@@ -24,7 +24,7 @@ const Routes = () => {
 
         <Route path="login" element={<Login />} />
         <Route element={<ProtectedRoutes />}>
-          <Route path="/" element={<Storage />} />
+          <Route index element={<Storage />} />
           <Route path="order" element={<OrderHistory />} />
           <Route path="customer" element={<Customer />} />
           <Route path="statistic" element={<Statistic />} />

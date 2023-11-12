@@ -23,8 +23,11 @@ public class BookController {
         return bookService.findAll();
     }
 
-    @GetMapping("bookdetail/{id}")
+    @GetMapping("books/{id}")
     Optional<Book> findBook(@PathVariable("id") Integer id){
         return bookService.Get(id);
     }
+
+    @GetMapping("books/search")
+    List<Book> findBookByQuery(@RequestParam("query") String query){ return bookService.findBookByQuery(query);}
 }

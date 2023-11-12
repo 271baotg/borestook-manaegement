@@ -5,27 +5,7 @@ import styled from 'styled-components';
 import st from '../../style/book-list-style.module.css'
 import { SearchBar } from '../SearchBar/SearcherBar';
 
-const BaseMain = ({ className, children }: { className?: string, children: any }) => (
-  <main className={`table list ${className}`}>
-    {children}
-  </main>
-)
 
-const Main = styled(BaseMain)`
-    grid-area: list;
-
-    width: 70vw;
-    height: 90vh;
-    background-color: #fff5;
-    backdrop-filter: blur(7px);
-    box-shadow: 0 .4rem .8rem ;
-    border-radius: .8rem;
-    overflow: hidden;
-
-    border-collapse: collapse;
-
-
-`;
 
 export const BookList: React.FC<{ 
   bookList: BookModel[], 
