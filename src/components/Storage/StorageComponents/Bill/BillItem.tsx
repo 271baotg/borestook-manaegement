@@ -34,7 +34,7 @@ export const BillItem: React.FC<{ billItem: BillItemModel, setQuantity: Function
         <tr className={st.tableRow}>
             <td className={st.tableData}>{props.billItem.book?.id}</td>
             <td className={st.tableData}>{props.billItem.book?.title}</td>
-            <td>{`$ ${props.billItem.book?.copies}`}</td>
+            <td>{`$ ${props.billItem.book?.price}`}</td>
             <td className={`${st.tableData}`}>
                 <div className={`${st.qtyContainer}`}>
 

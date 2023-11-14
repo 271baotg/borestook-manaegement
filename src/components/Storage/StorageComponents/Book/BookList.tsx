@@ -20,8 +20,8 @@ export const BookList: React.FC<{
               <th>Image</th>
               <th>Title</th>
               <th>Author</th>
-              <th>Copies</th>
-              <th>Copies Available</th>
+              <th>Price</th>
+              <th>Available</th>
               <th>Choose</th>
             </tr>
           </thead>
