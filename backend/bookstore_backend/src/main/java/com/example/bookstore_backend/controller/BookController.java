@@ -29,11 +29,8 @@ public class BookController {
         return bookService.Get(id);
     }
 
-<<<<<<< HEAD
-=======
     @GetMapping("books/search")
     List<BookDTO> findBookByQuery(@RequestParam("query") String query){
         return bookService.findByQuery(query);
     }
->>>>>>> eaee5ca9fddbc7652b7419371babb32ec84e7215
 }
