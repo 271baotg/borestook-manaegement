@@ -30,12 +30,20 @@ public class OrderController {
     }
 
     @GetMapping("order/{id}")
+<<<<<<< HEAD
     public Optional<Order> findOrder(@PathVariable("id") Integer id){
+=======
+    public Optional<Order> findOrder(@PathVariable("id") Long id){
+>>>>>>> eaee5ca9fddbc7652b7419371babb32ec84e7215
         return orderService.orderById(id);
     }
 
     @GetMapping("orderdetail/{id}")
+<<<<<<< HEAD
     public List<OrderDetail> getListOrderDetailFromOrderId(@PathVariable("id") Integer id){
+=======
+    public List<OrderDetail> getListOrderDetailFromOrderId(@PathVariable("id") Long id){
+>>>>>>> eaee5ca9fddbc7652b7419371babb32ec84e7215
         return orderDetailService.getOrderDetailFromOrderId(id);
     }
 
