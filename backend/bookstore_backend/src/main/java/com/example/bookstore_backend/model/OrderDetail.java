@@ -12,17 +12,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Table(name = "order_detail")
+@IdClass(OrderDetailPK.class)
 public class OrderDetail {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private long id;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 
     @JoinColumn(name = "order_ID")
     private Order order;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "book_ID")
     private Book book;

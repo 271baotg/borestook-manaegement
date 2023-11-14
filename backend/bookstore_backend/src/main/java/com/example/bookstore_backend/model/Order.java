@@ -21,9 +21,11 @@ public class Order {
     private Customer customer;
     @Column(name = "create_date")
     private Date createDate;
+    @Column(name = "gift_code")
     private String giftcode;
-
+    @Column(name = "username")
     private String username;
+    @Column(name = "total")
     private double total;
     @JsonManagedReference
     @JsonIgnore
