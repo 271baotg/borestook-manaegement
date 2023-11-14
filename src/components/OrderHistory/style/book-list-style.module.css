@@ -1,0 +1,34 @@
+.table{
+    width: 100%;
+    align-items: center;
+}
+
+.table, th{
+    
+    padding: 1rem;
+    border-collapse: collapse;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: #d5d1defe;
+}
+
+tbody tr:nth-child(even){
+    /* background-color: #00000027; */
+    background-color: #00000014;
+}
+
+/* 
+.storage-desktop{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "list bill";
+}
+
+.list{
+    grid-area: list;
+    background-color: red;
+} */
