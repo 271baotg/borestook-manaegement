@@ -104,8 +104,8 @@ export const BookItem: React.FC<{
       </td>
       <td className={st.tableData}>{props.book.title}</td>
       <td className={`${st.tableData} text-primary`}>{props.book.author}</td>
-      <td className={st.tableData}>{props.book.copies}</td>
-      <td className={st.tableData}>{props.book.copiesAvailable}</td>
+      <td className={st.tableData}>${props.book.price}</td>
+      <td className={st.tableData}>{props.book.available}</td>
       <td className={st.tableData}>
         <button
           className={`${""} btn btn-outline-primary`}

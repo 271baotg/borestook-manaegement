@@ -1,6 +1,5 @@
 package com.example.bookstore_backend.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -22,15 +21,16 @@ public class Order {
     private Customer customer;
     @Column(name = "create_date")
     private Date createDate;
+    @Column(name = "gift_code")
     private String giftcode;
-
+    @Column(name = "username")
     private String username;
+    @Column(name = "total")
     private double total;
     @JsonManagedReference
     @JsonIgnore
     @OneToMany(mappedBy = "order",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrderDetail> orderDetails;
-
 
 
 }

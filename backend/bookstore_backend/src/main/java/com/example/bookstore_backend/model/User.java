@@ -35,7 +35,6 @@ public class User  implements UserDetails {
     @Column(name = "fullname")
     String fullName;
 
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},

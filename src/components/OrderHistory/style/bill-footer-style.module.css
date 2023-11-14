@@ -1,0 +1,35 @@
+.billFooter{
+    height: 20%;
+    bottom: 0px;
+    position: sticky;
+    padding: 1em 1em;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+.billFooter p{
+    margin: 0;
+}
+.checkoutButton{
+    width: 100%;
+}
+.information{
+    height: 25px;
+}
+
+.table{
+    font-size: 10px;
+}
+.table tr, td {
+    padding:0px;
+
+}
+
+.tr{
+    margin: 2px;
+}
+.td{
+    height: fit-content;
+    
+}

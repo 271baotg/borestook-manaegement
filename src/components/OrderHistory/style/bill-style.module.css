@@ -1,0 +1,14 @@
+.billContainer{
+    flex:auto;
+    height: 90vh;
+    background-color: #fff5;
+    backdrop-filter: blur(7px);
+    /* box-shadow: 0 .4rem .8rem  
+    ; */
+    padding: 10px;
+    padding-top: 10px;
+    border-radius: .8rem;
+    overflow: hidden;
+    margin: 0.5rem;
+    font-size: small;
+}
