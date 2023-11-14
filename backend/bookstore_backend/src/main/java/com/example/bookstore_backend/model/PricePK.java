@@ -1,5 +1,7 @@
 package com.example.bookstore_backend.model;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -7,6 +9,7 @@ import java.util.Objects;
 public class PricePK implements Serializable {
 
     private long bookID;
+    @CreatedDate
     private Date startDate;
 
     @Override

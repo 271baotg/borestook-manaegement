@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Date;
 import java.util.Objects;
@@ -17,6 +18,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Table(name = "price")
 @IdClass(PricePK.class)
+
 public class Price {
     @Id
     private long bookID;
