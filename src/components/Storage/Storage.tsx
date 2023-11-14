@@ -1,16 +1,11 @@
-import { DialogHTMLAttributes, useEffect, useState } from "react";
-import { BookList } from "./StorageComponents/Book/BookList";
+import { useEffect, useState } from "react";
 import BookModel from "../../models/BookModel";
 import { Bill } from "./StorageComponents/Bill/Bill";
-// import "./style.css";
-
 import st from "./style/storage-style.module.css";
 import BillItemModel from "../../models/BillItemModel";
 import { BookTable } from "./StorageComponents/Book/BookTable";
-import React from "react";
 import { axiosPrivate } from "../../api/axios";
 import { useAxiosPrivate } from "../../api/useAxiosHook";
-import BookDetail from "../BookDetail/BookDetail";
 import ModalBookDetail from "../BookDetail/ModalBookDetail";
 import { useDebounce } from "../../hooks/useDebounce";
 
@@ -59,53 +54,6 @@ export const Storage = () => {
     };
     search(searchKeyWord);
   }, [debounce]);
-
-  
-
-
-  // useEffect(() => {
-  //   let baseUrl: string = "http://localhost:8081/books";
-  //   let url: string = "";
-
-  //   if (searchKeyWord !== "") {
-  //     url = `${baseUrl}/${searchKeyWord}`;
-  //   } else {
-  //     url = `${baseUrl}`;
-  //   }
-
-  //   const getBookById = async () => {
-      
-
-  //   };
-
-  //   // GetBookListAxios
-  //   const getBookListAxios = async () => {
-  //     try {
-  //       const response: BookModel[] = await axios({
-  //         method: "get",
-  //         url: url,
-  //       });
-  //       const list = response as BookModel[];
-  //       setBookList(list);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   getBookListAxios();
-
-  //   // getBookList();
-  //   if (searchKeyWord !== "") {
-  //     getBookById().catch((error) => {
-  //       console.log(error);
-  //       setIsLoading(true);
-  //     });
-  //   } else {
-  //     getBookListAxios().catch((error) => {
-  //       setIsLoading(true);
-  //     });
-  //   }
-  // }, [searchKeyWord]);
 
   const handleAddToBill = (book: BookModel) => {
     if (book === undefined) {
