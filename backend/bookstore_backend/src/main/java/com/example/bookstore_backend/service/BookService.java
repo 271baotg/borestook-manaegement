@@ -1,15 +1,16 @@
 package com.example.bookstore_backend.service;
 
+import com.example.bookstore_backend.dto.BookDTO;
 import com.example.bookstore_backend.model.Book;
 
 import java.util.List;
 
 public interface BookService {
-    List<Book> findAll();
-    Book create(Book book);
-    Book update(Book book);
-    void deleteById(int id);
+    List<BookDTO> findAll();
+    Book create(BookDTO book);
+    Book update(BookDTO book);
 
+    void deleteById(Long id);
+    List<BookDTO> findByQuery(String query);
 
-    List<Book> findBookByQuery(String query);
 }

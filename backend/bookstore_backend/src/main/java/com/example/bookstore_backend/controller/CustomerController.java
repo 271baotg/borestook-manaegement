@@ -26,7 +26,8 @@ public class CustomerController {
     List<Customer> findCustomerByQuery(@RequestParam("query") String query){ return customerService.findCustomerByQuery(query);}
     @PostMapping("customers")
     Optional<Customer> createCustomer(@RequestBody Customer cus){
-        return customerService.create(cus);
+        Customer customer = new Customer(cus.getSpent(), cus.getPhoneNumber(), cus.getFullName(), cus.getRanking());
+        return customerService.create(customer);
     }
     @PutMapping("customers")
     Optional<Customer> updateCustomer(@RequestBody Customer cus){

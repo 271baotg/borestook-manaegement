@@ -1,6 +1,7 @@
 package com.example.bookstore_backend.controller;
 
 
+import com.example.bookstore_backend.dto.BookDTO;
 import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.service.BookServiceImpl;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +20,21 @@ public class BookController {
     }
 
     @GetMapping("books")
-    List<Book> findAllBook(){
+    List<BookDTO> findAllBook(){
         return bookService.findAll();
     }
 
     @GetMapping("books/{id}")
-    Optional<Book> findBook(@PathVariable("id") Integer id){
+
+    Optional<BookDTO> findBook(@PathVariable("id") Long id){
+
         return bookService.Get(id);
     }
 
     @GetMapping("books/search")
-    List<Book> findBookByQuery(@RequestParam("query") String query){ return bookService.findBookByQuery(query);}
+
+    List<BookDTO> findBookByQuery(@RequestParam("query") String query){
+        return bookService.findByQuery(query);
+    }
+
 }
