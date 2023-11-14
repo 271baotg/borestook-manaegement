@@ -19,9 +19,13 @@ public class Customer {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
-    private double spend;
+    @Column(name = "spent")
+    private double spent;
+    @Column(name="phone_number")
     private String phoneNumber;
-    private String name;
+    @Column(name = "name")
+    private String fullName;
+    @Column(name = "ranking")
     private int ranking;
 
     @CreatedDate
@@ -30,4 +34,11 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private Set<Order> listOrder;
+
+    public Customer(double spent, String phoneNumber, String fullName, int ranking) {
+        this.spent = spent;
+        this.phoneNumber = phoneNumber;
+        this.fullName = fullName;
+        this.ranking = ranking;
+    }
 }

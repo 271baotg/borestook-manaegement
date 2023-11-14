@@ -18,6 +18,8 @@ public class BookDTOMapper implements Function<Book, BookDTO> {
 
     @Override
     public BookDTO apply(Book book) {
+
+
         return new BookDTO(
                 book.getId(),
                 book.getTitle(),

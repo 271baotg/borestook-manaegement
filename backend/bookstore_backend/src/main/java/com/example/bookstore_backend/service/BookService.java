@@ -11,8 +11,6 @@ public interface BookService {
     Book update(BookDTO book);
 
     void deleteById(Long id);
-
     List<BookDTO> findByQuery(String query);
-
 
 }

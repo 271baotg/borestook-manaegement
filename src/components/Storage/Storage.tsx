@@ -12,98 +12,100 @@ import { axiosPrivate } from "../../api/axios";
 import { useAxiosPrivate } from "../../api/useAxiosHook";
 import BookDetail from "../BookDetail/BookDetail";
 import ModalBookDetail from "../BookDetail/ModalBookDetail";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export const Storage = () => {
-  const axios = useAxiosPrivate();
+  useAxiosPrivate();
   const [booklist, setBookList] = useState<BookModel[]>([]);
-  const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [billItems, setBillItems] = useState<BillItemModel[]>([]);
   const [searchKeyWord, setSearchKeyWord] = useState("");
   const [currentBook, setCurrentBook] = useState<BookModel>();
-
+  const debounce = useDebounce<string>(searchKeyWord, 500);
 
   useEffect(() => {
-    let baseUrl: string = "http://localhost:8081/books";
-    let url: string = "";
-
-    if (searchKeyWord !== "") {
-      url = `${baseUrl}/${searchKeyWord}`;
-      console.log(url);
-    } else {
-      url = `${baseUrl}`;
-    }
-
-    const getBookById = async () => {
-      const response = await fetch(url);
-
-      const responseJson = await response.json();
-
-      const tempBookList: BookModel[] = [];
-      tempBookList.push({
-        id: responseJson.id,
-        title: responseJson.title,
-        author: responseJson.author,
-        img: responseJson.img,
-        copies: responseJson.copies,
-        copiesAvailable: responseJson.copiesAvailable,
-      });
-      setBookList(tempBookList);
-      setIsLoading(false);
-    };
-
-    // GetBookListAxios
-    const getBookListAxios = async () => {
+    const search = async (query: string) => {
       try {
-        const response: BookModel[] = await axios({
+        if (query === "") {
+          const loadBook = async () => {
+            try {
+              const response: BookModel[] = await axiosPrivate({
+                method: "get",
+                url: "http://localhost:8081/books",
+              });
+              const list = response as BookModel[];
+              setBookList(list);
+            } catch (error) {
+              console.log(error);
+            }
+          };
+
+          loadBook();
+          return;
+        }
+
+        const response: BookModel[] = await axiosPrivate({
           method: "get",
-          url: "http://localhost:8081/books",
+          url: "http://localhost:8081/books/search",
+          params: {
+            query: query,
+          },
         });
-        console.log(response);
-        const list = response as BookModel[];
-        console.log("List book: " + list);
-        setBookList(list);
+        // console.log("Search result: " + JSON.stringify(response));
+        setBookList(response);
       } catch (error) {
         console.log(error);
       }
     };
+    search(searchKeyWord);
+  }, [debounce]);
 
-    getBookListAxios();
+  
 
-    // GetBookListFetch
-    // const getBookList = async () => {
-    //   const response = await fetch(url);
 
-    //   const responseJson = await response.json();
+  // useEffect(() => {
+  //   let baseUrl: string = "http://localhost:8081/books";
+  //   let url: string = "";
 
-    //   let tempBookList: BookModel[] = [];
+  //   if (searchKeyWord !== "") {
+  //     url = `${baseUrl}/${searchKeyWord}`;
+  //   } else {
+  //     url = `${baseUrl}`;
+  //   }
 
-    //   for (const book of responseJson) {
-    //     tempBookList.push({
-    //       id: book.id,
-    //       title: book.title,
-    //       author: book.author,
-    //       img: book.img,
-    //       copies: book.copies,
-    //       copiesAvailable: book.copiesAvailable,
-    //     });
-    //   }
-    //   setBookList(tempBookList);
-    //   setIsLoading(false);
-    // };
+  //   const getBookById = async () => {
+      
 
-    // getBookList();
-    if (searchKeyWord !== "") {
-      getBookById().catch((error) => {
-        console.log(error);
-        setIsLoading(true);
-      });
-    } else {
-      getBookListAxios().catch((error) => {
-        setIsLoading(true);
-      });
-    }
-  }, [searchKeyWord]);
+  //   };
+
+  //   // GetBookListAxios
+  //   const getBookListAxios = async () => {
+  //     try {
+  //       const response: BookModel[] = await axios({
+  //         method: "get",
+  //         url: url,
+  //       });
+  //       const list = response as BookModel[];
+  //       setBookList(list);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+
+  //   getBookListAxios();
+
+  //   // getBookList();
+  //   if (searchKeyWord !== "") {
+  //     getBookById().catch((error) => {
+  //       console.log(error);
+  //       setIsLoading(true);
+  //     });
+  //   } else {
+  //     getBookListAxios().catch((error) => {
+  //       setIsLoading(true);
+  //     });
+  //   }
+  // }, [searchKeyWord]);
 
   const handleAddToBill = (book: BookModel) => {
     if (book === undefined) {
@@ -193,7 +195,7 @@ export const Storage = () => {
           bookList={booklist}
           addToBill={handleAddToBill}
           searchKeyWord={searchKeyWord}
-          setSearchKeyWord={setSearchKeyWord}
+          setSearchKeyWord={setSearchKeyWord  }
           openModalDetail={openModalDetail}
         />
         <Bill
@@ -220,12 +222,12 @@ export const Storage = () => {
         ></Bill>
       </div>
 
-        <dialog data-book-detail className={`${st.modal} m-5`}>
-          <div className=" d-flex justify-content-end">
-            <button type="button" className="btn-close" onClick={closeModalDetail} aria-label="Close"></button>
-          </div>
-          <ModalBookDetail currentBook={currentBook}></ModalBookDetail>
-        </dialog>
+      <dialog data-book-detail className={`${st.modal} m-5`}>
+        <div className=" d-flex justify-content-end">
+          <button type="button" className="btn-close" onClick={closeModalDetail} aria-label="Close"></button>
+        </div>
+        <ModalBookDetail currentBook={currentBook}></ModalBookDetail>
+      </dialog>
 
     </>
 

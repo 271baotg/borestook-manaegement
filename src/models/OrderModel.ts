@@ -1,4 +1,4 @@
-import CustomerModel from "./CustomerModel";
+import {CustomerModel} from "./CustomerModel";
 
 class OrderModel{
     id: number;
