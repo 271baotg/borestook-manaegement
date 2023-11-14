@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import BillItemModel from "../../../../models/BillItemModel";
 import st from '../../style/bill-item-styled.module.css';
+import React from 'react';
 
 export const BillItem: React.FC<{ billItem: BillItemModel, setQuantity: Function, removeBillItem: Function }> = (props) => {
 
