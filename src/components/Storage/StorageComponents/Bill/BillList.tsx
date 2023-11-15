@@ -13,11 +13,11 @@ export const BillList: React.FC<{ billItem?: BillItemModel[], setQuantity: Funct
                 <table className={st.table}>
                     <thead>
                         <tr>
-                            <th>id</th>
-                            <th>title</th>
-                            <th>price</th>
-                            <th>quantity</th>
-                            <th>amount</th>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
                             <th></th>
                         </tr>
                     </thead>

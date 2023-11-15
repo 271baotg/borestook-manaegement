@@ -19,7 +19,7 @@ export const CheckoutAndReviewBox:React.FC<{mobile: boolean, bookModel: BookMode
                     </h4>
                     <div className="row">
                         <p className="col-6 lead">
-                            {props.bookModel.price} $
+                            ${props.bookModel.price}
                         </p>
                         <p className="col-6 lead">
                             {props.bookModel.available} available
