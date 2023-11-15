@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
-        @Query(value = "SELECT * FROM customer WHERE MATCH(full_name, phone_number) AGAINST(:query IN NATURAL LANGUAGE MODE)", nativeQuery = true)
+        @Query(value = "SELECT * FROM customer WHERE MATCH(name, phone_number) AGAINST(:query IN NATURAL LANGUAGE MODE)", nativeQuery = true)
     public List<Customer> findCustomerByName(@RequestParam("query") String query);
 
 }

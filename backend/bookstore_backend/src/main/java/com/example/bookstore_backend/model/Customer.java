@@ -1,37 +1,47 @@
 package com.example.bookstore_backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.sql.Time;
+import java.util.Date;
+import java.util.Set;
 
-@Entity
 @Data
-@NoArgsConstructor
 @Table(name = "customer")
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Customer {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name="full_name")
-    String fullName;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(name = "spent")
+    private double spent;
     @Column(name="phone_number")
-    String phoneNumber;
-    @Column(name="ranking")
-    String ranking;
-    @Column(name="spent")
-    Double spent;
-    @Column(name = "created_date")
-    Time CreatedDate;
+    private String phoneNumber;
+    @Column(name = "name")
+    private String fullName;
+    @Column(name = "ranking")
+    private int ranking;
 
-    public Customer(int id, String fullName, String phoneNumber, String ranking, Double spent, Time createdDate) {
-        this.id = id;
-        this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
-        this.ranking = ranking;
+    @CreationTimestamp
+    @Column(name = "create_date")
+    private Date createDate;
+
+    @OneToMany(mappedBy = "customer")
+    private Set<Order> listOrder;
+
+    public Customer(double spent, String phoneNumber, String fullName, int ranking) {
         this.spent = spent;
-        CreatedDate = createdDate;
+        this.phoneNumber = phoneNumber;
+        this.fullName = fullName;
+        this.ranking = ranking;
     }
 }

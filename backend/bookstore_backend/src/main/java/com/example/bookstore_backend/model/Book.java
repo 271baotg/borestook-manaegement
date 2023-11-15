@@ -1,8 +1,11 @@
 package com.example.bookstore_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -11,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "title")
     private String title;
@@ -22,11 +25,8 @@ public class Book {
     @Column(name = "description", length = 600)
     private String description;
 
-    @Column(name = "copies")
-    private int copies;
-
-    @Column(name = "copies_available")
-    private int copiesAvailable;
+    @Column(name = "available")
+    private int available;
 
     @Column(name = "category")
     private String category;
@@ -34,14 +34,18 @@ public class Book {
     @Column(name = "img")
     private String img;
 
-    public Book(int id, String title, String author, String description, int copies, int copies_available, String category, String img) {
+    @JsonIgnore
+    @OneToMany(mappedBy = "book")
+    private List<OrderDetail> orderDetails;
+
+    public Book(Long id, String title, String author, String description, int copies, int copies_available, String category, String img) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.description = description;
-        this.copies = copies;
-        this.copiesAvailable = copies_available;
+        this.available = copies_available;
         this.category = category;
         this.img = img;
     }
+
 }

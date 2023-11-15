@@ -69,7 +69,7 @@ export const Storage = () => {
         const newBillItem: BillItemModel = new BillItemModel(
           book,
           1,
-          book.copies
+          book.price
         );
         setBillItems([...billItems, newBillItem]);
       }
@@ -90,7 +90,7 @@ export const Storage = () => {
     for (let i: number = 0; i < temp.length; i++) {
       if (temp[i].book.id === id) {
         temp[i].quantity = quantity;
-        temp[i].amount = quantity * (temp[i].book.copies ?? 1);
+        temp[i].amount = quantity * (temp[i].book.price ?? 1);
         break;
       }
     }
