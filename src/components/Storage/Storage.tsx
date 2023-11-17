@@ -117,6 +117,7 @@ export const Storage = () => {
     }
     loadCustomerByQuery(customerSearchKeyWord);
   }, [customerDebounce])
+
   const handleClickGoToCheckOut = () =>{
     if(billItems.length === 0){
       alert('You have not added any product into cart');
@@ -180,12 +181,14 @@ export const Storage = () => {
   }
 
   const checkOut = () => {
+    
     console.log(`Bill: ${Math.floor(Math.random() * 100)}`)
 
     billItems.forEach((element) => {
       element.logInfor();
     });
     setBillItems([]);
+    setIsOpenCheckOutModal(false);
   };
 
   // if (isLoading) {

@@ -35,8 +35,10 @@ export const CustomerInforAndCheckOut: React.FC<{customer:CustomerModel, onClick
             tempSubtotal += item.quantity * item.book.price;
         })
         setSubTotal(tempSubtotal);
-        setTotal(subTotal);
     },[])
+    useEffect(()=>{
+        setTotal(subTotal);
+    }, [subTotal])
 
     const handleOnClickCheckOut = () =>{
         props.onClickCheckOut();
