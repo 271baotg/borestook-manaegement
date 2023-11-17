@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import st from '../../style/bill-footer-style.module.css'
 import BillItemModel from '../../../../models/BillItemModel';
-export const BillFooter: React.FC<{ checkOut: Function, billItem: BillItemModel[] }> = (props) => {
+export const BillFooter: React.FC<{billItem: BillItemModel[], openCheckOutModal:Function }> = (props) => {
     let subtotal = 0;
 
 
@@ -13,7 +13,7 @@ export const BillFooter: React.FC<{ checkOut: Function, billItem: BillItemModel[
     const total = subtotal;
 
     const handleCheckOut = () => {
-        props.checkOut();
+        props.openCheckOutModal();
     }
 
 

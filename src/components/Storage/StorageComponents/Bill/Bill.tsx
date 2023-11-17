@@ -34,11 +34,11 @@ import { BillList } from './BillList';
 //     );
 // }
 
-export const Bill: React.FC<{ billItems: BillItemModel[], setQuantity:Function, checkOut:Function, removeBillItem: Function}> = (props) => {
+export const Bill: React.FC<{ billItems: BillItemModel[], setQuantity:Function, removeBillItem: Function, openCheckOutModal:Function}> = (props) => {
     return (
         <div className={`${st.billContainer} card`}>
             <BillList billItem={props.billItems} setQuantity={props.setQuantity} removeBillItem={props.removeBillItem}></BillList>
-            <BillFooter checkOut={props.checkOut} billItem={props.billItems}></BillFooter>
+            <BillFooter billItem={props.billItems} openCheckOutModal={props.openCheckOutModal}></BillFooter>
         </div>
     );
 }
