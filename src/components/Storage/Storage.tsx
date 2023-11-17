@@ -17,6 +17,7 @@ import customerIcon from "../../images/customer.png"
 import orderIcon from "../../images/order.png"
 import AuthContext from "../../auth/AuthProvider";
 import InputGroupText from "react-bootstrap/esm/InputGroupText";
+import { CheckOutModal } from "./StorageComponents/Modals/CheckOutModal/CheckOutModal";
 
 
 export const Storage = () => {
@@ -38,8 +39,6 @@ export const Storage = () => {
   const [customerSearchKeyWord, setCustomerSearchKeyWord] = useState<string>("");
   const customerDebounce = useDebounce<string>(customerSearchKeyWord);
 
-  console.log(customerList);
-  console.log(customerDebounce);
   useEffect(() => {
     const search = async (query: string) => {
       try {
@@ -118,7 +117,14 @@ export const Storage = () => {
     }
     loadCustomerByQuery(customerSearchKeyWord);
   }, [customerDebounce])
-
+  const handleClickGoToCheckOut = () =>{
+    if(billItems.length === 0){
+      alert('You have not added any product into cart');
+      return;
+    }
+    setIsOpenCheckOutModal(true);
+  }
+  const handleOnClickCustomer = (cus:CustomerModel)=>{setCustomer(cus)}
   const handleAddToBill = (book: BookModel) => {
     if (book === undefined) {
       return;
@@ -197,7 +203,6 @@ export const Storage = () => {
   //     </div>
   //   );
   // }
-
   return (
     <>
       <div className={`${st.storageDesktop} d-none d-lg-flex`}>
@@ -214,7 +219,7 @@ export const Storage = () => {
           billItems={billItems}
           setQuantity={setQuantity}
           removeBillItem={removeBillItem}
-          openCheckOutModal={() => { setIsOpenCheckOutModal(true) }}
+          onClickGoToCheckOut={handleClickGoToCheckOut}
         ></Bill>
       </div>
       <div className={`${st.storageDesktop} d-block d-lg-none`}>
@@ -230,7 +235,7 @@ export const Storage = () => {
           billItems={billItems}
           setQuantity={setQuantity}
           removeBillItem={removeBillItem}
-          openCheckOutModal={() => { setIsOpenCheckOutModal(true) }}
+          onClickGoToCheckOut={handleClickGoToCheckOut}
         ></Bill>
       </div>
 
@@ -240,114 +245,15 @@ export const Storage = () => {
         </div>
         <ModalBookDetail currentBook={currentBook}></ModalBookDetail>
       </dialog>
-      <div></div>
-      <Modal size="xl" show={isOpenCheckOutModal} onHide={() => setIsOpenCheckOutModal(false)}>
-        <Modal.Header>
-          <Modal.Title as='h2'>Checkout information</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className={st.modalBodyContainer}>
-            <div>
-              <Card border="1em">
-                <Card.Header className="d-flex align-items-center">
-                  <CardImg variant="left" src={orderIcon} width={50} height='auto'></CardImg>
-                  <CardTitle as='h3'>Order detail</CardTitle>
-                </Card.Header>
-                <Card.Body>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Title</th>
-                        <th>Price</th>
-                        <th>Qty</th>
-                        <th>Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {billItems.map((item) => {
-                        return (
-                          <tr>
-                            <td>{item.book.title}</td>
-                            <td>${item.book.price}</td>
-                            <td>{item.quantity}</td>
-                            <td>{item.quantity * item.book.price}</td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  </Table>
-                </Card.Body>
-                <Card.Footer></Card.Footer>
-              </Card>
-            </div>
-            <div className={`${st.checkoutSection}`}>
-              <Card>
-                <CardHeader></CardHeader>
-                <CardBody>
-                  <div className={`${st.customerInforSection}`}>
-                    <ListGroup variant="flush" as='ol'>
-                      <ListGroupItem style={{ textAlign: 'left' }} as='li'>Username: {' Temporary username'}</ListGroupItem>
-                      <ListGroupItem style={{ textAlign: 'left' }}>Customer: {' Nguyễn Quang An'}</ListGroupItem>
-                      <ListGroupItem style={{ textAlign: 'left' }}>Phone: {' 0123456789'}</ListGroupItem>
-                      <ListGroupItem style={{ textAlign: 'left' }}>Ranking: {' 1'}</ListGroupItem>
-                    </ListGroup>
-                    <InputGroup size="sm" className="mb-3">
-                      <InputGroup.Text>GIFTCODE</InputGroup.Text>
-                      <Form.Control
-                        aria-label="Small"
-                        aria-describedby="inputGroup-sizing-sm"
-                      />
-                      <Button variant="success">APPLY</Button>
-                    </InputGroup>
-                  </div>
-                  <div className="checkoutSection d-flex">
-                    <h4>{`Subtotal: $1000`}</h4>
-                    <h4 className='text-success'>{`Total: $999`}</h4>
-                    <button className={`btn btn-success`}>Checkout</button>
-                  </div>
-                </CardBody>
-                <CardFooter></CardFooter>
-              </Card>
-            </div>
-            <div>
-              <Card>
-                <CardHeader className="d-flex align-items-center">
-                  <CardImg variant="left" src={customerIcon} width={50} height='auto'></CardImg>
-                  <CardTitle as='h3' className="ms-2">Customer</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <SearchBar searchKeyWord={customerSearchKeyWord} setSeachKeyWord={setCustomerSearchKeyWord}></SearchBar>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Phonenumber</th>
-                        <th>Ranking</th>
-                        <th>Spent</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {customerList.map((cus) => {
-                        return (
-                          <tr>
-                            <td>{cus.fullName}</td>
-                            <td>{cus.phoneNumber}</td>
-                            <td>{cus.ranking}</td>
-                            <td>${cus.spent}</td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  </Table>
-                </CardBody>
-              </Card>
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary">Checkout</Button>
-        </Modal.Footer>
-      </Modal>
+      <CheckOutModal
+      billItems={billItems}
+      customer={customer}
+      onClickCustomer={handleOnClickCustomer}
+      isOpen={isOpenCheckOutModal}
+      onOpen={()=> {setIsOpenCheckOutModal(true)}}
+      onClose={()=> {setIsOpenCheckOutModal(false)}}
+      onClickCheckOut={checkOut}
+      ></CheckOutModal>
     </>
 
   );

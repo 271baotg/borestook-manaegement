@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import st from '../../style/bill-footer-style.module.css'
 import BillItemModel from '../../../../models/BillItemModel';
-export const BillFooter: React.FC<{billItem: BillItemModel[], openCheckOutModal:Function }> = (props) => {
+export const BillFooter: React.FC<{billItem: BillItemModel[], 
+    onClickGoToCheckOut:Function }> = (props) => {
     let subtotal = 0;
 
 
@@ -12,8 +13,8 @@ export const BillFooter: React.FC<{billItem: BillItemModel[], openCheckOutModal:
 
     const total = subtotal;
 
-    const handleCheckOut = () => {
-        props.openCheckOutModal();
+    const handleClickGoToCheckOut = () => {
+        props.onClickGoToCheckOut();
     }
 
 
@@ -23,7 +24,7 @@ export const BillFooter: React.FC<{billItem: BillItemModel[], openCheckOutModal:
             <div className={st.billFooter}>
                 <p>{`Subtotal: ${subtotal}`}</p>
                 <p className='text-success' style={{ fontSize: 20 }}>{`Total: ${total}`}</p>
-                <button className={`btn btn-success`} onClick={handleCheckOut}>Checkout</button>
+                <button className={`btn btn-success`} onClick={handleClickGoToCheckOut}>Go to Checkout</button>
             </div>
         </>
     )

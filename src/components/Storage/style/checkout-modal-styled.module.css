@@ -1,0 +1,12 @@
+
+.modalBodyContainer{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 50vh 30vh;
+    grid-template-areas: 
+    "a CHECKOUT"
+    "c CHECKOUT"
+    ;
+    column-gap: 10px;
+    row-gap: 10px;
+}
