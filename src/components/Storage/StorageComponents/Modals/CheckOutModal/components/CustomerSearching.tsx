@@ -5,7 +5,7 @@ import { CustomerModel } from "../../../../../../models/CustomerModel";
 import { useEffect, useState } from "react";
 import { useDebounce } from "../../../../../../hooks/useDebounce";
 import { axiosPrivate } from "../../../../../../api/axios";
-import st from '../../../../style/customer-searching-styled.module.css'
+import st from '../../../../style/customer-searching-styled.module.css';
 
 export const CustomerSearching: React.FC<{onClickCustomer:Function}> = (props) => {
     const [customerList, setCustomerList] = useState<CustomerModel[]>([]);
@@ -63,7 +63,7 @@ export const CustomerSearching: React.FC<{onClickCustomer:Function}> = (props) =
         <Card>
             <Card.Header className="d-flex align-items-center">
                 <Card.Img variant="left" src={customerIcon} width={30} height='auto'></Card.Img>
-                <Card.Title as='h5' className="ms-2">Customer</Card.Title>
+                <Card.Title as='h5' className="m-0 ms-3 mt-1">Customer</Card.Title>
             </Card.Header>
             <Card.Body className="p-0">
                 <SearchBar searchKeyWord={customerSearchKeyWord} setSeachKeyWord={setCustomerSearchKeyWord}></SearchBar>

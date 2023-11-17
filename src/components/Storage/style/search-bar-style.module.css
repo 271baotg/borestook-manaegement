@@ -1,9 +1,9 @@
 .searchBarContainer{
     display: flex;
     width: 100%;
-    height: 50px;
-    
-
+    height: 40px;
+    flex-direction: row;
+    justify-content: right;
 }
 
 .button, .input{

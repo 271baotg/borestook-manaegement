@@ -181,14 +181,15 @@ export const Storage = () => {
   }
 
   const checkOut = () => {
-    
+    console.log('Customer',customer.fullName)
     console.log(`Bill: ${Math.floor(Math.random() * 100)}`)
-
     billItems.forEach((element) => {
       element.logInfor();
     });
+    
     setBillItems([]);
     setIsOpenCheckOutModal(false);
+    
   };
 
   // if (isLoading) {

@@ -8,7 +8,7 @@ export const OrdersDetail: React.FC<{billItems:BillItemModel[]}> = (props) => {
         <Card border="1em" style={{ overflow: "hidden" }}>
             <Card.Header className="d-flex align-items-center">
                 <CardImg variant="left" src={orderIcon} width={30} height='auto'></CardImg>
-                <CardTitle as='h5'>Orders detail</CardTitle>
+                <CardTitle as='h5' className="m-0 ms-3 mt-1">Orders detail</CardTitle>
             </Card.Header>
             <Card.Body className="p-2">
                 <section className={st.table__body}>

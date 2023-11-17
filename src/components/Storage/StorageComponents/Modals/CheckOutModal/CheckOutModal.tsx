@@ -1,15 +1,10 @@
-import { Button, Card, CardBody, CardHeader, CardImg, CardTitle, Modal, Table } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import styled from "styled-components";
-import st from '../../../style/checkout-modal-styled.module.css';
-import orderIcon from '../../../../../images/order.png'
-import customerIcon from '../../../../../images/customer.png'
 import BillItemModel from "../../../../../models/BillItemModel";
 import { CustomerModel } from "../../../../../models/CustomerModel";
 import { CustomerInforAndCheckOut } from "./components/CustomerInforAndCheckOut";
-import { SearchBar } from "../../SearchBar/SearcherBar";
 import { OrdersDetail } from "./components/OrdersDetail";
 import { CustomerSearching } from "./components/CustomerSearching";
-import { useState } from "react";
 
 const ModalContentContainer = styled.div`
     display: grid;

@@ -17,11 +17,16 @@ import styled from 'styled-components';
 import { CustomerModel } from '../../../../../../models/CustomerModel';
 import { useEffect, useState } from 'react';
 import BillItemModel from '../../../../../../models/BillItemModel';
+import checkOutIcon from '../../../../../../images/bill.png'
 
 const CheckOutSection = styled.div`
 grid-row: 1/3;
 grid-column: 2/3;
 text-align: center;
+`
+
+const Cursive = styled.span`
+    font-family: cursive
 `
 
 export const CustomerInforAndCheckOut: React.FC<{customer:CustomerModel, onClickCheckOut:Function, billItems:BillItemModel[]}> = (props) => {
@@ -48,16 +53,17 @@ export const CustomerInforAndCheckOut: React.FC<{customer:CustomerModel, onClick
         <CheckOutSection className={`${st.checkoutSection}`}>
             <Card style={{ height: '100%' }}>
                 <CardHeader>
-                    <CardTitle as='h3'>Checkout</CardTitle>
+                <Card.Img variant="left" src={checkOutIcon} width={30} height='auto'></Card.Img>
+                <Card.Title as='h5' className="ms-2">Checkout</Card.Title>
                 </CardHeader>
                 <CardBody>
                     <div className="d-flex flex-column">
                         <div className={`${st.customerInforSection}`}>
                             <ListGroup variant="flush" as='ol'>
-                                <ListGroupItem style={{ textAlign: 'left' }} as='li'>Username: {' Temporary username'}</ListGroupItem>
-                                <ListGroupItem style={{ textAlign: 'left' }}>Customer: {props.customer.fullName}</ListGroupItem>
-                                <ListGroupItem style={{ textAlign: 'left' }}>Phone: {props.customer.phoneNumber}</ListGroupItem>
-                                <ListGroupItem style={{ textAlign: 'left' }}>Ranking: {props.customer.ranking}</ListGroupItem>
+                                <ListGroupItem style={{ textAlign: 'left' }} as='li'>Username: <Cursive>{' Temporary username'}</Cursive></ListGroupItem>
+                                <ListGroupItem style={{ textAlign: 'left' }}>Customer: <Cursive>{props.customer.fullName}</Cursive></ListGroupItem>
+                                <ListGroupItem style={{ textAlign: 'left' }}>Phone: <Cursive>{props.customer.phoneNumber}</Cursive></ListGroupItem>
+                                <ListGroupItem style={{ textAlign: 'left' }}>Ranking: <Cursive>{props.customer.ranking}</Cursive></ListGroupItem>
                             </ListGroup>
                             <InputGroup size="sm" className="mb-3 mt-3">
                                 <InputGroup.Text>GIFTCODE</InputGroup.Text>
