@@ -5,6 +5,7 @@ import { CustomerModel } from "../../../../../../models/CustomerModel";
 import { useEffect, useState } from "react";
 import { useDebounce } from "../../../../../../hooks/useDebounce";
 import { axiosPrivate } from "../../../../../../api/axios";
+import st from '../../../../style/customer-searching-styled.module.css'
 
 export const CustomerSearching: React.FC<{onClickCustomer:Function}> = (props) => {
     const [customerList, setCustomerList] = useState<CustomerModel[]>([]);
@@ -64,14 +65,14 @@ export const CustomerSearching: React.FC<{onClickCustomer:Function}> = (props) =
                 <Card.Img variant="left" src={customerIcon} width={30} height='auto'></Card.Img>
                 <Card.Title as='h5' className="ms-2">Customer</Card.Title>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className="p-0">
                 <SearchBar searchKeyWord={customerSearchKeyWord} setSeachKeyWord={setCustomerSearchKeyWord}></SearchBar>
-                <section style={{ overflow: 'auto', maxHeight: 'calc(30vh - 100px)' }}>
+                <section className={st.table__body} style={{ overflow: 'auto', maxHeight: 'calc(30vh - 100px)' }}>
                     <Table striped bordered hover>
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Phonenumber</th>
+                                <th>Phone</th>
                                 <th>Ranking</th>
                                 <th>Spent</th>
                             </tr>

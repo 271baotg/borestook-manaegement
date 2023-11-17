@@ -59,7 +59,7 @@ export const CustomerInforAndCheckOut: React.FC<{customer:CustomerModel, onClick
                                 <ListGroupItem style={{ textAlign: 'left' }}>Phone: {props.customer.phoneNumber}</ListGroupItem>
                                 <ListGroupItem style={{ textAlign: 'left' }}>Ranking: {props.customer.ranking}</ListGroupItem>
                             </ListGroup>
-                            <InputGroup size="sm" className="mb-3">
+                            <InputGroup size="sm" className="mb-3 mt-3">
                                 <InputGroup.Text>GIFTCODE</InputGroup.Text>
                                 <Form.Control
                                     aria-label="Small"

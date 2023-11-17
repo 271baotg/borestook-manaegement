@@ -10,11 +10,11 @@ export const OrdersDetail: React.FC<{billItems:BillItemModel[]}> = (props) => {
                 <CardImg variant="left" src={orderIcon} width={30} height='auto'></CardImg>
                 <CardTitle as='h5'>Orders detail</CardTitle>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className="p-2">
                 <section className={st.table__body}>
                     <Table striped bordered hover >
                         <thead>
-                            <tr>
+                            <tr style={{height:'30px'}}>
                                 <th>Title</th>
                                 <th>Price</th>
                                 <th>Qty</th>

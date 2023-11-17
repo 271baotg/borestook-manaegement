@@ -1,8 +1,6 @@
-.orderDetailModalTable{
-    max-height: calc(50%-200px);
-    overflow:scroll;
-    background-color:aqua;
-    padding: 100;
+.table__body{ 
+    overflow: 'auto';
+    max-height: 'calc(30vh - 90px)' 
 }
 
 .table__body{
