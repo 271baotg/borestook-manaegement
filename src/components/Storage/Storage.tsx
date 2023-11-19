@@ -34,10 +34,7 @@ export const Storage = () => {
   const [isOpenCheckOutModal, setIsOpenCheckOutModal] = useState<boolean>(false);
 
   //Customer states
-  const [customerList, setCustomerList] = useState<CustomerModel[]>([]);
   const [customer, setCustomer] = useState<CustomerModel>({});
-  const [customerSearchKeyWord, setCustomerSearchKeyWord] = useState<string>("");
-  const customerDebounce = useDebounce<string>(customerSearchKeyWord);
 
   useEffect(() => {
     const search = async (query: string) => {
@@ -75,48 +72,6 @@ export const Storage = () => {
     };
     search(searchKeyWord);
   }, [debounce]);
-
-  //GET CUSTOMER HERE
-  const loadAllCustomer = async () => {
-    const url: string = 'http://localhost:8081/customers';
-    try {
-      const response: CustomerModel[] = await axiosPrivate({
-        method: 'get',
-        url: url,
-      });
-      setCustomerList(response);
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    const loadCustomerByQuery = async (query: string) => {
-      const url: string = 'http://localhost:8081/customers/search';
-      if (query === "" || query === null || query.trim() === "") {
-        return;
-      }
-
-      try {
-        const response: CustomerModel[] = await axiosPrivate({
-          method: 'get',
-          url: url,
-          params: {
-            query: query,
-          }
-        })
-        setCustomerList(response);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    if (customerSearchKeyWord === "") {
-      loadAllCustomer();
-    }
-    loadCustomerByQuery(customerSearchKeyWord);
-  }, [customerDebounce])
 
   const handleClickGoToCheckOut = () =>{
     if(billItems.length === 0){
