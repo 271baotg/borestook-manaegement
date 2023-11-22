@@ -19,17 +19,16 @@ public class BookDTOMapper implements Function<Book, BookDTO> {
     @Override
     public BookDTO apply(Book book) {
 
-
-        return new BookDTO(
-                book.getId(),
-                book.getTitle(),
-                book.getAuthor(),
-                book.getDescription(),
-                book.getAvailable(),
-                book.getCategory(),
-                book.getImg(),
-                priceRepository.findLatestPriceByBookId(book.getId()).getPrice()
-        );
+        BookDTO result = BookDTO.builder()
+                .id(book.getId())
+                .title(book.getTitle())
+                .author(book.getAuthor())
+                .category(book.getCategory())
+                .available(book.getAvailable())
+                .img(book.getImg())
+                .description(book.getDescription())
+                .build();
+        return result;
     }
 
     //Reverse Mapping

@@ -1,5 +1,7 @@
 package com.example.bookstore_backend.controller;
 
+import com.example.bookstore_backend.dto.OrderDTO;
+import com.example.bookstore_backend.dto.OrderDetailDTO;
 import com.example.bookstore_backend.model.Order;
 import com.example.bookstore_backend.model.OrderDetail;
 import com.example.bookstore_backend.service.BookService;
@@ -24,19 +26,19 @@ public class OrderController {
 
     @Autowired
     BookService bookService;
-    @GetMapping("order")
-    public List<Order> findAllOrder(){
+    @GetMapping("orders")
+    public List<OrderDTO> findAllOrder(){
         return orderService.listOrder();
     }
 
-    @GetMapping("order/{id}")
+    @GetMapping("orders/{id}")
 
     public Optional<Order> findOrder(@PathVariable("id") Long id){
         return orderService.orderById(id);
     }
 
     @GetMapping("orderdetail/{id}")
-    public List<OrderDetail> getListOrderDetailFromOrderId(@PathVariable("id") Long id){
+    public List<OrderDetailDTO> getListOrderDetailFromOrderId(@PathVariable("id") Long id){
         return orderDetailService.getOrderDetailFromOrderId(id);
     }
 

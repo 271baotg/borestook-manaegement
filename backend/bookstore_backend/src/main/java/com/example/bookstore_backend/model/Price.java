@@ -3,13 +3,9 @@ package com.example.bookstore_backend.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.sql.Date;
-import java.util.Objects;
+import java.util.Date;
 
 
 @Entity
@@ -35,7 +31,6 @@ public class Price {
     }
 
     @Id
-    @CreatedDate
     @Column(name = "start_date")
     private Date startDate;
 
