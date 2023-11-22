@@ -9,7 +9,6 @@ public interface BookService {
     List<BookDTO> findAll();
     Book create(BookDTO book);
     Book update(BookDTO book);
-
     void deleteById(Long id);
     List<BookDTO> findByQuery(String query);
 

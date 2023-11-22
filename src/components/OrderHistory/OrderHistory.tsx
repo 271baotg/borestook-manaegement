@@ -20,13 +20,14 @@ export const OrderHistory = () => {
   const [orderList, setOrderList] = useState<OrderModel[]>([]);
   const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [orderDetailItems, setOrderDetailItems] = useState<OrderDetailModel[]>([]);//OrderItem=OrderdetailModel
+  const [orderDetailItems, setOrderDetailItems] = useState<OrderDetailModel[]>(
+    []
+  ); //OrderItem=OrderdetailModel
   const [searchKeyWord, setSearchKeyWord] = useState("");
   const [currentOrder, setCurrentOrder] = useState<OrderModel>();
 
-
   useEffect(() => {
-    let baseUrl: string = "http://localhost:8081/order";
+    let baseUrl: string = "http://localhost:8081/orders";
     let url: string = "";
 
     if (searchKeyWord !== "") {
@@ -44,7 +45,7 @@ export const OrderHistory = () => {
       const tempOrderList: OrderModel[] = [];
       tempOrderList.push({
         id: responseJson.id,
-        checkoutDate: responseJson.checkoutDate,
+        createDate: responseJson.createDate,
         username: responseJson.username,
         customer: responseJson.customer,
         total: responseJson.total,
@@ -58,7 +59,7 @@ export const OrderHistory = () => {
       try {
         const response: OrderModel[] = await axios({
           method: "get",
-          url: "http://localhost:8081/order",
+          url: "http://localhost:8081/orders",
         });
         console.log(response);
         const list = response as OrderModel[];
@@ -120,7 +121,6 @@ export const OrderHistory = () => {
         setIsLoading(true);
       });
     }
-
   }, [searchKeyWord]);
 
   // const handleAddToBill = (book: BookModel) => {
@@ -166,7 +166,8 @@ export const OrderHistory = () => {
   // };
 
   const openModalDetail = async (id: number) => {
-    const temp: OrderModel = orderList[orderList.findIndex((order) => order.id === id)];
+    const temp: OrderModel =
+      orderList[orderList.findIndex((order) => order.id === id)];
     setCurrentOrder(temp);
 
     try {
@@ -177,51 +178,50 @@ export const OrderHistory = () => {
     }
 
     if (temp != null) {
-      const modal: any = document.querySelector('[data-order-detail]');
-      modal.showModal();    
+      const modal: any = document.querySelector("[data-order-detail]");
+      modal.showModal();
     } else {
       // Xử lý khi đối tượng là null hoặc undefined
     }
-    
-  }
-
+  };
 
   const closeModalDetail = () => {
-    const modal: any = document.querySelector('[data-order-detail]');
+    const modal: any = document.querySelector("[data-order-detail]");
     modal.close();
-  }
+  };
 
-      // GetOrderDetailItemsAxios
-      const getOrderDetailItemsAxios = async (id:number) => {
-        try {
-          const response: OrderDetailModel[] = await axios({
-            method: "get",
-            url: "http://localhost:8081/orderdetail/" + id,
-          });
-          console.log(response);
-          const list = response as OrderDetailModel[];
-          console.log("List orderDetail: " + list);
-          setOrderDetailItems(list);
-          return list; // Trả về kết quả
-        } catch (error) {
-          console.log(error);
-          throw error; // Ném lỗi để xác định lỗi
-        }
-      };
-      const chooseOneOrder = async (id: number) => {
-        const temp: OrderModel = orderList[orderList.findIndex((order) => order.id === id)];
-        if (temp) {
-          setCurrentOrder(temp);
-          console.log(temp);
-      
-          try {
-            const response = await getOrderDetailItemsAxios(temp.id);
-            console.log(response);
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      };
+  // GetOrderDetailItemsAxios
+  const getOrderDetailItemsAxios = async (id: number) => {
+    try {
+      const response: OrderDetailModel[] = await axios({
+        method: "get",
+        url: "http://localhost:8081/orderdetail/" + id,
+      });
+      console.log(response);
+      const list = response as OrderDetailModel[];
+      console.log("List orderDetail: " + JSON.stringify(list));
+      setOrderDetailItems(list);
+      return list; // Trả về kết quả
+    } catch (error) {
+      console.log(error);
+      throw error; // Ném lỗi để xác định lỗi
+    }
+  };
+  const chooseOneOrder = async (id: number) => {
+    const temp: OrderModel =
+      orderList[orderList.findIndex((order) => order.id === id)];
+    if (temp) {
+      setCurrentOrder(temp);
+      console.log(temp);
+
+      try {
+        const response = await getOrderDetailItemsAxios(temp.id);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <>
@@ -261,17 +261,21 @@ export const OrderHistory = () => {
         ></Bill>
       </div>
 
-        <dialog data-order-detail className={`${st.modal} m-5 `}>
-          <div className=" d-flex justify-content-end ">
-            <button type="button" className="btn-close" 
-            onClick={closeModalDetail} 
-            aria-label="Close"></button>
-          </div>
-          <ModalOrder currentOrder={currentOrder} orderDetailItems={orderDetailItems}></ModalOrder>
-        </dialog>
-
+      <dialog data-order-detail className={`${st.modal} m-5 `}>
+        <div className=" d-flex justify-content-end ">
+          <button
+            type="button"
+            className="btn-close"
+            onClick={closeModalDetail}
+            aria-label="Close"
+          ></button>
+        </div>
+        <ModalOrder
+          currentOrder={currentOrder}
+          orderDetailItems={orderDetailItems}
+        ></ModalOrder>
+      </dialog>
     </>
-
   );
 };
 export default OrderHistory;

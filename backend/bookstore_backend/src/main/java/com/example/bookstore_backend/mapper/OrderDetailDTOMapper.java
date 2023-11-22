@@ -10,6 +10,7 @@ import com.example.bookstore_backend.repository.OrderDetailRepository;
 import com.example.bookstore_backend.repository.PriceRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -28,10 +29,12 @@ public class OrderDetailDTOMapper implements Function<OrderDetail, OrderDetailDT
     @Override
     public OrderDetailDTO apply(OrderDetail orderDetail) {
         Order order = orderDetail.getOrder();
-        Price latestPrice = priceRepository.findLatestPriceByDate(orderDetail.getBook().getId(), order.getCreateDate());
-        BookDTO bookDTO = bookDTOMapper.apply(orderDetail.getBook());
-        bookDTO.setPrice(latestPrice.getPrice());
 
-        return new OrderDetailDTO(orderDetail.getOrder(),bookDTO,orderDetail.getQuantity());
+            Price latestPrice = priceRepository.findLatestPriceByDate(orderDetail.getBook().getId(), order.getCreateDate());
+            BookDTO bookDTO = bookDTOMapper.apply(orderDetail.getBook());
+            bookDTO.setPrice(latestPrice.getPrice());
+            return new OrderDetailDTO(orderDetail.getOrder(),bookDTO,orderDetail.getQuantity());
+
+
     }
 }

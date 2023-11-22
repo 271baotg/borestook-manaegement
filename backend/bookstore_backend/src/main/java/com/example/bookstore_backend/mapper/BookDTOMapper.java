@@ -6,6 +6,8 @@ import com.example.bookstore_backend.model.Price;
 import com.example.bookstore_backend.repository.PriceRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.function.Function;
 
 @Service
@@ -18,6 +20,11 @@ public class BookDTOMapper implements Function<Book, BookDTO> {
 
     @Override
     public BookDTO apply(Book book) {
+        Double price;
+
+        price = priceRepository.findLatestPriceByDate(book.getId(), Date.from(Instant.now())).getPrice();
+
+
 
         BookDTO result = BookDTO.builder()
                 .id(book.getId())
@@ -27,8 +34,10 @@ public class BookDTOMapper implements Function<Book, BookDTO> {
                 .available(book.getAvailable())
                 .img(book.getImg())
                 .description(book.getDescription())
+                .price(price)
                 .build();
         return result;
+
     }
 
     //Reverse Mapping

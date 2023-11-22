@@ -7,12 +7,11 @@ import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.model.Price;
 import com.example.bookstore_backend.repository.BookRepository;
 import com.example.bookstore_backend.repository.PriceRepository;
-import org.hibernate.annotations.CurrentTimestamp;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService{
 
     private final PriceRepository priceRepository;
-
     private final BookRepository bookRepository;
     private BookDTOMapper bookDTOMapper;
     public BookServiceImpl(PriceRepository priceRepository, BookRepository bookRepository, BookDTOMapper bookDTOMapper) {
@@ -38,18 +36,20 @@ public class BookServiceImpl implements BookService{
                 .stream()
                 .map(bookDTOMapper)
                 .peek(bookDTO -> {
-                    Price latestPrice = priceRepository.findLatestPriceByDate(bookDTO.getId(), Date.from(Instant.now()));
-                    if (latestPrice != null) {
+                        Price latestPrice = priceRepository.findLatestPriceByDate(bookDTO.getId(), Date.from(Instant.now()));
                         bookDTO.setPrice(latestPrice.getPrice());
                     }
-                })
+                )
                 .collect(Collectors.toList());
     }
 
     @Override
     public Book create(BookDTO bookDTO) {
         Book book = bookDTOMapper.mapToBook(bookDTO);
-        return bookRepository.save(book);
+        Book savedBook = bookRepository.save(book);
+        Price price = new Price(savedBook.getId(),bookDTO.getPrice());
+        priceRepository.save(price);
+        return savedBook;
     }
 
     @Override

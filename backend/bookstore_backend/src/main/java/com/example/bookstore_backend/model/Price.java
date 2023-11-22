@@ -5,13 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.util.Date;
+import java.time.Instant;
+
 
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "price")
 @IdClass(PricePK.class)
 
@@ -41,5 +48,6 @@ public class Price {
     public Price(long bookID, Double price) {
         this.bookID = bookID;
         this.price = price;
+        this.startDate = Date.from(Instant.now());
     }
 }
