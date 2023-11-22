@@ -18,6 +18,12 @@ public class BookDTOMapper implements Function<Book, BookDTO> {
 
     @Override
     public BookDTO apply(Book book) {
+        Double price;
+        if(priceRepository.findLatestPriceByBookId(book.getId()).isPresent())
+        {
+            price = priceRepository.findLatestPriceByBookId(book.getId()).get().getPrice();
+        }
+        else price = 0.0;
 
 
         return new BookDTO(
@@ -28,7 +34,7 @@ public class BookDTOMapper implements Function<Book, BookDTO> {
                 book.getAvailable(),
                 book.getCategory(),
                 book.getImg(),
-                priceRepository.findLatestPriceByBookId(book.getId()).getPrice()
+                price
         );
     }
 
