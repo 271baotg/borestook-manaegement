@@ -39,7 +39,7 @@ public class OrderController {
         return orderDetailService.getOrderDetailFromOrderId(id);
     }
 
-    @PostMapping("order")
+    @PostMapping("orders")
         public OrderDTO createOrder(@RequestBody OrderDTO order){
         return order;
     }

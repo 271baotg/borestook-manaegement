@@ -2,7 +2,7 @@ import { CustomerModel } from "./CustomerModel";
 import OrderDetailModel from "./OrderDetailModel";
 
 class OrderModel {
-  id: number;
+  id?: number;
   createDate: string;
   username: string;
   total: number;
@@ -11,13 +11,13 @@ class OrderModel {
   giftcode: string;
 
   constructor(
-    id: number,
     createDate: string,
     username: string,
     total: number,
     customer: CustomerModel,
     orderDetails: OrderDetailModel[],
-    giftcode: string
+    giftcode: string,
+    id?: number
   ) {
     this.id = id;
     this.createDate = createDate;

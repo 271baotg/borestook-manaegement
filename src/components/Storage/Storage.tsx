@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BookModel from "../../models/BookModel";
 import { Bill } from "./StorageComponents/Bill/Bill";
 import st from "./style/storage-style.module.css";
@@ -18,10 +18,14 @@ import orderIcon from "../../images/order.png"
 import AuthContext from "../../auth/AuthProvider";
 import InputGroupText from "react-bootstrap/esm/InputGroupText";
 import { CheckOutModal } from "./StorageComponents/Modals/CheckOutModal/CheckOutModal";
+import OrderModel from "../../models/OrderModel";
+import OrderDetailModel from "../../models/OrderDetailModel";
 
 
 export const Storage = () => {
   useAxiosPrivate();
+
+  const {auth} = useContext(AuthContext);
   //Book states
   const [bookList, setBookList] = useState<BookModel[]>([]);
   const [currentBook, setCurrentBook] = useState<BookModel>();
@@ -135,13 +139,26 @@ export const Storage = () => {
     modal.close();
   }
 
-  const checkOut = () => {
+  const checkOut = async () => {
     console.log('Customer',customer.fullName)
     console.log(`Bill: ${Math.floor(Math.random() * 100)}`)
+    const listOrderDetails: OrderDetailModel[] = [];
     billItems.forEach((element) => {
       element.logInfor();
+      listOrderDetails.push(new OrderDetailModel(element.book, element.quantity));
     });
     
+
+
+    const order = new OrderModel('', auth?.username ?? '', 200, customer, listOrderDetails, '');
+
+    try{
+      const response = await axiosPrivate.post('http://localhost:8081/orders', order);
+      console.log(response);
+    }catch(e) {
+
+    }
+
     setBillItems([]);
     setIsOpenCheckOutModal(false);
     

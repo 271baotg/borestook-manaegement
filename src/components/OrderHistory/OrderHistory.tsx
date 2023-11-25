@@ -105,7 +105,7 @@ export const OrderHistory = () => {
   };
 
   // GetOrderDetailItemsAxios
-  const getOrderDetailItemsAxios = async (id: number) => {
+  const getOrderDetailItemsAxios = async (id: number|undefined) => {
     try {
       const response: OrderDetailModel[] = await axios({
         method: "get",
