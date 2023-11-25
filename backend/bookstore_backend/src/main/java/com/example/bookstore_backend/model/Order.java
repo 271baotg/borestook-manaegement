@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Table( name = "orders")
 @Entity
@@ -30,7 +30,7 @@ public class Order {
     @JsonManagedReference
     @JsonIgnore
     @OneToMany(mappedBy = "order",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<OrderDetail> orderDetails;
+    private List<OrderDetail> orderDetails;
 
 
 }
