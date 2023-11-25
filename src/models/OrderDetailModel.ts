@@ -6,7 +6,7 @@ class OrderDetailModel{
     order: OrderModel;
     book: BookModel;
     quantity: number;
-
+    
     constructor(id: number, order: OrderModel, book: BookModel, quantity: number ) {
         this.id = id;
         this.order = order;

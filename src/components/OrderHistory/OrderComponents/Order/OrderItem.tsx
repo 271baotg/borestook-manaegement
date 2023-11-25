@@ -56,6 +56,9 @@ export const OrderItem: React.FC<{
   // const formattedDate = format(utcDate, "dd-MM-yyyy HH:mm:ss");
 
   const truncateString = (str: string, maxLength: number) => {
+    if(str === null) {
+      return '';
+    }
     return str.length > maxLength ? `${str.substring(0, maxLength)}` : str;
   };
   return (

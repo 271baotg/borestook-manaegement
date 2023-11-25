@@ -27,32 +27,33 @@ export const OrderHistory = () => {
   const [currentOrder, setCurrentOrder] = useState<OrderModel>();
 
   useEffect(() => {
-    let baseUrl: string = "http://localhost:8081/orders";
-    let url: string = "";
+    // let baseUrl: string = "http://localhost:8081/orders";
+    // let url: string = "";
 
-    if (searchKeyWord !== "") {
-      url = `${baseUrl}/${searchKeyWord}`;
-      console.log(url);
-    } else {
-      url = `${baseUrl}`;
-    }
+    // if (searchKeyWord !== "") {
+    //   url = `${baseUrl}/${searchKeyWord}`;
+    //   console.log(url);
+    // } else {
+    //   url = `${baseUrl}`;
+    // }
+    // const getOrderById = async () => {
+    //   const response = await axiosPrivate(url);
 
-    const getOrderById = async () => {
-      const response = await fetch(url);
-
-      const responseJson = await response.json();
-
-      const tempOrderList: OrderModel[] = [];
-      tempOrderList.push({
-        id: responseJson.id,
-        createDate: responseJson.createDate,
-        username: responseJson.username,
-        customer: responseJson.customer,
-        total: responseJson.total,
-      });
-      setOrderList(tempOrderList);
-      setIsLoading(false);
-    };
+    //   // const responseJson = await response.json();
+    //   console.log(responseJson);
+    //   const tempOrderList: OrderModel[] = [];
+    //   tempOrderList.push({
+    //     id: responseJson.id,
+    //     createDate: responseJson.createDate,
+    //     username: responseJson.username,
+    //     customer: responseJson.customer,
+    //     total: responseJson.total,
+    //     orderDetails: responseJson.orderDetails,
+    //     giftcode: responseJson.giftcode
+    //   });
+    //   setOrderList(tempOrderList);
+    //   setIsLoading(false);
+    // };
 
     // GetOrderListAxios
     const getOrderListAxios = async () => {
@@ -70,101 +71,14 @@ export const OrderHistory = () => {
       }
     };
 
-    getOrderListAxios();
+    getOrderListAxios().catch((e) => {
+      console.log(e);
+    });
 
-    // GetOrderDetailItemsAxios
-    // const getOrderDetailItemsAxios = async (id:number) => {
-    //   try {
-    //     const response: OrderDetailModel[] = await axios({
-    //       method: "get",
-    //       url: "http://localhost:8081/orderdetail/" + id,
-    //     });
-    //     console.log(response);
-    //     const list = response as OrderDetailModel[];
-    //     console.log("List orderDetail: " + list);
-    //     setOrderDetailItems(list);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
+    
+  }, []);
 
-    // GetBookListFetch
-    // const getBookList = async () => {
-    //   const response = await fetch(url);
-
-    //   const responseJson = await response.json();
-
-    //   let tempBookList: BookModel[] = [];
-
-    //   for (const book of responseJson) {
-    //     tempBookList.push({
-    //       id: book.id,
-    //       title: book.title,
-    //       author: book.author,
-    //       img: book.img,
-    //       copies: book.copies,
-    //       copiesAvailable: book.copiesAvailable,
-    //     });
-    //   }
-    //   setBookList(tempBookList);
-    //   setIsLoading(false);
-    // };
-
-    // getOrderList();
-    if (searchKeyWord !== "") {
-      getOrderById().catch((error) => {
-        console.log(error);
-        setIsLoading(true);
-      });
-    } else {
-      getOrderListAxios().catch((error) => {
-        setIsLoading(true);
-      });
-    }
-  }, [searchKeyWord]);
-
-  // const handleAddToBill = (book: BookModel) => {
-  //   if (book === undefined) {
-  //     return;
-  //   } else {
-  //     const index = billItems.findIndex(
-  //       (billItem) => billItem.book.id === book.id
-  //     );
-  //     const alreadyInBill = index !== -1;
-  //     if (alreadyInBill) {
-  //       setQuantity(book.id, billItems[index].quantity + 1);
-  //     } else {
-  //       const newBillItem: BillItemModel = new BillItemModel(
-  //         book,
-  //         1,
-  //         book.copies
-  //       );
-  //       setBillItems([...billItems, newBillItem]);
-  //     }
-  //   }
-  // };
-
-  // const removeBillItem = (id: number) => {
-  //   const removed = billItems.filter((billItem) => billItem.book.id !== id);
-  //   setBillItems(removed);
-  // };
-
-  // const setQuantity = (id: number, quantity: number) => {
-  //   if (quantity === 0) {
-  //     removeBillItem(id);
-  //     return;
-  //   }
-  //   const temp: BillItemModel[] = [...billItems];
-  //   for (let i: number = 0; i < temp.length; i++) {
-  //     if (temp[i].book.id === id) {
-  //       temp[i].quantity = quantity;
-  //       temp[i].amount = quantity * (temp[i].book.copies ?? 1);
-  //       break;
-  //     }
-  //   }
-  //   setBillItems(temp);
-  // };
-
+  
   const openModalDetail = async (id: number) => {
     const temp: OrderModel =
       orderList[orderList.findIndex((order) => order.id === id)];
@@ -231,8 +145,8 @@ export const OrderHistory = () => {
         <OrderTable
           orderList={orderList}
           // addToBill={handleAddToBill}
-          searchKeyWord={searchKeyWord}
-          setSearchKeyWord={setSearchKeyWord}
+          searchKeyWord={''}
+          setSearchKeyWord={()=> {}}
           chooseOneOrder={chooseOneOrder}
           openModalDetail={openModalDetail}
         />
@@ -248,8 +162,8 @@ export const OrderHistory = () => {
         <OrderTable
           orderList={orderList}
           // addToBill={handleAddToBill}
-          searchKeyWord={searchKeyWord}
-          setSearchKeyWord={setSearchKeyWord}
+          searchKeyWord={''}
+          setSearchKeyWord={()=>{}}
           chooseOneOrder={chooseOneOrder}
           openModalDetail={openModalDetail}
         />

@@ -40,7 +40,7 @@ public class OrderController {
     }
 
     @PostMapping("order")
-        public Order createOrder(@RequestBody Order order){
+        public OrderDTO createOrder(@RequestBody OrderDTO order){
         return order;
     }
 }
