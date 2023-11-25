@@ -22,9 +22,9 @@ export const OrdersDetail: React.FC<{billItems:BillItemModel[]}> = (props) => {
                             </tr>
                         </thead>
                         <tbody >
-                            {props.billItems.map((item) => {
+                            {props.billItems.map((item, idx) => {
                                 return (
-                                    <tr style={{ maxHeight: '40px', padding: 0 }}>
+                                    <tr key={idx} style={{ maxHeight: '40px', padding: 0 }}>
                                         <td>{item.book.title}</td>
                                         <td>${item.book.price}</td>
                                         <td>{item.quantity}</td>

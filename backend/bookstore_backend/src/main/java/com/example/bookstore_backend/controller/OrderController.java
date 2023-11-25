@@ -6,10 +6,7 @@ import com.example.bookstore_backend.service.BookService;
 import com.example.bookstore_backend.service.OrderDetailService;
 import com.example.bookstore_backend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,4 +37,8 @@ public class OrderController {
         return orderDetailService.getOrderDetailFromOrderId(id);
     }
 
+    @PostMapping("order")
+        public Order createOrder(@RequestBody Order order){
+        return order;
+    }
 }
