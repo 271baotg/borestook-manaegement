@@ -30,11 +30,10 @@ public class OrderDetailDTOMapper implements Function<OrderDetail, OrderDetailDT
     public OrderDetailDTO apply(OrderDetail orderDetail) {
         Order order = orderDetail.getOrder();
 
-            Price latestPrice = priceRepository.findLatestPriceByDate(orderDetail.getBook().getId(), order.getCreateDate());
-            BookDTO bookDTO = bookDTOMapper.apply(orderDetail.getBook());
-            bookDTO.setPrice(latestPrice.getPrice());
-            return new OrderDetailDTO(orderDetail.getOrder(),bookDTO,orderDetail.getQuantity());
-
+        Price latestPrice = priceRepository.findLatestPriceByDate(orderDetail.getBook().getId(), order.getCreateDate());
+        BookDTO bookDTO = bookDTOMapper.apply(orderDetail.getBook());
+        bookDTO.setPrice(latestPrice.getPrice());
+        return new OrderDetailDTO(orderDetail.getOrder(), bookDTO, orderDetail.getQuantity());
 
     }
 }

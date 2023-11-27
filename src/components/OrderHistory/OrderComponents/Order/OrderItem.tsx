@@ -56,8 +56,8 @@ export const OrderItem: React.FC<{
   // const formattedDate = format(utcDate, "dd-MM-yyyy HH:mm:ss");
 
   const truncateString = (str: string, maxLength: number) => {
-    if(str === null) {
-      return '';
+    if (str === null) {
+      return "";
     }
     return str.length > maxLength ? `${str.substring(0, maxLength)}` : str;
   };
@@ -69,7 +69,7 @@ export const OrderItem: React.FC<{
       </td>
       <td className={st.tableData}>{props.order.username}</td>
       <td className={`${st.tableData} text-primary`}>
-        {props.order.customer.fullName}
+        {props.order.customer?.fullName ?? ""}
       </td>
       <td className={st.tableData}>{props.order.total}</td>
       <td className={st.tableData}>

@@ -22,11 +22,16 @@ public class OrderDetail {
     private Order order;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "book_ID")
     private Book book;
 
     @Column(name = "quantity")
     private int quantity;
 
+    public OrderDetail(Order order, Book book, int quantity) {
+        this.order = order;
+        this.book = book;
+        this.quantity = quantity;
+    }
 }

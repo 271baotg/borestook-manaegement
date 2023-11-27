@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface OrderDetailService {
     List<OrderDetailDTO> getOrderDetailFromOrderId(Long orderId);
+
+    List<OrderDetail> saveListOrderDetail(List<OrderDetail> list);
 }

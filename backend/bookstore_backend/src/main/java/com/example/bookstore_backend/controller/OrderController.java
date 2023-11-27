@@ -2,6 +2,7 @@ package com.example.bookstore_backend.controller;
 
 import com.example.bookstore_backend.dto.OrderDTO;
 import com.example.bookstore_backend.dto.OrderDetailDTO;
+import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.model.Order;
 import com.example.bookstore_backend.model.OrderDetail;
 import com.example.bookstore_backend.service.BookService;
@@ -10,8 +11,11 @@ import com.example.bookstore_backend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/")
@@ -40,7 +44,7 @@ public class OrderController {
     }
 
     @PostMapping("orders")
-        public OrderDTO createOrder(@RequestBody OrderDTO order){
-        return order;
+    public Order createOrder(@RequestBody OrderDTO order){
+        return orderService.createOrder(order);
     }
 }
