@@ -25,16 +25,20 @@ public class BookController {
     }
 
     @GetMapping("books/{id}")
-
     Optional<BookDTO> findBook(@PathVariable("id") Long id){
 
         return bookService.Get(id);
     }
 
     @GetMapping("books/search")
-
     List<BookDTO> findBookByQuery(@RequestParam("query") String query){
         return bookService.findByQuery(query);
     }
+
+    @PostMapping("books/save")
+    Book createBook(@RequestBody BookDTO book){
+        return bookService.create(book);
+    }
+
 
 }

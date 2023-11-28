@@ -55,13 +55,21 @@ export const OrderItem: React.FC<{
   // // Format the date
   // const formattedDate = format(utcDate, "dd-MM-yyyy HH:mm:ss");
 
+  const truncateString = (str: string, maxLength: number) => {
+    if (str === null) {
+      return "";
+    }
+    return str.length > maxLength ? `${str.substring(0, maxLength)}` : str;
+  };
   return (
     <tr onClick={handleOnClickItem} className={st.tableRow}>
       <td className={st.tableData}>{props.order.id}</td>
-      <td className={st.tableData}>14/11/2023</td>
+      <td className={st.tableData}>
+        {truncateString(props.order.createDate, 10)}
+      </td>
       <td className={st.tableData}>{props.order.username}</td>
       <td className={`${st.tableData} text-primary`}>
-        {props.order.customer.fullName}
+        {props.order.customer?.fullName ?? ""}
       </td>
       <td className={st.tableData}>{props.order.total}</td>
       <td className={st.tableData}>

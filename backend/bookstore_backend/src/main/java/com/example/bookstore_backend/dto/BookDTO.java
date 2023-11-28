@@ -2,12 +2,14 @@ package com.example.bookstore_backend.dto;
 
 import com.example.bookstore_backend.model.Price;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class BookDTO {
     private Long id;
 

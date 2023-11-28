@@ -16,7 +16,7 @@ export const BookList: React.FC<{
         <table className={st.table}>
           <thead>
             <tr>
-              <th>id</th>
+              <th>ID</th>
               <th>Image</th>
               <th>Title</th>
               <th>Author</th>

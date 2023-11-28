@@ -10,6 +10,6 @@ import java.util.List;
 
 
 public interface OrderDetailRepository extends JpaRepository<OrderDetail,Long> {
-    @Query(value = "SELECT * FROM orderdetail WHERE order_id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM order_detail WHERE order_id = :id", nativeQuery = true)
     public List<OrderDetail> findByOrderId(@Param("id") Long id);
 }

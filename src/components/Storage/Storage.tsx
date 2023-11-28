@@ -1,27 +1,62 @@
-import { DialogHTMLAttributes, useEffect, useState } from "react";
-import { BookList } from "./StorageComponents/Book/BookList";
+import { useContext, useEffect, useState } from "react";
 import BookModel from "../../models/BookModel";
 import { Bill } from "./StorageComponents/Bill/Bill";
-// import "./style.css";
-
 import st from "./style/storage-style.module.css";
 import BillItemModel from "../../models/BillItemModel";
 import { BookTable } from "./StorageComponents/Book/BookTable";
-import React from "react";
 import { axiosPrivate } from "../../api/axios";
 import { useAxiosPrivate } from "../../api/useAxiosHook";
-import BookDetail from "../BookDetail/BookDetail";
 import ModalBookDetail from "../BookDetail/ModalBookDetail";
 import { useDebounce } from "../../hooks/useDebounce";
+import {
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  CardImg,
+  CardSubtitle,
+  CardTitle,
+  Col,
+  Form,
+  InputGroup,
+  ListGroup,
+  ListGroupItem,
+  Modal,
+  Row,
+  Table,
+} from "react-bootstrap";
+import { CustomerModel } from "../../models/CustomerModel";
+import { SearchBar } from "../Customer/CustomerComponents/SearcherBar";
+import { CustomerTable } from "../Customer/CustomerComponents/CustomerTable";
+import { BillItem } from "./StorageComponents/Bill/BillItem";
+import customerIcon from "../../images/customer.png";
+import orderIcon from "../../images/order.png";
+import AuthContext from "../../auth/AuthProvider";
+import InputGroupText from "react-bootstrap/esm/InputGroupText";
+import { CheckOutModal } from "./StorageComponents/Modals/CheckOutModal/CheckOutModal";
+import OrderModel from "../../models/OrderModel";
+import OrderDetailModel from "../../models/OrderDetailModel";
 
 export const Storage = () => {
   useAxiosPrivate();
-  const [booklist, setBookList] = useState<BookModel[]>([]);
+
+  const { auth } = useContext(AuthContext);
+  //Book states
+  const [bookList, setBookList] = useState<BookModel[]>([]);
+  const [currentBook, setCurrentBook] = useState<BookModel>();
+  const [searchKeyWord, setSearchKeyWord] = useState<string>("");
+  const debounce = useDebounce<string>(searchKeyWord);
+
+  //Bill states
   const [isLoading, setIsLoading] = useState(true);
   const [billItems, setBillItems] = useState<BillItemModel[]>([]);
-  const [searchKeyWord, setSearchKeyWord] = useState("");
-  const [currentBook, setCurrentBook] = useState<BookModel>();
-  const debounce = useDebounce<string>(searchKeyWord, 500);
+  const [isOpenCheckOutModal, setIsOpenCheckOutModal] =
+    useState<boolean>(false);
+
+  //Customer states
+  const [customer, setCustomer] = useState<CustomerModel>({});
 
   useEffect(() => {
     const search = async (query: string) => {
@@ -60,53 +95,16 @@ export const Storage = () => {
     search(searchKeyWord);
   }, [debounce]);
 
-  
-
-
-  // useEffect(() => {
-  //   let baseUrl: string = "http://localhost:8081/books";
-  //   let url: string = "";
-
-  //   if (searchKeyWord !== "") {
-  //     url = `${baseUrl}/${searchKeyWord}`;
-  //   } else {
-  //     url = `${baseUrl}`;
-  //   }
-
-  //   const getBookById = async () => {
-      
-
-  //   };
-
-  //   // GetBookListAxios
-  //   const getBookListAxios = async () => {
-  //     try {
-  //       const response: BookModel[] = await axios({
-  //         method: "get",
-  //         url: url,
-  //       });
-  //       const list = response as BookModel[];
-  //       setBookList(list);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   getBookListAxios();
-
-  //   // getBookList();
-  //   if (searchKeyWord !== "") {
-  //     getBookById().catch((error) => {
-  //       console.log(error);
-  //       setIsLoading(true);
-  //     });
-  //   } else {
-  //     getBookListAxios().catch((error) => {
-  //       setIsLoading(true);
-  //     });
-  //   }
-  // }, [searchKeyWord]);
-
+  const handleClickGoToCheckOut = () => {
+    if (billItems.length === 0) {
+      alert("You have not added any product into cart");
+      return;
+    }
+    setIsOpenCheckOutModal(true);
+  };
+  const handleOnClickCustomer = (cus: CustomerModel) => {
+    setCustomer(cus);
+  };
   const handleAddToBill = (book: BookModel) => {
     if (book === undefined) {
       return;
@@ -150,24 +148,48 @@ export const Storage = () => {
   };
 
   const openModalDetail = (id: number) => {
-    const temp: BookModel = booklist[booklist.findIndex((book) => book.id === id)];
+    const temp: BookModel =
+      bookList[bookList.findIndex((book) => book.id === id)];
     setCurrentBook(temp);
-    const modal: any = document.querySelector('[data-book-detail]');
+    const modal: any = document.querySelector("[data-book-detail]");
     modal.showModal();
-  }
+  };
 
   const closeModalDetail = () => {
-    const modal: any = document.querySelector('[data-book-detail]');
+    const modal: any = document.querySelector("[data-book-detail]");
     modal.close();
-  }
+  };
 
-  const checkOut = () => {
-    console.log(`Bill: ${Math.floor(Math.random() * 100)}`)
-
+  const checkOut = async () => {
+    console.log("Customer", customer.fullName);
+    console.log(`Bill: ${Math.floor(Math.random() * 100)}`);
+    const listOrderDetails: OrderDetailModel[] = [];
     billItems.forEach((element) => {
       element.logInfor();
+      listOrderDetails.push(
+        new OrderDetailModel(element.book, element.quantity)
+      );
     });
+
+    const order = new OrderModel(
+      "",
+      auth?.username ?? "",
+      200,
+      customer ?? null,
+      listOrderDetails,
+      ""
+    );
+
+    try {
+      const response = await axiosPrivate.post(
+        "http://localhost:8081/orders",
+        order
+      );
+      console.log(response);
+    } catch (e) {}
+
     setBillItems([]);
+    setIsOpenCheckOutModal(false);
   };
 
   // if (isLoading) {
@@ -185,30 +207,13 @@ export const Storage = () => {
   //     </div>
   //   );
   // }
-
   return (
     <>
       <div className={`${st.storageDesktop} d-none d-lg-flex`}>
         {/* Desktop */}
 
         <BookTable
-          bookList={booklist}
-          addToBill={handleAddToBill}
-          searchKeyWord={searchKeyWord}
-          setSearchKeyWord={setSearchKeyWord  }
-          openModalDetail={openModalDetail}
-        />
-        <Bill
-          billItems={billItems}
-          setQuantity={setQuantity}
-          removeBillItem={removeBillItem}
-          checkOut={checkOut}
-        ></Bill>
-      </div>
-      <div className={`${st.storageDesktop} d-block d-lg-none`}>
-        {/* Desktop */}
-        <BookTable
-          bookList={booklist}
+          bookList={bookList}
           addToBill={handleAddToBill}
           searchKeyWord={searchKeyWord}
           setSearchKeyWord={setSearchKeyWord}
@@ -218,18 +223,50 @@ export const Storage = () => {
           billItems={billItems}
           setQuantity={setQuantity}
           removeBillItem={removeBillItem}
-          checkOut={checkOut}
+          onClickGoToCheckOut={handleClickGoToCheckOut}
+        ></Bill>
+      </div>
+      <div className={`${st.storageDesktop} d-block d-lg-none`}>
+        {/* Desktop */}
+        <BookTable
+          bookList={bookList}
+          addToBill={handleAddToBill}
+          searchKeyWord={searchKeyWord}
+          setSearchKeyWord={setSearchKeyWord}
+          openModalDetail={openModalDetail}
+        />
+        <Bill
+          billItems={billItems}
+          setQuantity={setQuantity}
+          removeBillItem={removeBillItem}
+          onClickGoToCheckOut={handleClickGoToCheckOut}
         ></Bill>
       </div>
 
       <dialog data-book-detail className={`${st.modal} m-5`}>
         <div className=" d-flex justify-content-end">
-          <button type="button" className="btn-close" onClick={closeModalDetail} aria-label="Close"></button>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={closeModalDetail}
+            aria-label="Close"
+          ></button>
         </div>
         <ModalBookDetail currentBook={currentBook}></ModalBookDetail>
       </dialog>
-
+      <CheckOutModal
+        billItems={billItems}
+        customer={customer}
+        onClickCustomer={handleOnClickCustomer}
+        isOpen={isOpenCheckOutModal}
+        onOpen={() => {
+          setIsOpenCheckOutModal(true);
+        }}
+        onClose={() => {
+          setIsOpenCheckOutModal(false);
+        }}
+        onClickCheckOut={checkOut}
+      ></CheckOutModal>
     </>
-
   );
 };

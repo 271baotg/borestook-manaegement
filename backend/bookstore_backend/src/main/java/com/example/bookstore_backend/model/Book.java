@@ -38,12 +38,12 @@ public class Book {
     @OneToMany(mappedBy = "book")
     private List<OrderDetail> orderDetails;
 
-    public Book(Long id, String title, String author, String description, int copies, int copies_available, String category, String img) {
+    public Book(Long id, String title, String author, String description, int available, String category, String img) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.description = description;
-        this.available = copies_available;
+        this.available = available;
         this.category = category;
         this.img = img;
     }

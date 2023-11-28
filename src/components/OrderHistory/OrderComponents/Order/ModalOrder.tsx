@@ -71,22 +71,26 @@ const ModalOrder: React.FC<{
             </tr>
           </thead>
           <tbody className={st.tbody}>
-            <tr className={st.tableRow}>
-              <td className={st.tableData}>{props.currentOrder.customer.id}</td>
-              <td className={st.tableData}>
-                {props.currentOrder.customer.spent}
-              </td>
-              <td className={st.tableData}>
-                {props.currentOrder.customer.phoneNumber}
-              </td>
-              <td className={`${st.tableData} text-primary`}>
-                {props.currentOrder.customer.fullName}
-              </td>
-              <td className={st.tableData}>
-                {props.currentOrder.customer.ranking}
-              </td>
-              <td className={st.tableData}>"14/11/2023"</td>
-            </tr>
+            {props.currentOrder.customer != null && (
+              <tr className={st.tableRow}>
+                <td className={st.tableData}>
+                  {props.currentOrder.customer.id}
+                </td>
+                <td className={st.tableData}>
+                  {props.currentOrder.customer?.spent}
+                </td>
+                <td className={st.tableData}>
+                  {props.currentOrder.customer?.phoneNumber}
+                </td>
+                <td className={`${st.tableData} text-primary`}>
+                  {props.currentOrder.customer?.fullName}
+                </td>
+                <td className={st.tableData}>
+                  {props.currentOrder.customer?.ranking}
+                </td>
+                <td className={st.tableData}>"14/11/2023"</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

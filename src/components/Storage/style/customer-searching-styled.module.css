@@ -1,0 +1,24 @@
+.table__body{ 
+    overflow: 'auto';
+    max-height: 'calc(30vh - 90px)' 
+}
+
+.table__body{
+    overflow: auto;
+    max-height: calc(60vh - 150px);
+}
+
+.table__body::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.table__body::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.table__body:hover::-webkit-scrollbar-thumb{
+    visibility: visible;
+}
