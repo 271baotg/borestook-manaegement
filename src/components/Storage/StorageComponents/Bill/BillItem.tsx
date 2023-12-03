@@ -2,12 +2,19 @@ import { useState } from 'react';
 import BillItemModel from "../../../../models/BillItemModel";
 import st from '../../style/bill-item-styled.module.css';
 import React from 'react';
+import BookModel from '../../../../models/BookModel';
 
-export const BillItem: React.FC<{ billItem: BillItemModel, setQuantity: Function, removeBillItem: Function }> = (props) => {
+export const BillItem: React.FC<{ billItem: BillItemModel, setQuantity: Function, removeBillItem: Function, openMaxQtyReacedModal:Function }> = (props) => {
 
-    const book = props.billItem.book;
+    const book:BookModel = props.billItem.book;
 
     const handleIncreaseQuantity = () => {
+        if(book.available !== undefined){
+            if(props.billItem.quantity + 1 > book.available){
+                props.openMaxQtyReacedModal();
+                return;
+            }
+        }
         props.setQuantity(book?.id, props.billItem.quantity + 1);
         // setQuantity(props.billItem.quantity + 1);
     }

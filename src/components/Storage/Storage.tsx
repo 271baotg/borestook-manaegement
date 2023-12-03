@@ -8,18 +8,12 @@ import { axiosPrivate } from "../../api/axios";
 import { useAxiosPrivate } from "../../api/useAxiosHook";
 import ModalBookDetail from "../BookDetail/ModalBookDetail";
 import { useDebounce } from "../../hooks/useDebounce";
-import { Badge, Button, Card, CardBody, CardFooter, CardHeader, CardImg, CardSubtitle, CardTitle, Col, Form, InputGroup, ListGroup, ListGroupItem, Modal, Row, Table } from "react-bootstrap";
 import { CustomerModel } from "../../models/CustomerModel";
-import { SearchBar } from "../Customer/CustomerComponents/SearcherBar";
-import { CustomerTable } from "../Customer/CustomerComponents/CustomerTable";
-import { BillItem } from "./StorageComponents/Bill/BillItem";
-import customerIcon from "../../images/customer.png"
-import orderIcon from "../../images/order.png"
 import AuthContext from "../../auth/AuthProvider";
-import InputGroupText from "react-bootstrap/esm/InputGroupText";
 import { CheckOutModal } from "./StorageComponents/Modals/CheckOutModal/CheckOutModal";
 import OrderModel from "../../models/OrderModel";
 import OrderDetailModel from "../../models/OrderDetailModel";
+import { MaxQtyReachedModal } from "../../utils/components/MaxQtyReachedToast";
 
 
 export const Storage = () => {
@@ -36,6 +30,7 @@ export const Storage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [billItems, setBillItems] = useState<BillItemModel[]>([]);
   const [isOpenCheckOutModal, setIsOpenCheckOutModal] = useState<boolean>(false);
+  const [isOpenMaxQtyReachedModal, setIsOpenMaxQtyReacedModal] = useState<boolean>(false);
 
   //Customer states
   const [customer, setCustomer] = useState<CustomerModel>({});
@@ -196,6 +191,7 @@ export const Storage = () => {
           setQuantity={setQuantity}
           removeBillItem={removeBillItem}
           onClickGoToCheckOut={handleClickGoToCheckOut}
+          openMaxQtyReachedModal={()=>{setIsOpenMaxQtyReacedModal(true)}}
         ></Bill>
       </div>
       <div className={`${st.storageDesktop} d-block d-lg-none`}>
@@ -212,6 +208,7 @@ export const Storage = () => {
           setQuantity={setQuantity}
           removeBillItem={removeBillItem}
           onClickGoToCheckOut={handleClickGoToCheckOut}
+          openMaxQtyReachedModal={()=>{setIsOpenMaxQtyReacedModal(true)}}
         ></Bill>
       </div>
 
@@ -230,6 +227,8 @@ export const Storage = () => {
       onClose={()=> {setIsOpenCheckOutModal(false)}}
       onClickCheckOut={checkOut}
       ></CheckOutModal>
+      
+      <MaxQtyReachedModal isOpen = {isOpenMaxQtyReachedModal} onOpen={()=>{setIsOpenMaxQtyReacedModal(true)}} onClose={()=>{setIsOpenMaxQtyReacedModal(false)}}/>
     </>
 
   );
