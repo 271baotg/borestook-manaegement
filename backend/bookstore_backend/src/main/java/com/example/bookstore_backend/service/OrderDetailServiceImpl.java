@@ -30,4 +30,9 @@ public class OrderDetailServiceImpl implements OrderDetailService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<OrderDetail> saveListOrderDetail(List<OrderDetail> list) {
+        return repo.saveAll(list);
+    }
+
 }
