@@ -53,7 +53,6 @@ public class OrderServiceImpl implements OrderService{
 
         Customer customer = orderDTO.getCustomer();
         Order orderTemp;
-
         if (customer.getFullName() != null ){
             orderTemp = Order.builder()
                     .total(orderDTO.getTotal())

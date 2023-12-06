@@ -3,7 +3,12 @@ import BillItemModel from "../../../../models/BillItemModel";
 import st from '../../style/bill-list-style.module.css'
 import { BillItem } from "./BillItem";
 
-export const BillList: React.FC<{ billItem?: BillItemModel[], setQuantity: Function, removeBillItem:Function}> = (props) => {
+export const BillList: React.FC<{
+    billItem?: BillItemModel[],
+    setQuantity: Function,
+    removeBillItem: Function
+    openMaxQtyReacedModal: Function
+}> = (props) => {
     return (
         <main className={`${st.tableContainer} card`}>
             <section className={st.table__header}>
@@ -23,8 +28,13 @@ export const BillList: React.FC<{ billItem?: BillItemModel[], setQuantity: Funct
                     </thead>
                     <tbody>
                         {props.billItem?.map((billItem) => {
-                            return(<BillItem key={billItem.book.id} billItem={billItem} 
-                                setQuantity={props.setQuantity} removeBillItem={props.removeBillItem}/>)
+                            return (<BillItem 
+                                    key={billItem.book.id} 
+                                    billItem={billItem}
+                                    setQuantity={props.setQuantity} 
+                                    removeBillItem={props.removeBillItem}
+                                    openMaxQtyReacedModal={props.openMaxQtyReacedModal}
+                            />)
                         })}
                     </tbody>
                 </table>
