@@ -30,11 +30,11 @@ public class BookDTOMapper implements Function<Book, BookDTO> {
                 .id(book.getId())
                 .title(book.getTitle())
                 .author(book.getAuthor())
-                .category(book.getCategory())
                 .available(book.getAvailable())
                 .img(book.getImg())
                 .description(book.getDescription())
                 .price(price)
+                .categoryList(book.getListCategory())
                 .build();
         return result;
 
@@ -48,8 +48,9 @@ public class BookDTOMapper implements Function<Book, BookDTO> {
         book.setAuthor(bookDTO.getAuthor());
         book.setDescription(bookDTO.getDescription());
         book.setAvailable(bookDTO.getAvailable());
-        book.setCategory(bookDTO.getCategory());
         book.setImg(bookDTO.getImg());
+        book.setListCategory(bookDTO.getCategoryList());
+
         return book;
     }
 }

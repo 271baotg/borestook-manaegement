@@ -28,8 +28,6 @@ public class Book {
     @Column(name = "available")
     private int available;
 
-    @Column(name = "category")
-    private String category;
 
     @Column(name = "img")
     private String img;
@@ -38,14 +36,20 @@ public class Book {
     @OneToMany(mappedBy = "book")
     private List<OrderDetail> orderDetails;
 
-    public Book(Long id, String title, String author, String description, int available, String category, String img) {
-        this.id = id;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "book_category",
+                joinColumns = {@JoinColumn(name = "book_ID")},
+                inverseJoinColumns = {@JoinColumn(name = "category_ID")})
+    private List<Category> listCategory;
+
+
+    public Book(String title, String author, String description, int available, String img, List<OrderDetail> orderDetails, List<Category> listCategory) {
         this.title = title;
         this.author = author;
         this.description = description;
         this.available = available;
-        this.category = category;
         this.img = img;
+        this.orderDetails = orderDetails;
+        this.listCategory = listCategory;
     }
-
 }
