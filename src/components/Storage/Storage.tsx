@@ -141,6 +141,7 @@ export const Storage = () => {
     console.log("Customer", customer.fullName);
     console.log(`Bill: ${Math.floor(Math.random() * 100)}`);
     const listOrderDetails: OrderDetailModel[] = [];
+    let total:number = 0;
     billItems.forEach((element) => {
       element.logInfor();
       listOrderDetails.push(
@@ -148,10 +149,14 @@ export const Storage = () => {
       );
     });
 
+    listOrderDetails.forEach((element, idx)=>{
+      total += element.book.price* element.quantity;
+    })
+
     const order = new OrderModel(
       "",
       auth?.username ?? "",
-      200,
+      total,
       customer ?? null,
       listOrderDetails,
       ""
