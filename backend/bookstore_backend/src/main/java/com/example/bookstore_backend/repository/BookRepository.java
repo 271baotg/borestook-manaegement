@@ -20,4 +20,5 @@ public interface BookRepository extends JpaRepository<Book,Long> {
 
     @Query(value = "SELECT * FROM book where match(title) against(:query in natural language mode)", nativeQuery = true)
     public List<Book> findBookByTitle(String query);
+
 }

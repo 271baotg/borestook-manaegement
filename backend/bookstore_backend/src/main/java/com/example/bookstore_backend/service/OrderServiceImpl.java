@@ -12,9 +12,7 @@ import com.example.bookstore_backend.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -85,5 +83,31 @@ public class OrderServiceImpl implements OrderService{
         orderDetailService.saveListOrderDetail(listOrder);
 
         return savedOrder;
+    }
+
+    @Override
+    public Map<String, Object> getRevenueByMonthAndYear(Integer month, Integer year) {
+        Double sum = repo.fetchSumByMonthAndYearSP(month, year).get()[0];
+        Map<String, Object> res = new HashMap<>();
+
+        res.put("month", month);
+        res.put("year", year);
+        res.put("sum", sum);
+        return res;
+    }
+
+    @Override
+    public Map<String, Object> getMonthlyRevenueByYear(Integer year) {
+        Map<String, Object> res = new HashMap<>();
+        List<Object> tempResList = new ArrayList<>();
+        Double tempRevenue;
+
+        for(int i = 0; i < 12; i++){
+            tempRevenue = repo.fetchSumByMonthAndYearSP(i+1, year).get()[0];
+            tempResList.add(tempRevenue);
+        }
+        res.put("revenue", tempResList);
+
+        return res;
     }
 }
