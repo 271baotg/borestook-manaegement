@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react';
 import BillItemModel from '../../../../../../models/BillItemModel';
 import checkOutIcon from '../../../../../../images/bill.png'
 
-const CheckOutSection = styled.div`
+const CheckOutSectionStyled = styled.div`
 grid-row: 1/3;
 grid-column: 2/3;
 text-align: center;
@@ -50,7 +50,7 @@ export const CustomerInforAndCheckOut: React.FC<{customer:CustomerModel, onClick
     }
 
     return (
-        <CheckOutSection className={`${st.checkoutSection}`}>
+        <CheckOutSectionStyled className={`${st.checkoutSection}`}>
             <Card style={{ height: '100%' }}>
                 <CardHeader>
                 <Card.Img variant="left" src={checkOutIcon} width={30} height='auto'></Card.Img>
@@ -86,6 +86,6 @@ export const CustomerInforAndCheckOut: React.FC<{customer:CustomerModel, onClick
                     </div>
                 </CardFooter>
             </Card>
-        </CheckOutSection>
+        </CheckOutSectionStyled>
     )
 }

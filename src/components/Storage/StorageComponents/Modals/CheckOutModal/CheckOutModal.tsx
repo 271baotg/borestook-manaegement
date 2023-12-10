@@ -38,12 +38,11 @@ export const CheckOutModal: React.FC<{
             <Modal.Body>
                 <ModalContentContainer>
 
-                    <OrdersDetail billItems={props.billItems}></OrdersDetail>
+                    <OrdersDetail billItems={props.billItems}/>
 
-                    <CustomerInforAndCheckOut customer={props.customer} billItems={props.billItems} onClickCheckOut={props.onClickCheckOut}></CustomerInforAndCheckOut>
+                    <CustomerInforAndCheckOut customer={props.customer} billItems={props.billItems} onClickCheckOut={props.onClickCheckOut}/>
 
-                    <CustomerSearching onClickCustomer={props.onClickCustomer}
-                    ></CustomerSearching>
+                    <CustomerSearching onClickCustomer={props.onClickCustomer}/>
 
                 </ModalContentContainer>
             </Modal.Body>

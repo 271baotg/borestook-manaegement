@@ -21,9 +21,13 @@ export const Storage = () => {
   const { auth } = useContext(AuthContext);
   //Book states
   const [bookList, setBookList] = useState<BookModel[]>([]);
+  const [filteredBookList, setFilterBookList] = useState<BookModel[]>([]);
   const [currentBook, setCurrentBook] = useState<BookModel>();
+  const [category, setCategory] = useState<Category[]>([]);
+  const [currentCategoryId, setCurrentCategoryId] = useState<number>(0);
   const [searchKeyWord, setSearchKeyWord] = useState<string>("");
   const debounce = useDebounce<string>(searchKeyWord);
+
 
   //Bill states
   const [isLoading, setIsLoading] = useState(true);
@@ -35,6 +39,8 @@ export const Storage = () => {
   //Customer states
   const [customer, setCustomer] = useState<CustomerModel>({});
 
+
+  //useEffects
   useEffect(() => {
     const search = async (query: string) => {
       try {
@@ -71,6 +77,50 @@ export const Storage = () => {
     };
     search(searchKeyWord);
   }, [debounce]);
+
+  useEffect(() => {
+    const url = 'http://localhost:8081/category'
+    const getCategory = async () => {
+      const response: Category[] = await axiosPrivate.get(
+        url
+      );
+
+      if (response !== null) {
+        setCategory(response);
+      }
+    }
+    getCategory();
+  }, [])
+  
+  useEffect(()=>{
+    if(bookList.length === 0)
+      return;
+    setFilterBookList(bookList);
+  },[bookList])
+
+  useEffect(() => {
+    const filterBookListByCategory = (id: number) => {
+      if (id == 0) {
+        setFilterBookList(bookList);
+        return;
+      }
+
+      let tempBookList: BookModel[] = [];
+      bookList.forEach((item) => {
+        const itemCategory: Category[] = item.categoryList;
+        //Kiểm tra xem trong itemCategory này có category nào trùng id với id được truyền vào không;
+        for(let i = 0; i < itemCategory.length; i++){
+          if(itemCategory[i].id == id){
+            tempBookList.push(item);
+          }
+        }
+      });
+      if(tempBookList.length !== 0) {
+        setFilterBookList(tempBookList);
+      }
+    }
+    filterBookListByCategory(currentCategoryId);
+  }, [currentCategoryId])
 
   const handleClickGoToCheckOut = () => {
     if (billItems.length === 0) {
@@ -141,7 +191,7 @@ export const Storage = () => {
     console.log("Customer", customer.fullName);
     console.log(`Bill: ${Math.floor(Math.random() * 100)}`);
     const listOrderDetails: OrderDetailModel[] = [];
-    let total:number = 0;
+    let total: number = 0;
     billItems.forEach((element) => {
       element.logInfor();
       listOrderDetails.push(
@@ -149,8 +199,8 @@ export const Storage = () => {
       );
     });
 
-    listOrderDetails.forEach((element, idx)=>{
-      total += element.book.price* element.quantity;
+    listOrderDetails.forEach((element, idx) => {
+      total += element.book.price * element.quantity;
     })
 
     const order = new OrderModel(
@@ -168,7 +218,7 @@ export const Storage = () => {
         order
       );
       console.log(response);
-    } catch (e) {}
+    } catch (e) { }
 
     setBillItems([]);
     setIsOpenCheckOutModal(false);
@@ -195,35 +245,41 @@ export const Storage = () => {
         {/* Desktop */}
 
         <BookTable
-          bookList={bookList}
+          bookList={filteredBookList}
           addToBill={handleAddToBill}
           searchKeyWord={searchKeyWord}
           setSearchKeyWord={setSearchKeyWord}
           openModalDetail={openModalDetail}
+          categoryList={category}
+          currentCategory={currentCategoryId}
+          setCurrentCategory={setCurrentCategoryId}
         />
         <Bill
           billItems={billItems}
           setQuantity={setQuantity}
           removeBillItem={removeBillItem}
           onClickGoToCheckOut={handleClickGoToCheckOut}
-          openMaxQtyReachedModal={()=>{setIsOpenMaxQtyReacedModal(true)}}
+          openMaxQtyReachedModal={() => { setIsOpenMaxQtyReacedModal(true) }}
         ></Bill>
       </div>
       <div className={`${st.storageDesktop} d-block d-lg-none`}>
         {/* Desktop */}
         <BookTable
-          bookList={bookList}
+          bookList={filteredBookList}
           addToBill={handleAddToBill}
           searchKeyWord={searchKeyWord}
           setSearchKeyWord={setSearchKeyWord}
           openModalDetail={openModalDetail}
+          categoryList={category}
+          currentCategory={currentCategoryId}
+          setCurrentCategory={setCurrentCategoryId}
         />
         <Bill
           billItems={billItems}
           setQuantity={setQuantity}
           removeBillItem={removeBillItem}
           onClickGoToCheckOut={handleClickGoToCheckOut}
-          openMaxQtyReachedModal={()=>{setIsOpenMaxQtyReacedModal(true)}}
+          openMaxQtyReachedModal={() => { setIsOpenMaxQtyReacedModal(true) }}
         ></Bill>
       </div>
 
@@ -251,8 +307,8 @@ export const Storage = () => {
         }}
         onClickCheckOut={checkOut}
       ></CheckOutModal>
-      
-      <MaxQtyReachedModal isOpen = {isOpenMaxQtyReachedModal} onOpen={()=>{setIsOpenMaxQtyReacedModal(true)}} onClose={()=>{setIsOpenMaxQtyReacedModal(false)}}/>
+
+      <MaxQtyReachedModal isOpen={isOpenMaxQtyReachedModal} onOpen={() => { setIsOpenMaxQtyReacedModal(true) }} onClose={() => { setIsOpenMaxQtyReacedModal(false) }} />
     </>
   );
 };

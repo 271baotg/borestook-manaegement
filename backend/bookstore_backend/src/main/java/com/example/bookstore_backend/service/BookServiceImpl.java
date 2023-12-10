@@ -4,6 +4,7 @@ package com.example.bookstore_backend.service;
 import com.example.bookstore_backend.dto.BookDTO;
 import com.example.bookstore_backend.mapper.BookDTOMapper;
 import com.example.bookstore_backend.model.Book;
+import com.example.bookstore_backend.model.Category;
 import com.example.bookstore_backend.model.Price;
 import com.example.bookstore_backend.repository.BookRepository;
 import com.example.bookstore_backend.repository.PriceRepository;
@@ -62,6 +63,12 @@ public class BookServiceImpl implements BookService{
     public void deleteById(Long id) {
          bookRepository.deleteById(id);
 
+    }
+
+    @Override
+    public List<BookDTO> findBookByCategory(Category category) {
+        
+        return null;
     }
 
     @Override
