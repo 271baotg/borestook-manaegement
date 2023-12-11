@@ -60,10 +60,17 @@ public class OrderController {
         return orderService.getMonthlyRevenueByYear(year);
     }
 
+    @Transactional
+    @GetMapping("orders/count")
+    public Map<String, Object> getCreateOrderNumByMonthYear(@Param("month") Integer month,@Param("year") Integer year){
+        return orderService.getCreateOrderNumByMonthYear(month, year);
+    }
+
     @PostMapping("orders")
     public Order createOrder(@RequestBody OrderDTO order){
         return orderService.createOrder(order);
     }
+
 
 
 }

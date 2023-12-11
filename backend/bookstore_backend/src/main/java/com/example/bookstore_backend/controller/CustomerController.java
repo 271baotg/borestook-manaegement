@@ -3,10 +3,13 @@ package com.example.bookstore_backend.controller;
 import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.model.Customer;
 import com.example.bookstore_backend.service.CustomerServiceImpl;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -34,5 +37,10 @@ public class CustomerController {
         return customerService.update(cus);
     }
 
+    @GetMapping("customers/count")
+    @Transactional
+    public Map<String, Object> getCustomerCreatedNumberByMonthAndYear(@Param("month") Integer month,@Param("year") Integer year){
+        return customerService.getCustomerCreatedNumberByMonthAndYear(month,year);
+    }
 
 }

@@ -86,8 +86,8 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Map<String, Object> getRevenueByMonthAndYear(Integer month, Integer year) {
-        Double sum = repo.fetchSumByMonthAndYearSP(month, year).get()[0];
         Map<String, Object> res = new HashMap<>();
+        Double sum = repo.fetchSumByMonthAndYearSP(month, year).get()[0];
 
         res.put("month", month);
         res.put("year", year);
@@ -106,6 +106,18 @@ public class OrderServiceImpl implements OrderService{
             tempResList.add(tempRevenue);
         }
         res.put("revenue", tempResList);
+
+        return res;
+    }
+
+    @Override
+    public Map<String, Object> getCreateOrderNumByMonthYear(Integer month, Integer year) {
+        Map<String, Object> res = new HashMap<>();
+        Integer count = repo.getCreatedOrderNumByMonthYear(month, year).get()[0];
+
+        res.put("month", month);
+        res.put("year", year);
+        res.put("count", count);
 
         return res;
     }

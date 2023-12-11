@@ -4,6 +4,7 @@ import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.model.Customer;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -14,4 +15,6 @@ public interface CustomerService {
     void deleted(int id);
     Optional<Customer> update(Customer cus);
     List<Customer> findCustomerByQuery(String query);
+
+    Map<String, Object> getCustomerCreatedNumberByMonthAndYear(Integer month, Integer year);
 }

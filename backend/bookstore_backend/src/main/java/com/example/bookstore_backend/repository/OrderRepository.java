@@ -15,5 +15,7 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
     @Procedure(procedureName = "spGetSumByMonthAndYear")
     Optional<Double[]> fetchSumByMonthAndYearSP(Integer month, Integer year);
 
+    @Procedure(procedureName = "spCountCreatedOrderByMonthAndYear")
+    Optional<Integer[]> getCreatedOrderNumByMonthYear(Integer month, Integer year);
 
 }

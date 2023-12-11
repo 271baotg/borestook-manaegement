@@ -21,4 +21,6 @@ public interface OrderService  {
     public Map<String, Object> getRevenueByMonthAndYear(Integer month, Integer year);
 
     public Map<String, Object> getMonthlyRevenueByYear(Integer year);
+
+    public Map<String, Object> getCreateOrderNumByMonthYear(Integer month, Integer year);
 }
