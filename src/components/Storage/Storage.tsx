@@ -44,9 +44,13 @@ export const Storage = () => {
   useEffect(() => {
     const search = async (query: string) => {
       try {
+        if(auth?.token == null){
+          return;
+        }
         if (query === "") {
           const loadBook = async () => {
             try {
+              console.log(auth?.token);
               const response: BookModel[] = await axiosPrivate({
                 method: "get",
                 url: "http://localhost:8081/books",
@@ -81,13 +85,19 @@ export const Storage = () => {
   useEffect(() => {
     const url = 'http://localhost:8081/category'
     const getCategory = async () => {
-      const response: Category[] = await axiosPrivate.get(
-        url
-      );
-
-      if (response !== null) {
-        setCategory(response);
+      try{
+        const response: Category[] = await axiosPrivate.get(
+          url
+        );
+        if (response !== null) {
+          setCategory(response);
+        }
+      } catch(e){
+        console.log(e);
       }
+      
+
+      
     }
     getCategory();
   }, [])

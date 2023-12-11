@@ -32,7 +32,9 @@ const ModalBookDetail: React.FC<{ currentBook: BookModel | undefined }> = (props
 
     useEffect(() => {
         const getBook: Function = async (id: number) => {
-            console.log('id', id);
+            if(id === undefined){
+                return;
+            }
             try {
                 const url = `http://localhost:8081/books/${id}`
                 const response: BookModel = await axiosPrivate.get(
