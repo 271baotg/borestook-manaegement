@@ -25,6 +25,8 @@ import { CompareTwoValuesBoxWithArrow } from "../../utils/components/CompareTwoV
 import { axiosPrivate } from "../../api/axios";
 import BookModel from "../../models/BookModel";
 import { useAxiosPrivate } from "../../api/useAxiosHook";
+import { YearRevenueChart } from "./components/YearRevenueChart";
+import { TopBookTable } from "./components/TopBookTable";
 
 ChartJS.register(
   CategoryScale,
@@ -58,6 +60,17 @@ type MonthlyRevenueByYear = {
   revenue: number[]
 }
 
+type TopBookData = {
+  book: BookModel,
+  revenue: number,
+  sold: number;
+}
+
+enum OrderBy {
+  REVENUE,
+  SOLD
+}
+
 const Statistic: React.FC<{}> = (props) => {
   const axiosPrivate = useAxiosPrivate();
 
@@ -72,6 +85,9 @@ const Statistic: React.FC<{}> = (props) => {
   const [createdOrderLastMonth, setCreatedOrderLastMonth] = useState<number>(0);
   //CHART COUNT STATES
   const [yearRevenue, setYearRevenue] = useState<number[]>([]);
+  //TOP BOOK TABLE STATES
+  const [listTopBook, setListTopBook] = useState<TopBookData[]>([]);
+  const [orderBy, setOrderBy] = useState<OrderBy>(OrderBy.REVENUE);
 
 
   const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -124,6 +140,7 @@ const Statistic: React.FC<{}> = (props) => {
     getCurrentMonthRevenue();
     getLastMonthRevenue()
   }, []);
+
   //useEffect get created customers
   useEffect(() => {
     const getCreatedCusCurrentMonth = async () => {
@@ -219,68 +236,55 @@ const Statistic: React.FC<{}> = (props) => {
     getMonthlyRevenueByYear();
   }, []);
 
+  //useEffect get top book
+  useEffect(() => {
+    const getTopBook = async () => {
+      try {
+        const orderBySoldURL = 'top-sold-book';
+        const orderByRevenueURL = 'top-revenue-book';
+        const url = `http://localhost:8081/orders/${orderBy === OrderBy.SOLD ? orderBySoldURL : orderByRevenueURL}`
+        const response: TopBookData[] = await axiosPrivate.get(url, { params: { "limit": 10 } })
+
+
+        console.log(response);
+        if (response !== undefined) {
+          setListTopBook(response);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getTopBook();
+  }, [orderBy])
+
 
   return (
-    <>
-      <Container>
-        <Card className="p-2">
-          <Row>
-            <Col>
-              <CompareTwoValuesBoxWithArrow lable={'Month Revenue'} currentValue={revenueCurrentMonth} oldValue={revenueLastMonth} />
-            </Col>
-            <Col>
-              <CompareTwoValuesBoxWithArrow lable={'New Customer'} currentValue={createdCusCurrentMonth} oldValue={createdCusLastMonth} />
-            </Col>
-            <Col>
-              <CompareTwoValuesBoxWithArrow lable={'Order'} currentValue={createdOrderCurrentMonth} oldValue={createdOrderLastMonth} />
-            </Col>
-          </Row>
-          <Row className="mt-2 h-100">
-            <Col xs={8}>
-              <label>Year revenue</label>
-              <Line data={data}></Line>
-            </Col>
-            <Col xs>
-              {/* Table UI from Charkra */}
-              <TableContainer>
-                <Table variant={'simple'} size={'md'} overflow={'auto'}>
-                  <TableCaption>This is table caption</TableCaption>
-                  <Thead>
-                    <Tr>
-                      <Th>Title</Th>
-                      <Th>Revenue</Th>
-                      <Th>Sell</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    <Tr>
-                      <Td>Java</Td>
-                      <Td>$600</Td>
-                      <Td>120</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>GO</Td>
-                      <Td>$590</Td>
-                      <Td>110</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>C++</Td>
-                      <Td>$600</Td>
-                      <Td>120</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>Java</Td>
-                      <Td>$600</Td>
-                      <Td>120</Td>
-                    </Tr>
-                  </Tbody>
-                </Table>
-              </TableContainer>
-            </Col>
-          </Row>
-        </Card>
-      </Container>
-    </>
+    <Container fluid className="p-5">
+      <Card className="p-2">
+        <Row>
+          <Col>
+            <CompareTwoValuesBoxWithArrow lable={'Month Revenue'} currentValue={revenueCurrentMonth} oldValue={revenueLastMonth} />
+          </Col>
+          <Col>
+            <CompareTwoValuesBoxWithArrow lable={'New Customer'} currentValue={createdCusCurrentMonth} oldValue={createdCusLastMonth} />
+          </Col>
+          <Col>
+            <CompareTwoValuesBoxWithArrow lable={'Order'} currentValue={createdOrderCurrentMonth} oldValue={createdOrderLastMonth} />
+          </Col>
+        </Row>
+        <Row className="mt-2 h-100">
+          <Col lg={8} md={7} sm={12}>
+            <h3>Year Revenue</h3>
+            <YearRevenueChart yearRevenue={yearRevenue} />
+          </Col>
+          <Col lg={4} md={5}>
+            {/* Table UI from Charkra */}
+            <h3>{`Top Book`}</h3>
+            <TopBookTable listTopBook={listTopBook} orderBy={orderBy} setOrderBy={setOrderBy} />
+          </Col>
+        </Row>
+      </Card>
+    </Container>
   );
 };
 

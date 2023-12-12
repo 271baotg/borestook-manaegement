@@ -12,11 +12,9 @@ export const CompareTwoValuesBoxWithArrow: React.FC<{ lable: String, currentValu
         precentageChange = Math.round((Math.abs(curVal - oldVal) * 100 / oldVal) * 100) / 100; //Lấy 2 chữ số thập phân
     }
 
-
-
     return (
         <>
-            <Card className="p-2" variant='filled'>
+            <Card className="p-2" variant='filled' style={{minHeight: 140}}>
                 <StatGroup>
                     <Stat>
                         <StatLabel>{props.lable}</StatLabel>
