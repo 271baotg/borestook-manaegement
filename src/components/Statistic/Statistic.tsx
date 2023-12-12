@@ -3,6 +3,7 @@ import {
   Table,
   TableCaption,
   TableContainer,
+  TagLabel,
   Tbody,
   Td,
   Th,
@@ -58,6 +59,17 @@ type MonthlyRevenueByYear = {
   revenue: number[]
 }
 
+type TopBookData = {
+  book: BookModel,
+  revenue: number,
+  sold: number;
+}
+
+enum OrderBy {
+  REVENUE,
+  SOLD
+}
+
 const Statistic: React.FC<{}> = (props) => {
   const axiosPrivate = useAxiosPrivate();
 
@@ -72,6 +84,9 @@ const Statistic: React.FC<{}> = (props) => {
   const [createdOrderLastMonth, setCreatedOrderLastMonth] = useState<number>(0);
   //CHART COUNT STATES
   const [yearRevenue, setYearRevenue] = useState<number[]>([]);
+  //TOP BOOK TABLE STATES
+  const [listTopBook, setListTopBook] = useState<TopBookData[]>([]);
+  const [orderBy, setOrderBy] = useState<OrderBy>(OrderBy.REVENUE);
 
 
   const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -218,6 +233,28 @@ const Statistic: React.FC<{}> = (props) => {
     }
     getMonthlyRevenueByYear();
   }, []);
+  //useEffect get top book
+  useEffect(() => {
+    const getTopBook = async () => {
+      try {
+        const orderBySoldURL = 'top-sold-book';
+        const orderByRevenueURL = 'top-revenue-book';
+
+        const url = `http://localhost:8081/orders/${orderBy === OrderBy.SOLD ? orderBySoldURL: orderByRevenueURL}`
+
+        const response:TopBookData[] = await axiosPrivate.get(url, {params: {"limit": 10}})
+
+        if(response !== undefined){
+          setListTopBook(response);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getTopBook();
+  }, [])
+
+
 
 
   return (
@@ -237,13 +274,14 @@ const Statistic: React.FC<{}> = (props) => {
           </Row>
           <Row className="mt-2 h-100">
             <Col xs={8}>
-              <label>Year revenue</label>
+              <h3>Year revenue</h3>
               <Line data={data}></Line>
             </Col>
-            <Col xs>
+            <Col>
               {/* Table UI from Charkra */}
-              <TableContainer>
-                <Table variant={'simple'} size={'md'} overflow={'auto'}>
+              <h3>Top book</h3>
+              <TableContainer width={'fit-content'}>
+                <Table variant={'simple'} size={'sm'} overflow={'auto'}>
                   <TableCaption>This is table caption</TableCaption>
                   <Thead>
                     <Tr>
@@ -253,26 +291,15 @@ const Statistic: React.FC<{}> = (props) => {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    <Tr>
-                      <Td>Java</Td>
-                      <Td>$600</Td>
-                      <Td>120</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>GO</Td>
-                      <Td>$590</Td>
-                      <Td>110</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>C++</Td>
-                      <Td>$600</Td>
-                      <Td>120</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>Java</Td>
-                      <Td>$600</Td>
-                      <Td>120</Td>
-                    </Tr>
+                    {listTopBook.map((item, idx)=>{
+                      return(
+                        <Tr key={idx}>
+                          <Td>{item.book.title}</Td>
+                          <Td>{item.revenue}</Td>
+                          <Td>{item.sold}</Td>
+                        </Tr>
+                      )
+                    })}
                   </Tbody>
                 </Table>
               </TableContainer>

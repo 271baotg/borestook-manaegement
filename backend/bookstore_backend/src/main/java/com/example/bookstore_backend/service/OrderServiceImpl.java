@@ -148,7 +148,8 @@ public class OrderServiceImpl implements OrderService {
     public List<Map<String, Object>> getTopSoldBook(Date from, Date to, Integer limit) {
         List<Map<String, Object>> res = new ArrayList<>();
         List<BookDTO> bookList = new ArrayList<>();
-        List<Integer> qty = new ArrayList<>();
+        List<Integer> sold = new ArrayList<>();
+        List<Double> revenue = new ArrayList<>();
         List<OrderDTO> orderList = getOrderBetweenDays(from, to);
         List<OrderDetailDTO> orderDetailList = new ArrayList<>();
 
@@ -156,13 +157,14 @@ public class OrderServiceImpl implements OrderService {
                 order.getOrderDetails().forEach((orderDetail) ->
                         orderDetailList.add(orderDetail)
                 ));
-        //gán cho giá trị cho biến bookList và qty
+        //gán cho giá trị cho biến bookList và sold
         for (int i = 0; i < orderDetailList.size(); i++) {
             OrderDetailDTO o = orderDetailList.get(i);
             boolean isExists = false;
             for (int j = 0; j < bookList.size(); j++) {
                 if (bookList.get(j).getId() == o.getBook().getId()) {
-                    qty.set(j, qty.get(j) + o.getQuantity());
+                    sold.set(j, sold.get(j) + o.getQuantity());
+                    revenue.set(j, (revenue.get(j) + o.getQuantity()) * o.getBook().getPrice());
                     isExists = true;
                     break;
                 }
@@ -171,21 +173,23 @@ public class OrderServiceImpl implements OrderService {
 
             } else {
                 bookList.add(bookList.size(), o.getBook());
-                qty.add(qty.size(), o.getQuantity());
+                revenue.add(revenue.size(), o.getQuantity() * o.getBook().getPrice());
+                sold.add(sold.size(), o.getQuantity());
             }
         }
 
         for (int i = 0; i < bookList.size(); i++) {
             Map<String, Object> temp = new HashMap<>();
             temp.put("book", bookList.get(i));
-            temp.put("quantity", qty.get(i));
+            temp.put("sold", sold.get(i));
+            temp.put("revenue", revenue.get(i));
             res.add(temp);
         }
 
         res.sort(new Comparator<Map<String, Object>>() {
             @Override
             public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-                return (Integer) o2.get("quantity") - (Integer) o1.get("quantity");
+                return (Integer) o2.get("sold") - (Integer) o1.get("sold");
             }
         });
         if (limit < res.size()) {
@@ -200,6 +204,7 @@ public class OrderServiceImpl implements OrderService {
         List<Map<String, Object>> res = new ArrayList<>();
         List<BookDTO> bookList = new ArrayList<>();
         List<Double> revenue = new ArrayList<>();
+        List<Integer> sold = new ArrayList<>();
         List<OrderDTO> orderList = getOrderBetweenDays(from, to);
         List<OrderDetailDTO> orderDetailList = new ArrayList<>();
 
@@ -207,12 +212,13 @@ public class OrderServiceImpl implements OrderService {
                 order.getOrderDetails().forEach((orderDetail) ->
                         orderDetailList.add(orderDetail)
                 ));
-        //gán cho giá trị cho biến bookList và qty
+        //gán cho giá trị cho biến bookList và sold
         for (int i = 0; i < orderDetailList.size(); i++) {
             OrderDetailDTO o = orderDetailList.get(i);
             boolean isExists = false;
             for (int j = 0; j < bookList.size(); j++) {
                 if (bookList.get(j).getId() == o.getBook().getId()) {
+                    sold.set(j, sold.get(j) + o.getQuantity());
                     revenue.set(j, (revenue.get(j) + o.getQuantity()) * o.getBook().getPrice());
                     isExists = true;
                     break;
@@ -222,13 +228,15 @@ public class OrderServiceImpl implements OrderService {
 
             } else {
                 bookList.add(bookList.size(), o.getBook());
-                revenue.add(revenue.size(), o.getQuantity()*o.getBook().getPrice());
+                revenue.add(revenue.size(), o.getQuantity() * o.getBook().getPrice());
+                sold.add(sold.size(), o.getQuantity());
             }
         }
 
         for (int i = 0; i < bookList.size(); i++) {
             Map<String, Object> temp = new HashMap<>();
             temp.put("book", bookList.get(i));
+            temp.put("sold", sold.get(i));
             temp.put("revenue", revenue.get(i));
             res.add(temp);
         }
@@ -236,7 +244,7 @@ public class OrderServiceImpl implements OrderService {
         res.sort(new Comparator<Map<String, Object>>() {
             @Override
             public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-                if((Double) o2.get("revenue") - (Double) o1.get("revenue") >= 0 ){
+                if ((Double) o2.get("revenue") - (Double) o1.get("revenue") >= 0) {
                     return 1;
                 }
                 return -1;
