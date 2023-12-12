@@ -56,8 +56,15 @@ public class OrderController {
         Date from = new Date(2000-1900, 0,1);
         Date to = new Date(3000-1900, 0,1);
 
-
         return orderService.getTopSoldBook(from, to, limit);
+    }
+
+    @GetMapping("orders/top-revenue-book")
+    public List<Map<String, Object>> getRevenueSoldBook(@Param("limit") Integer limit){
+        Date from = new Date(2000-1900, 0,1);
+        Date to = new Date(3000-1900, 0,1);
+
+        return orderService.getTopRevenueBook(from, to, limit);
     }
 
     @GetMapping("orders/get-between")

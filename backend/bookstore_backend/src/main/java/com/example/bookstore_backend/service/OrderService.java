@@ -23,4 +23,5 @@ public interface OrderService  {
 
     public Map<String, Object> getCreateOrderNumByMonthYear(Integer month, Integer year);
     public List<Map<String, Object>> getTopSoldBook(Date from, Date to, Integer limit);
+    public List<Map<String, Object>> getTopRevenueBook(Date from, Date to, Integer limit);
 }
