@@ -3,6 +3,7 @@ import {
   Table,
   TableCaption,
   TableContainer,
+  TagLabel,
   Tbody,
   Td,
   Th,
@@ -235,6 +236,28 @@ const Statistic: React.FC<{}> = (props) => {
     }
     getMonthlyRevenueByYear();
   }, []);
+  //useEffect get top book
+  useEffect(() => {
+    const getTopBook = async () => {
+      try {
+        const orderBySoldURL = 'top-sold-book';
+        const orderByRevenueURL = 'top-revenue-book';
+
+        const url = `http://localhost:8081/orders/${orderBy === OrderBy.SOLD ? orderBySoldURL: orderByRevenueURL}`
+
+        const response:TopBookData[] = await axiosPrivate.get(url, {params: {"limit": 10}})
+
+        if(response !== undefined){
+          setListTopBook(response);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getTopBook();
+  }, [])
+
+
 
   //useEffect get top book
   useEffect(() => {
@@ -285,6 +308,7 @@ const Statistic: React.FC<{}> = (props) => {
         </Row>
       </Card>
     </Container>
+
   );
 };
 

@@ -175,6 +175,7 @@ public class OrderServiceImpl implements OrderService {
                 bookList.add(bookList.size(), o.getBook());
                 sold.add(sold.size(), o.getQuantity());
                 revenue.add(revenue.size(), o.getQuantity()*o.getBook().getPrice());
+
             }
         }
 
@@ -220,6 +221,7 @@ public class OrderServiceImpl implements OrderService {
                 if (bookList.get(j).getId() == o.getBook().getId()) {
                     sold.set(j, sold.get(j) + o.getQuantity());
                     revenue.set(j, revenue.get(j) + o.getQuantity() * o.getBook().getPrice());
+
                     isExists = true;
                     break;
                 }
@@ -231,12 +233,14 @@ public class OrderServiceImpl implements OrderService {
                 revenue.add(revenue.size(), o.getQuantity()*o.getBook().getPrice());
                 sold.add(sold.size(), o.getQuantity());
 
+
             }
         }
 
         for (int i = 0; i < bookList.size(); i++) {
             Map<String, Object> temp = new HashMap<>();
             temp.put("book", bookList.get(i));
+            temp.put("sold", sold.get(i));
             temp.put("revenue", revenue.get(i));
             temp.put("sold", sold.get(i));
             res.add(temp);
@@ -245,7 +249,7 @@ public class OrderServiceImpl implements OrderService {
         res.sort(new Comparator<Map<String, Object>>() {
             @Override
             public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-                if((Double) o2.get("revenue") - (Double) o1.get("revenue") >= 0 ){
+                if ((Double) o2.get("revenue") - (Double) o1.get("revenue") >= 0) {
                     return 1;
                 }
                 return -1;
