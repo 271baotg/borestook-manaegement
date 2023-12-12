@@ -1,6 +1,8 @@
 package com.example.bookstore_backend.service;
 
+import com.example.bookstore_backend.dto.BookDTO;
 import com.example.bookstore_backend.dto.OrderDTO;
+import com.example.bookstore_backend.dto.OrderDetailDTO;
 import com.example.bookstore_backend.mapper.BookDTOMapper;
 import com.example.bookstore_backend.mapper.OrderDTOMapper;
 import com.example.bookstore_backend.mapper.OrderDetailDTOMapper;
@@ -11,9 +13,11 @@ import com.example.bookstore_backend.model.OrderDetail;
 import com.example.bookstore_backend.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -40,6 +44,24 @@ public class OrderServiceImpl implements OrderService{
                 .map(orderDTOMapper)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<OrderDTO> getOrderBetweenDays(Date from, Date to) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String fromDateToString = formatter.format(from);
+        String toDateToString = formatter.format(to);
+
+
+        List<Order> data = repo.findOrderBetweenDays(fromDateToString, toDateToString);
+        List<OrderDTO> res = data
+                .stream()
+                .map(orderDTOMapper)
+                .collect(Collectors.toList());
+
+        return res;
+
+    }
+
 
     @Override
     public Optional<Order> orderById(Long id) {
@@ -84,6 +106,8 @@ public class OrderServiceImpl implements OrderService{
         return savedOrder;
     }
 
+
+
     @Override
     public Map<String, Object> getRevenueByMonthAndYear(Integer month, Integer year) {
         Map<String, Object> res = new HashMap<>();
@@ -120,5 +144,56 @@ public class OrderServiceImpl implements OrderService{
         res.put("count", count);
 
         return res;
+    }
+
+    public List<Map<String, Object>> getTopSoldBook(Date from, Date to, Integer limit){
+            List<Map<String, Object>> res = new ArrayList<>();
+            List<BookDTO> bookList = new ArrayList<>();
+            List<Integer> qty = new ArrayList<>();
+            List<OrderDTO> orderList = getOrderBetweenDays(from, to);
+            List<OrderDetailDTO> orderDetailList = new ArrayList<>();
+
+            orderList.forEach((order)->
+                    order.getOrderDetails().forEach((orderDetail)->
+                            orderDetailList.add(orderDetail)
+                    ));
+            //gán cho giá trị cho biến bookList và qty
+            for(int i = 0; i < orderDetailList.size(); i++) {
+                OrderDetailDTO o = orderDetailList.get(i);
+                boolean isExists = false;
+                for(int j = 0; j < bookList.size(); j++){
+                    if(bookList.get(j).getId() == o.getBook().getId()){
+                        qty.set(j, qty.get(j) + o.getQuantity());
+                        isExists = true;
+                        break;
+                    }
+                }
+                if(isExists){
+
+                } else{
+                    bookList.add(bookList.size(), o.getBook());
+                    qty.add(qty.size(), o.getQuantity());
+                }
+            }
+
+            for(int i = 0; i < bookList.size(); i++){
+                Map<String, Object> temp = new HashMap<>();
+                temp.put("book", bookList.get(i));
+                temp.put("quantity", qty.get(i));
+                res.add(temp);
+            }
+
+            res.sort(new Comparator<Map<String, Object>>() {
+                @Override
+                public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                    return (Integer) o2.get("quantity") - (Integer)o1.get("quantity");
+                }
+            });
+            if(limit < res.size()){
+                res = res.subList(0, limit);
+            }
+
+            return res;
+
     }
 }

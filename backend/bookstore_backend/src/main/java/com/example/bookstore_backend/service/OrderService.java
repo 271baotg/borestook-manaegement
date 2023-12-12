@@ -5,10 +5,7 @@ import com.example.bookstore_backend.model.Order;
 import com.example.bookstore_backend.model.OrderDetail;
 
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 
 public interface OrderService  {
@@ -18,9 +15,12 @@ public interface OrderService  {
 
     public Order createOrder(OrderDTO orderDTO);
 
+    public List<OrderDTO> getOrderBetweenDays(Date from, Date to);
+
     public Map<String, Object> getRevenueByMonthAndYear(Integer month, Integer year);
 
     public Map<String, Object> getMonthlyRevenueByYear(Integer year);
 
     public Map<String, Object> getCreateOrderNumByMonthYear(Integer month, Integer year);
+    public List<Map<String, Object>> getTopSoldBook(Date from, Date to, Integer limit);
 }

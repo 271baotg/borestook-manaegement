@@ -1,5 +1,6 @@
 package com.example.bookstore_backend.controller;
 
+import com.example.bookstore_backend.dto.BookDTO;
 import com.example.bookstore_backend.dto.OrderDTO;
 import com.example.bookstore_backend.dto.OrderDetailDTO;
 import com.example.bookstore_backend.model.Book;
@@ -12,9 +13,11 @@ import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +49,24 @@ public class OrderController {
     @GetMapping("orderdetail/{id}")
     public List<OrderDetailDTO> getListOrderDetailFromOrderId(@PathVariable("id") Long id){
         return orderDetailService.getOrderDetailFromOrderId(id);
+    }
+
+    @GetMapping("orders/top-sold-book")
+    public List<Map<String, Object>> getTopSoldBook(@Param("limit") Integer limit){
+        Date from = new Date(2000-1900, 0,1);
+        Date to = new Date(3000-1900, 0,1);
+
+
+        return orderService.getTopSoldBook(from, to, limit);
+    }
+
+    @GetMapping("orders/get-between")
+    public List<OrderDTO> getOrderBetweenDays(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                  @Param("from") Date from,
+                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                              @Param("to") Date to) {
+
+        return orderService.getOrderBetweenDays(from, to);
     }
 
     @Transactional

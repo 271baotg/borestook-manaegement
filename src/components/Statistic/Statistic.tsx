@@ -226,17 +226,18 @@ const Statistic: React.FC<{}> = (props) => {
         <Card className="p-2">
           <Row>
             <Col>
-              <CompareTwoValuesBoxWithArrow lable={'Month revenue'} currentValue={revenueCurrentMonth} oldValue={revenueLastMonth} />
+              <CompareTwoValuesBoxWithArrow lable={'Month Revenue'} currentValue={revenueCurrentMonth} oldValue={revenueLastMonth} />
             </Col>
             <Col>
-              <CompareTwoValuesBoxWithArrow lable={'New customer'} currentValue={createdCusCurrentMonth} oldValue={createdCusLastMonth} />
+              <CompareTwoValuesBoxWithArrow lable={'New Customer'} currentValue={createdCusCurrentMonth} oldValue={createdCusLastMonth} />
             </Col>
             <Col>
               <CompareTwoValuesBoxWithArrow lable={'Order'} currentValue={createdOrderCurrentMonth} oldValue={createdOrderLastMonth} />
             </Col>
           </Row>
-          <Row className="mt-2">
+          <Row className="mt-2 h-100">
             <Col xs={8}>
+              <label>Year revenue</label>
               <Line data={data}></Line>
             </Col>
             <Col xs>
