@@ -41,7 +41,6 @@ public class OrderController {
     }
 
     @GetMapping("orders/{id}")
-
     public Optional<Order> findOrder(@PathVariable("id") Long id){
         return orderService.orderById(id);
     }
@@ -99,6 +98,8 @@ public class OrderController {
         return orderService.createOrder(order);
     }
 
-
-
+    @GetMapping("orders/username/{username}")
+    public List<Order> findOrderByUsername(@PathVariable("username") String username){
+        return orderService.findOrderByUserName(username);
+    }
 }

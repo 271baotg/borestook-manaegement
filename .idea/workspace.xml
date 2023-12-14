@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b1cd050-2373-4784-9991-b58d2257a597" name="Changes" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/auth/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/auth/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/BookService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/BookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/BookServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/resources/application.properties" afterDir="false" />
+>>>>>>> 8aef952e3fd1d5855b201ba34178134ac9928691
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +51,7 @@
     "ts.external.directory.path": "E:\\NAM3\\KY1\\DOAN-BOOKSTORE\\borestook-management\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -63,7 +72,8 @@
       <workItem from="1700015305384" duration="21000" />
       <workItem from="1700015757225" duration="943000" />
       <workItem from="1701858382430" duration="234000" />
-      <workItem from="1702435264172" duration="86000" />
+      <workItem from="1702428940633" duration="119000" />
+      <workItem from="1702483898881" duration="599000" />
     </task>
     <servers />
   </component>

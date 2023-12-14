@@ -6,6 +6,7 @@ import com.example.bookstore_backend.dto.OrderDetailDTO;
 import com.example.bookstore_backend.mapper.BookDTOMapper;
 import com.example.bookstore_backend.mapper.OrderDTOMapper;
 import com.example.bookstore_backend.mapper.OrderDetailDTOMapper;
+
 import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.model.Customer;
 import com.example.bookstore_backend.model.Order;
@@ -27,13 +28,20 @@ public class OrderServiceImpl implements OrderService {
     OrderDTOMapper orderDTOMapper;
     OrderDetailDTOMapper orderDetailDTOMapper;
     OrderDetailService orderDetailService;
+    BookService bookService;
 
-    public OrderServiceImpl(OrderRepository repo, OrderDTOMapper orderDTOMapper, OrderDetailDTOMapper orderDetailDTOMapper, OrderDetailService orderDetailService, BookDTOMapper bookDTOMapper) {
+    public OrderServiceImpl(OrderRepository repo,
+                            OrderDTOMapper orderDTOMapper,
+                            OrderDetailDTOMapper orderDetailDTOMapper,
+                            OrderDetailService orderDetailService,
+                            BookDTOMapper bookDTOMapper,
+                            BookService bookService) {
         this.repo = repo;
         this.orderDTOMapper = orderDTOMapper;
         this.orderDetailDTOMapper = orderDetailDTOMapper;
         this.orderDetailService = orderDetailService;
         this.bookDTOMapper = bookDTOMapper;
+        this.bookService = bookService;
     }
 
 
@@ -96,8 +104,15 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderDetail> listOrder = orderDTO.getOrderDetails().stream()
                 .map(orderDetailDTO -> {
+                    long bookId = orderDetailDTO.getBook().getId();
+                    Book optionalBook = bookService.findById(bookId)
+                            .orElseThrow(() -> new RuntimeException("Book with ID " + bookId + " not found"));
+                    int newAvailable = optionalBook.getAvailable() - orderDetailDTO.getQuantity();
+                    optionalBook.setAvailable(newAvailable);
+                    Book updatedBook = bookService.update(optionalBook);
                     Book book = bookDTOMapper.mapToBook(orderDetailDTO.getBook());
-                    return new OrderDetail(savedOrder, book, orderDetailDTO.getQuantity());
+                    book.setAvailable(newAvailable);
+                    return new OrderDetail(savedOrder,book,orderDetailDTO.getQuantity());
                 })
                 .collect(Collectors.toList());
 
@@ -260,5 +275,9 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return res;
+    }
+    @Override
+    public List<Order> findOrderByUserName(String userName) {
+        return repo.findOrdersByUsername(userName);
     }
 }
