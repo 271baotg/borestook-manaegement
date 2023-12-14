@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b1cd050-2373-4784-9991-b58d2257a597" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/dto/BookDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/dto/BookDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/mapper/BookDTOMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/mapper/BookDTOMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/model/Book.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,12 +33,13 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "An",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/NAM3/KY1/DOAN-BOOKSTORE/borestook-management",
+    "last_opened_file_path": "E:/NAM3/KY1/DOAN-BOOKSTORE/borestook-management/backend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "E:\\NAM3\\KY1\\DOAN-BOOKSTORE\\borestook-management\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -65,6 +63,7 @@
       <workItem from="1700015305384" duration="21000" />
       <workItem from="1700015757225" duration="943000" />
       <workItem from="1701858382430" duration="234000" />
+      <workItem from="1702435264172" duration="86000" />
     </task>
     <servers />
   </component>

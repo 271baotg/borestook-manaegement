@@ -7,10 +7,10 @@ import { ChakraProvider } from "@chakra-ui/react";
 const App = () => {
   return (
     <ChakraProvider>
-      <AuthProvider>
-        <GlobalStyle />
-        <Routes />
-      </AuthProvider>
+        <AuthProvider>
+          <GlobalStyle />
+          <Routes />
+        </AuthProvider>
     </ChakraProvider>
   );
 };

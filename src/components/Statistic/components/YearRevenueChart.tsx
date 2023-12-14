@@ -1,6 +1,6 @@
-import { ChartData } from "chart.js"
+import { BarElement, ChartData } from "chart.js"
 import { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2"
+import { Bar, Line } from "react-chartjs-2"
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -12,6 +12,7 @@ import {
 import { HookCallbacks } from "async_hooks";
   
   ChartJS.register(
+        BarElement,
       CategoryScale,
       LinearScale,
       PointElement,
@@ -37,6 +38,6 @@ export const YearRevenueChart: React.FC<{yearRevenue: number[]}> = (props) => {
     };
 
     return (
-        <Line data={data}></Line>
+        <Bar data={data}></Bar>
     )
 }

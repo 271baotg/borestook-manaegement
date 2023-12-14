@@ -14,6 +14,7 @@ import { CheckOutModal } from "./StorageComponents/Modals/CheckOutModal/CheckOut
 import OrderModel from "../../models/OrderModel";
 import OrderDetailModel from "../../models/OrderDetailModel";
 import { MaxQtyReachedModal } from "../../utils/components/MaxQtyReachedToast";
+import { CheckOutResultModal } from "./StorageComponents/Modals/CheckOutResultModal/CheckOutResultModal";
 
 export const Storage = () => {
   useAxiosPrivate();
@@ -28,23 +29,37 @@ export const Storage = () => {
   const [searchKeyWord, setSearchKeyWord] = useState<string>("");
   const debounce = useDebounce<string>(searchKeyWord);
 
-
   //Bill states
   const [isLoading, setIsLoading] = useState(true);
   const [billItems, setBillItems] = useState<BillItemModel[]>([]);
+  //Modal state
   const [isOpenCheckOutModal, setIsOpenCheckOutModal] = useState<boolean>(false);
   const [isOpenMaxQtyReachedModal, setIsOpenMaxQtyReacedModal] = useState<boolean>(false);
-
-
+  const [isOpenCheckOutResultModal, setIsOpenCheckOutResultModal] = useState<boolean>(false);
+  const [isCheckOutSuccess, setIsCheckOutSuccess] = useState<boolean>(false);
   //Customer states
   const [customer, setCustomer] = useState<CustomerModel>({});
+
+  //
+  const getAllBook = async () => {
+    try {
+      const response: BookModel[] = await axiosPrivate({
+        method: "get",
+        url: "http://localhost:8081/books",
+      });
+      const list = response as BookModel[];
+      setBookList(list);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
   //useEffects
   useEffect(() => {
     const search = async (query: string) => {
       try {
-        if(auth?.token == null){
+        if (auth?.token == null) {
           return;
         }
         if (query === "") {
@@ -85,28 +100,28 @@ export const Storage = () => {
   useEffect(() => {
     const url = 'http://localhost:8081/category'
     const getCategory = async () => {
-      try{
+      try {
         const response: Category[] = await axiosPrivate.get(
           url
         );
         if (response !== null) {
           setCategory(response);
         }
-      } catch(e){
+      } catch (e) {
         console.log(e);
       }
-      
 
-      
+
+
     }
     getCategory();
   }, [])
-  
-  useEffect(()=>{
-    if(bookList.length === 0)
+
+  useEffect(() => {
+    if (bookList.length === 0)
       return;
     setFilterBookList(bookList);
-  },[bookList])
+  }, [bookList])
 
   useEffect(() => {
     const filterBookListByCategory = (id: number) => {
@@ -119,13 +134,13 @@ export const Storage = () => {
       bookList.forEach((item) => {
         const itemCategory: Category[] = item.categoryList;
         //Kiểm tra xem trong itemCategory này có category nào trùng id với id được truyền vào không;
-        for(let i = 0; i < itemCategory.length; i++){
-          if(itemCategory[i].id == id){
+        for (let i = 0; i < itemCategory.length; i++) {
+          if (itemCategory[i].id == id) {
             tempBookList.push(item);
           }
         }
       });
-      if(tempBookList.length !== 0) {
+      if (tempBookList.length !== 0) {
         setFilterBookList(tempBookList);
       }
     }
@@ -197,6 +212,7 @@ export const Storage = () => {
     modal.close();
   };
 
+
   const checkOut = async () => {
     console.log("Customer", customer.fullName);
     console.log(`Bill: ${Math.floor(Math.random() * 100)}`);
@@ -227,11 +243,19 @@ export const Storage = () => {
         "http://localhost:8081/orders",
         order
       );
-      console.log(response);
-    } catch (e) { }
+      setIsCheckOutSuccess(true);
+      setIsOpenCheckOutResultModal(true);
+      setBillItems([]);
+      setIsOpenCheckOutModal(false);
+      getAllBook();
 
-    setBillItems([]);
-    setIsOpenCheckOutModal(false);
+    } catch (e) {
+      console.log(e);
+      setIsCheckOutSuccess(false);
+      setIsOpenCheckOutResultModal(true);
+    }
+
+
   };
 
   // if (isLoading) {
@@ -304,7 +328,7 @@ export const Storage = () => {
         </div>
         <ModalBookDetail currentBook={currentBook}></ModalBookDetail>
       </dialog>
-      <CheckOutModal
+      {isOpenCheckOutModal&&<CheckOutModal
         billItems={billItems}
         customer={customer}
         onClickCustomer={handleOnClickCustomer}
@@ -316,9 +340,10 @@ export const Storage = () => {
           setIsOpenCheckOutModal(false);
         }}
         onClickCheckOut={checkOut}
-      ></CheckOutModal>
+      ></CheckOutModal>}
+      {isOpenCheckOutResultModal && <CheckOutResultModal isSuccess={isCheckOutSuccess} isOpen={isOpenCheckOutResultModal} onClose={() => { setIsOpenCheckOutResultModal(false) }} />}
+      {isOpenCheckOutModal && <MaxQtyReachedModal isOpen={isOpenMaxQtyReachedModal} onOpen={() => { setIsOpenMaxQtyReacedModal(true) }} onClose={() => { setIsOpenMaxQtyReacedModal(false) }} />}
 
-      <MaxQtyReachedModal isOpen={isOpenMaxQtyReachedModal} onOpen={() => { setIsOpenMaxQtyReacedModal(true) }} onClose={() => { setIsOpenMaxQtyReacedModal(false) }} />
     </>
   );
 };
