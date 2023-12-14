@@ -9,12 +9,14 @@ export const BillItem: React.FC<{ billItem: BillItemModel, setQuantity: Function
     const book:BookModel = props.billItem.book;
 
     const handleIncreaseQuantity = () => {
-        if(book.available !== undefined){
-            if(props.billItem.quantity + 1 > book.available){
-                props.openMaxQtyReacedModal();
-                return;
-            }
-        }
+        // if(book.available !== undefined){
+        //     if(props.billItem.quantity + 1 > book.available){
+        //         props.openMaxQtyReacedModal();
+        //         return;
+        //     }
+        // }else{
+        //     return;
+        // }
         props.setQuantity(book?.id, props.billItem.quantity + 1);
         // setQuantity(props.billItem.quantity + 1);
     }

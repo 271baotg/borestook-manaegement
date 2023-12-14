@@ -184,6 +184,7 @@ export const Storage = () => {
   };
 
   const setQuantity = (id: number, quantity: number) => {
+    console.log("quantity", quantity);
     if (quantity === 0) {
       removeBillItem(id);
       return;
@@ -348,7 +349,6 @@ export const Storage = () => {
       ></CheckOutModal>}
       {isOpenCheckOutResultModal && <CheckOutResultModal isSuccess={isCheckOutSuccess} isOpen={isOpenCheckOutResultModal} onClose={() => { setIsOpenCheckOutResultModal(false) }} />}
       {isOpenMaxQtyReachedModal && <MaxQtyReachedModal isOpen={isOpenMaxQtyReachedModal} onOpen={() => { setIsOpenMaxQtyReacedModal(true) }} onClose={() => { setIsOpenMaxQtyReacedModal(false) }} />}
-
     </>
   );
 };
