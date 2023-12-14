@@ -2,7 +2,6 @@
 
 # dependencies
 /node_modules
-/backend/bookstore_backend/src/main/resources/application.properties
 
 
 # testing

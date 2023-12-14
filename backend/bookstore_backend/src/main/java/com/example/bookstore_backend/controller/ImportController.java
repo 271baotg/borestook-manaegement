@@ -1,5 +1,6 @@
 package com.example.bookstore_backend.controller;
 
+import com.example.bookstore_backend.dto.ImportDTO;
 import com.example.bookstore_backend.model.Import;
 import com.example.bookstore_backend.model.ImportDetail;
 import com.example.bookstore_backend.repository.ImportDetailRepository;
@@ -23,7 +24,7 @@ public class ImportController {
     }
 
     @GetMapping("imports")
-    List<Import> findAllImport(){
+    List<ImportDTO> findAllImport(){
         return importService.findAll();
     }
 
@@ -33,7 +34,7 @@ public class ImportController {
     }
 
     @PostMapping("imports")
-    Import createImport(@RequestBody Import anImport){
+    Import createImport(@RequestBody ImportDTO anImport){
         return importService.create(anImport);
     }
 }

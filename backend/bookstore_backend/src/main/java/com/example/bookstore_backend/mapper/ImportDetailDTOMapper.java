@@ -1,4 +1,5 @@
 package com.example.bookstore_backend.mapper;
+import com.example.bookstore_backend.dto.BookDTO;
 import com.example.bookstore_backend.dto.ImportDetailDTO;
 import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.model.ImportDetail;
@@ -29,5 +30,19 @@ public class ImportDetailDTOMapper implements Function<ImportDetail, ImportDetai
                 .total(importDetail.getQuantity()* importDetail.getUnitPrice())
                 .build();
 
+    }
+
+    public ImportDetail mapToImport(ImportDetailDTO importDetailDTO) {
+        Book book;
+        book = bookRepository.findById(importDetailDTO.getBookID())
+                        .orElseThrow(() -> new RuntimeException("Book with ID " + importDetailDTO.getBookID() + " not found"));
+
+
+
+        return ImportDetail.builder()
+                .quantity(importDetailDTO.getQuantity())
+                .book(book)
+                .unitPrice(importDetailDTO.getUnitPrice())
+                .build();
     }
 }
