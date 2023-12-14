@@ -1,6 +1,7 @@
 package com.example.bookstore_backend.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class User  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    int id;
+    Long id;
 
     @Column(name = "username", unique = true, nullable = false)
     String username;
@@ -39,6 +40,7 @@ public class User  implements UserDetails {
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
     public User(String username, String password, String fullname) {
@@ -48,6 +50,7 @@ public class User  implements UserDetails {
 
     }
 
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
@@ -56,22 +59,25 @@ public class User  implements UserDetails {
 
 
 
-
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

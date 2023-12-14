@@ -4,10 +4,7 @@ import com.example.bookstore_backend.dto.OrderDTO;
 import com.example.bookstore_backend.mapper.BookDTOMapper;
 import com.example.bookstore_backend.mapper.OrderDTOMapper;
 import com.example.bookstore_backend.mapper.OrderDetailDTOMapper;
-import com.example.bookstore_backend.model.Book;
-import com.example.bookstore_backend.model.Customer;
-import com.example.bookstore_backend.model.Order;
-import com.example.bookstore_backend.model.OrderDetail;
+import com.example.bookstore_backend.model.*;
 import com.example.bookstore_backend.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -84,5 +81,10 @@ public class OrderServiceImpl implements OrderService{
         orderDetailService.saveListOrderDetail(listOrder);
 
         return savedOrder;
+    }
+
+    @Override
+    public List<Order> findOrderByUserName(String userName) {
+        return repo.findOrdersByUsername(userName);
     }
 }
