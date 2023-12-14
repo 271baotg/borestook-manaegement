@@ -1,9 +1,11 @@
-import { Input, Table, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
+import { Input, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { cp } from "node:fs";
 import { isTypedArray } from "node:util/types";
 import Papa from "papaparse";
 import { Button, Col, Row } from "react-bootstrap";
 import { ImportBookItem } from "./utils/ImportBookItem";
+import { ImportModel } from "../../../models/ImportModel";
+import { ImportDetailModel } from "../../../models/ImportDetailModel";
 
 
 const HEADER_NAME = {
@@ -13,9 +15,9 @@ const HEADER_NAME = {
     PriceHeader: "UNIT PRICE",
     QuantityHeader: "QTY",
     TotalHeader: "TOTAL",
-    ProviderHeader:"PROVIDER"
+    ProviderHeader: "PROVIDER"
 }
-export const ImportBook: React.FC<{ userImportList: ImportBookItem[], setUserImportList: Function }> = (props) => {
+export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport: Function, userImportList: ImportBookItem[], setUserImportList: Function }> = (props) => {
     const handleImportCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target && e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
@@ -39,13 +41,13 @@ export const ImportBook: React.FC<{ userImportList: ImportBookItem[], setUserImp
                                     alert("Data format is wrong");
                                     return;
                                 }
-                                if (rawCSV[1][0] != HEADER_NAME.IndexHeader 
+                                if (rawCSV[1][0] != HEADER_NAME.IndexHeader
                                     || rawCSV[1][1] != HEADER_NAME.BookIdHeader
                                     || rawCSV[1][2] != HEADER_NAME.BookTitleHeader
                                     || rawCSV[1][3] != HEADER_NAME.PriceHeader
                                     || rawCSV[1][4] != HEADER_NAME.QuantityHeader
                                     || rawCSV[1][5] != HEADER_NAME.TotalHeader
-                                    ) {
+                                ) {
                                     alert("Data header is wrong");
                                     return;
                                 }
@@ -90,9 +92,40 @@ export const ImportBook: React.FC<{ userImportList: ImportBookItem[], setUserImp
         }
     }
 
+    const handleOnClickApply = () => {
+        const data: ImportDetailModel[] = props.userImportList.map((item, idx) => {
+            return new ImportDetailModel(item.book_id, item.price, item.qty, item.title);
+        })
+        props.handleApplyImport(data, "Fake provider");
+    }
+
     return (
         <Row>
-            <Col lg={6}>1</Col>
+            <Col lg={6}>
+                <Table>
+                    <Thead>
+                        <Tr>
+                            <Th>ID</Th>
+                            <Th>PROVIDER</Th>
+                            <Th>CREATE DATE</Th>
+                            <Th>TOTAL</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {props.importList.map((item, idx) => {
+                            return (
+                                <Tr key={idx}>
+                                    <Td>{item.id}</Td>
+                                    <Td>{item.provider}</Td>
+                                    <Td>{item.create_date}</Td>
+                                    <Td>{item.total ?? 'NULL'}</Td>
+                                </Tr>
+                            )
+                        })}
+
+                    </Tbody>
+                </Table>
+            </Col>
             <Col>
                 <Row>
                     <label className="btn btn-warning" htmlFor="import_input">
@@ -128,7 +161,7 @@ export const ImportBook: React.FC<{ userImportList: ImportBookItem[], setUserImp
 
                         </Tbody>
                     </Table>
-                    <Button style={{ width: 'fit-content', }}>APPLY</Button>
+                    <Button onClick={handleOnClickApply} style={{ width: 'fit-content', }}>APPLY</Button>
                 </Row>
             </Col>
         </Row>
