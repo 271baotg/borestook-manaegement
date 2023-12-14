@@ -54,6 +54,11 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    public Book update(Book book) {
+        return bookRepository.save(book);
+    }
+
+    @Override
     public Book update(BookDTO bookDTO) {
         Book book = bookDTOMapper.mapToBook(bookDTO);
         return bookRepository.save(book);
@@ -77,6 +82,14 @@ public class BookServiceImpl implements BookService{
                 .stream()
                 .map(bookDTOMapper)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Book> findById(long id) {
+
+            if(bookRepository.findById(id).isPresent())
+                return Optional.of(bookRepository.findById(id).get());
+            else return Optional.empty();
     }
 
     public Optional<BookDTO> Get(Long id){

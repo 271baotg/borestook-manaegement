@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b1cd050-2373-4784-9991-b58d2257a597" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/dto/BookDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/dto/BookDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/mapper/BookDTOMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/mapper/BookDTOMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/model/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/auth/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/auth/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/BookService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/BookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/BookServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/java/com/example/bookstore_backend/service/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/bookstore_backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bookstore_backend/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,22 +31,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "An",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/NAM3/KY1/DOAN-BOOKSTORE/borestook-management",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;An&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/NAM3/KY1/DOAN-BOOKSTORE/borestook-management&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -65,6 +67,8 @@
       <workItem from="1700015305384" duration="21000" />
       <workItem from="1700015757225" duration="943000" />
       <workItem from="1701858382430" duration="234000" />
+      <workItem from="1702428940633" duration="119000" />
+      <workItem from="1702483898881" duration="599000" />
     </task>
     <servers />
   </component>
