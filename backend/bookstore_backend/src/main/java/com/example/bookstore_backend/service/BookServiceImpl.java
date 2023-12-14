@@ -4,6 +4,7 @@ package com.example.bookstore_backend.service;
 import com.example.bookstore_backend.dto.BookDTO;
 import com.example.bookstore_backend.mapper.BookDTOMapper;
 import com.example.bookstore_backend.model.Book;
+import com.example.bookstore_backend.model.Category;
 import com.example.bookstore_backend.model.Price;
 import com.example.bookstore_backend.repository.BookRepository;
 import com.example.bookstore_backend.repository.PriceRepository;
@@ -53,6 +54,11 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    public Book update(Book book) {
+        return bookRepository.save(book);
+    }
+
+    @Override
     public Book update(BookDTO bookDTO) {
         Book book = bookDTOMapper.mapToBook(bookDTO);
         return bookRepository.save(book);
@@ -65,11 +71,25 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    public List<BookDTO> findBookByCategory(Category category) {
+        
+        return null;
+    }
+
+    @Override
     public List<BookDTO> findByQuery(String query) {
         return bookRepository.findBookByTitle(query)
                 .stream()
                 .map(bookDTOMapper)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Book> findById(long id) {
+
+            if(bookRepository.findById(id).isPresent())
+                return Optional.of(bookRepository.findById(id).get());
+            else return Optional.empty();
     }
 
     public Optional<BookDTO> Get(Long id){

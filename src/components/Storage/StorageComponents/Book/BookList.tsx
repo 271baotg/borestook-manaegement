@@ -19,6 +19,7 @@ export const BookList: React.FC<{
               <th>ID</th>
               <th>Image</th>
               <th>Title</th>
+              <th>Category</th>
               <th>Author</th>
               <th>Price</th>
               <th>Available</th>

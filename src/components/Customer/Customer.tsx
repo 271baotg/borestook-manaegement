@@ -4,9 +4,9 @@ import { axiosPrivate } from "../../api/axios";
 import AuthContext from "../../auth/AuthProvider";
 import { useAxiosPrivate } from "../../api/useAxiosHook";
 import st from './style/customer_styled.modul.css'
-import { CustomerTable } from "./CustomerComponents/CustomerTable";
-import { UpdateCustomerModal } from "./CustomerComponents/UpdateCustomerModal";
-import { CreateCusModal } from "./CustomerComponents/CreateCustomerModal";
+import { CustomerTable } from "./components/CustomerTable";
+import { UpdateCustomerModal } from "./components/UpdateCustomerModal";
+import { CreateCusModal } from "./components/CreateCustomerModal";
 import { useDebounce } from "../../hooks/useDebounce";
 
 
@@ -106,7 +106,7 @@ export const Customer = () => {
   }
 
   return (<>
-    <div className={`${st.storageDesktop} d-none d-lg-flex`}>
+    <div className={`${st.storageDesktop} d-none d-xl-flex`}>
       {/* Desktop */}
 
       <CustomerTable
@@ -118,7 +118,7 @@ export const Customer = () => {
       />
 
     </div>
-    <div className={`${st.storageDesktop} d-block d-lg-none`}>
+    <div className={`${st.storageDesktop} d-block d-xl-none`}>
       {/* Desktop */}
       <CustomerTable
         customerList={customerList}
