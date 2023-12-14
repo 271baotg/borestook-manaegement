@@ -1,12 +1,14 @@
-import { useAxiosPrivate } from "../../../api/useAxiosHook";
 import React from "react";
 import { DialogHTMLAttributes, useEffect, useState } from "react";
 import { Console, error } from "console";
 import BookModel from "../../../models/BookModel";
 import { title } from "process";
+import { AxiosInstance } from "axios";
 
-export const AddBook: React.FC<{}> = (props) =>{
-    const axios = useAxiosPrivate();
+interface componentProps {
+    axios: AxiosInstance
+}
+export const AddBook: React.FC<componentProps> = (props) =>{
     const [book, setBook] = useState({
         title: '',
         author: '',
@@ -57,7 +59,7 @@ export const AddBook: React.FC<{}> = (props) =>{
 
     const submitBook = async () => {
         try {
-          const response: BookModel = await axios({
+          const response: BookModel = await props.axios({
             method: "post",
             url: "http://localhost:8081/books/save",
             data: book,
@@ -144,3 +146,4 @@ export const AddBook: React.FC<{}> = (props) =>{
     </div>
     );
 }
+
