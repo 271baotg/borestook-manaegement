@@ -47,7 +47,7 @@ export const BillItem: React.FC<{ billItem: BillItemModel, setQuantity: Function
             <td className={`${st.tableData}`}>
                 <div className={`${st.qtyContainer}`}>
 
-                    {props.billItem.quantity}
+                    <div>{props.billItem.quantity}</div>
                     <div className={st.qtyBtnContainer}>
                         <button onClick={() => handleIncreaseQuantity()} className={`${st.qtyBtn} + ${st.qtyBtnLeft}`}>+</button>
                         <button onClick={() => handleDecreaseQuantity()} className={`${st.qtyBtn} + ${st.qtyBtnRight}`}>-</button>

@@ -19,12 +19,13 @@
 }
 
 .qtyContainer{
-    display: flex;
+    display: inline-block;
     align-items: center;
+    text-align:center;
 }
 
 .qtyBtnContainer{
-    margin-left: 1rem;
+   
 }
 
 
