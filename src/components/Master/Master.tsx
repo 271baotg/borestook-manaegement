@@ -7,6 +7,8 @@ import { User } from "./MasterComponent/User";
 import OrderModel from "../../models/OrderModel";
 import { ImportBook } from "./MasterComponent/ImportBook";
 import { ImportBookItem } from "./MasterComponent/utils/ImportBookItem";
+import { ImportModel } from "../../models/ImportModel";
+import { ImportDetailModel } from "../../models/ImportDetailModel";
 
 const Master = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -16,33 +18,48 @@ const Master = () => {
   const [currentUser, setCurrentUser] = useState<UserModel>();
   const [isActive, setActive] = useState<number>(1);
   const [orderList, setOrderList] = useState<OrderModel[]>();
+  const [importList, setImportList] = useState<ImportModel[]>([]);
   const [userImportList, setUserImportList] = useState<ImportBookItem[]>([]);
 
 
-  
-
+  const getAllImportListAxios = async () => {
+    try {
+      const response: ImportModel[] = await axiosPrivate({
+        method: "get",
+        url: "http://localhost:8081/imports",
+      });
+      if (response) {
+        console.log(response);
+        setImportList(response);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   const getUserListAxios = async () => {
     try {
-        const response: UserModel[] = await axiosPrivate ({
-            method: "get",
-            url: "http://localhost:8081/users",
-          });
-          setUserList(response);
+      const response: UserModel[] = await axiosPrivate({
+        method: "get",
+        url: "http://localhost:8081/users",
+      });
+      setUserList(response);
     } catch (error) {
       console.error(error);
       setHttpError("Error loading users");
       setIsLoading(false);
     }
-    finally{
+    finally {
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {getUserListAxios()},[])
-
+  useEffect(() => { getUserListAxios() }, [])
+  useEffect(() => {
+    getAllImportListAxios();
+  }, [])
   useEffect(() => {
     console.log(userList);
-  },[userList])
+  }, [userList])
 
   useEffect(() => {
     console.log(isActive);
@@ -54,12 +71,12 @@ const Master = () => {
     fullName: '',
   })
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log("Book state: " + JSON.stringify(user));
-  },[user])
+  }, [user])
 
-  const handleInput = (event : any) => {
-    setUser({...user, [event.target.name]: event.target.value});
+  const handleInput = (event: any) => {
+    setUser({ ...user, [event.target.name]: event.target.value });
   };
 
   const submitUser = async () => {
@@ -74,25 +91,25 @@ const Master = () => {
       console.log(error);
     }
   };
-//Model
-const getUserAxios = async (username: string|undefined) => {
-  try {
-    const response: UserModel = await axiosPrivate ({
-      method: "get",
-      url: "http://localhost:8081/users/" + username,
-    });
-    console.log("CurrentUser:" + response);
-    setCurrentUser(response);
-    return response; // Trả về kết quả
-  } catch (error) {
-    console.log(error);
-    throw error; // Ném lỗi để xác định lỗi
-  }
+  //Model
+  const getUserAxios = async (username: string | undefined) => {
+    try {
+      const response: UserModel = await axiosPrivate({
+        method: "get",
+        url: "http://localhost:8081/users/" + username,
+      });
+      console.log("CurrentUser:" + response);
+      setCurrentUser(response);
+      return response; // Trả về kết quả
+    } catch (error) {
+      console.log(error);
+      throw error; // Ném lỗi để xác định lỗi
+    }
   };
 
-  const getOrderAxios = async (username: string|undefined) => {
+  const getOrderAxios = async (username: string | undefined) => {
     try {
-      const response: OrderModel[] = await axiosPrivate ({
+      const response: OrderModel[] = await axiosPrivate({
         method: "get",
         url: "http://localhost:8081/orders/username/" + username,
       });
@@ -102,12 +119,12 @@ const getUserAxios = async (username: string|undefined) => {
       console.log(error);
       throw error; // Ném lỗi để xác định lỗi
     }
-    };
+  };
 
   const openModalDetail = async (username: string) => {
     const temp: UserModel =
       userList[userList.findIndex((user) => user.username === username)];
-      setCurrentUser(temp);
+    setCurrentUser(temp);
 
     try {
       // const responseUsers = await getUserAxios(temp.username);
@@ -124,39 +141,53 @@ const getUserAxios = async (username: string|undefined) => {
       // Xử lý khi đối tượng là null hoặc undefined
     }
   };
+  //Hàm xử lý import here
+  const handleImportData = (detailList: ImportDetailModel[], provider: string) =>{
+    try{
+      const importData = new ImportModel(provider, detailList);
+      const url = 'http://localhost:8081/imports';
+      const response = axiosPrivate.post(
+        url,
+        importData
+      )
+      console.log(response);
+    } catch(e){
+      console.log(e);
+    }
+  }
 
 
   return (
     <div>
-        <nav>
-            <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                <button className="nav-link active" id="nav-addbook-tab" data-bs-toggle="tab" data-bs-target="#nav-addbook" type="button" role="tab" aria-controls="nav-addbook" aria-selected="true">Add Book</button>
-                <button className="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">User</button>
-                <button className="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
-                <button className="nav-link" id="nav-import-tab" data-bs-toggle="tab" data-bs-target="#nav-import" type="button" role="tab" aria-controls="nav-import" aria-selected="false">Import</button>
-            </div>
-        </nav>
-        <div className="tab-content" id="nav-tabContent">
+      <nav>
+        <div className="nav nav-tabs" id="nav-tab" role="tablist">
+          <button className="nav-link active" id="nav-addbook-tab" data-bs-toggle="tab" data-bs-target="#nav-addbook" type="button" role="tab" aria-controls="nav-addbook" aria-selected="true">Add Book</button>
+          <button className="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">User</button>
+          <button className="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+          <button className="nav-link" id="nav-import-tab" data-bs-toggle="tab" data-bs-target="#nav-import" type="button" role="tab" aria-controls="nav-import" aria-selected="false">Import</button>
+        </div>
+      </nav>
+      <div className="tab-content" id="nav-tabContent">
         <div className="tab-pane fade show active m-2" id="nav-addbook" role="tabpanel" aria-labelledby="nav-addbook-tab">
-            <AddBook axios={axiosPrivate}></AddBook>
+          <AddBook axios={axiosPrivate}></AddBook>
         </div>
         <div className="tab-pane fade m-2" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <User 
-            data={userList} 
-            isLoading={isLoading} 
-            handleInput={handleInput} 
-            submitUser = {submitUser} 
-            currentUser = {currentUser}
-            orderList = {orderList}
-            openModelDetail = {openModalDetail}></User>
+          <User
+            data={userList}
+            isLoading={isLoading}
+            handleInput={handleInput}
+            submitUser={submitUser}
+            currentUser={currentUser}
+            orderList={orderList}
+            openModelDetail={openModalDetail}></User>
         </div>
         <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
         <div className="tab-pane fade" id="nav-import" role="tabpanel" aria-labelledby="nav-import-tab">
-          <ImportBook userImportList={userImportList} setUserImportList={setUserImportList}></ImportBook>
+          <ImportBook importList={importList} handleApplyImport={handleImportData} userImportList={userImportList} setUserImportList={setUserImportList}></ImportBook>
         </div>
-        </div>
-        
+      </div>
+
     </div>
-    )
+  )
 }
 export default Master;
