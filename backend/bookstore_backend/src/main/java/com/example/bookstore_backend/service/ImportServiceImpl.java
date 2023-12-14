@@ -43,6 +43,7 @@ public class ImportServiceImpl implements ImportService{
 
 
         }).collect(Collectors.toList());
+        System.out.println(Date.from(Instant.now()));
         Import newImport = Import.builder()
                 .total(anImport.getTotal())
                 .create_date(Date.from(Instant.now()))

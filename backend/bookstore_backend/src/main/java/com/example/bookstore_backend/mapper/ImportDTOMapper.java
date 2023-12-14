@@ -26,6 +26,7 @@ public class ImportDTOMapper implements Function<Import, ImportDTO> {
 
         return ImportDTO.builder()
                 .id(anImport.getId())
+                .create_date(anImport.getCreate_date())
                 .provider(anImport.getProvider())
                 .detailList(detailDTOList)
                 .total(anImport.getTotal())

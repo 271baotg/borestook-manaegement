@@ -5,6 +5,7 @@ import Papa from "papaparse";
 import { Button, Col, Row } from "react-bootstrap";
 import { ImportBookItem } from "./utils/ImportBookItem";
 import { ImportModel } from "../../../models/ImportModel";
+import { ImportDetailModel } from "../../../models/ImportDetailModel";
 
 
 const HEADER_NAME = {
@@ -16,7 +17,7 @@ const HEADER_NAME = {
     TotalHeader: "TOTAL",
     ProviderHeader: "PROVIDER"
 }
-export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport:Function, userImportList: ImportBookItem[], setUserImportList: Function }> = (props) => {
+export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport: Function, userImportList: ImportBookItem[], setUserImportList: Function }> = (props) => {
     const handleImportCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target && e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
@@ -92,7 +93,10 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
     }
 
     const handleOnClickApply = () => {
-        props.handleApplyImport(props.importList, "Fake provider");
+        const data: ImportDetailModel[] = props.userImportList.map((item, idx) => {
+            return new ImportDetailModel(item.book_id, item.price, item.qty, item.title);
+        })
+        props.handleApplyImport(data, "Fake provider");
     }
 
     return (
@@ -102,6 +106,7 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
                     <Thead>
                         <Tr>
                             <Th>ID</Th>
+                            <Th>PROVIDER</Th>
                             <Th>CREATE DATE</Th>
                             <Th>TOTAL</Th>
                         </Tr>
@@ -111,6 +116,7 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
                             return (
                                 <Tr key={idx}>
                                     <Td>{item.id}</Td>
+                                    <Td>{item.provider}</Td>
                                     <Td>{item.create_date}</Td>
                                     <Td>{item.total ?? 'NULL'}</Td>
                                 </Tr>
