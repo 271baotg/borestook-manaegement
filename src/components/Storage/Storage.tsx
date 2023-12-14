@@ -191,8 +191,13 @@ export const Storage = () => {
     const temp: BillItemModel[] = [...billItems];
     for (let i: number = 0; i < temp.length; i++) {
       if (temp[i].book.id === id) {
-        temp[i].quantity = quantity;
-        temp[i].amount = quantity * (temp[i].book.price ?? 1);
+        if(quantity <= (temp[i].book.available?? 0)){
+          temp[i].quantity = quantity;
+          temp[i].amount = quantity * (temp[i].book.price ?? 1);
+        }
+        else{
+          setIsOpenMaxQtyReacedModal(true);
+        }
         break;
       }
     }
@@ -296,7 +301,7 @@ export const Storage = () => {
           openMaxQtyReachedModal={() => { setIsOpenMaxQtyReacedModal(true) }}
         ></Bill>
       </div>
-      <div className={`${st.storageDesktop} d-block d-lg-none`}>
+      <div className={`${st.storageDesktop} d-block d-lg-none p-4 pt-0`}>
         {/* Desktop */}
         <BookTable
           bookList={filteredBookList}
@@ -328,7 +333,7 @@ export const Storage = () => {
         </div>
         <ModalBookDetail currentBook={currentBook}></ModalBookDetail>
       </dialog>
-      {isOpenCheckOutModal&&<CheckOutModal
+      {isOpenCheckOutModal && <CheckOutModal
         billItems={billItems}
         customer={customer}
         onClickCustomer={handleOnClickCustomer}
@@ -342,7 +347,7 @@ export const Storage = () => {
         onClickCheckOut={checkOut}
       ></CheckOutModal>}
       {isOpenCheckOutResultModal && <CheckOutResultModal isSuccess={isCheckOutSuccess} isOpen={isOpenCheckOutResultModal} onClose={() => { setIsOpenCheckOutResultModal(false) }} />}
-      {isOpenCheckOutModal && <MaxQtyReachedModal isOpen={isOpenMaxQtyReachedModal} onOpen={() => { setIsOpenMaxQtyReacedModal(true) }} onClose={() => { setIsOpenMaxQtyReacedModal(false) }} />}
+      {isOpenMaxQtyReachedModal && <MaxQtyReachedModal isOpen={isOpenMaxQtyReachedModal} onOpen={() => { setIsOpenMaxQtyReacedModal(true) }} onClose={() => { setIsOpenMaxQtyReacedModal(false) }} />}
 
     </>
   );
