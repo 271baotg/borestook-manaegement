@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order createOrder(OrderDTO orderDTO) {
+    public OrderDTO createOrder(OrderDTO orderDTO) {
 
         Customer customer = orderDTO.getCustomer();
         Order orderTemp;
@@ -117,8 +117,9 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
 
         orderDetailService.saveListOrderDetail(listOrder);
+        savedOrder.setOrderDetails(listOrder);
 
-        return savedOrder;
+        return orderDTOMapper.apply(savedOrder);
     }
 
 

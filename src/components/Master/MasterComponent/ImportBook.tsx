@@ -1,15 +1,14 @@
-import { Input, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import { cp } from "node:fs";
-import { isTypedArray } from "node:util/types";
+import { Table, Tbody, Td, Th, Thead, Tr, } from "@chakra-ui/react";
 import Papa from "papaparse";
 import { Button, Col, Row } from "react-bootstrap";
 import { ImportBookItem } from "./utils/ImportBookItem";
 import { ImportModel } from "../../../models/ImportModel";
 import { ImportDetailModel } from "../../../models/ImportDetailModel";
+import { useState } from "react";
 
 
 const HEADER_NAME = {
-    IndexHeader: "STT",
+    IndexHeader: "INDEX",
     BookIdHeader: "BOOK ID",
     BookTitleHeader: "BOOK TITLE",
     PriceHeader: "UNIT PRICE",
@@ -18,10 +17,11 @@ const HEADER_NAME = {
     ProviderHeader: "PROVIDER"
 }
 export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport: Function, userImportList: ImportBookItem[], setUserImportList: Function }> = (props) => {
+    const [provider, setProvider] = useState<string>();
     const handleImportCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target && e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            console.log(file);
+
             if (file.type !== 'text/csv') {
                 console.log('>>>error file type not test/csv');
                 return;
@@ -31,6 +31,13 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
                         // console.log(this.header);
                         let rawCSV = results.data;
                         console.log("Finished:", rawCSV);
+                        if (Array.isArray(rawCSV[0])) {
+                            if (rawCSV[0][0] !== 'PROVIDER') {
+                                alert("Provider is missing");
+                                return;
+                            }
+                            setProvider(rawCSV[0][1]);
+                        }
                         if (rawCSV) {
                             if (rawCSV.length < 2) {
                                 alert("Data is missing");
@@ -90,18 +97,20 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
                 });
             }
         }
+
     }
 
     const handleOnClickApply = () => {
+
         const data: ImportDetailModel[] = props.userImportList.map((item, idx) => {
             return new ImportDetailModel(item.book_id, item.price, item.qty, item.title);
         })
-        props.handleApplyImport(data, "Fake provider");
+        props.handleApplyImport(data, provider);
     }
 
     return (
-        <Row>
-            <Col lg={6}>
+        <Row className="mt-1">
+            <Col lg={8}>
                 <Table>
                     <Thead>
                         <Tr>
@@ -129,8 +138,10 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
             <Col>
                 <Row>
                     <label className="btn btn-warning" htmlFor="import_input">
-                        <i className="fa-solid fa-file-import"></i>
-                        IMPORT
+                        <div>
+                            <i className="fa-solid fa-file-import"></i>
+                            IMPORT
+                        </div>
                     </label>
                     <input type="file" id="import_input" hidden onChange={handleImportCSV} />
                 </Row>

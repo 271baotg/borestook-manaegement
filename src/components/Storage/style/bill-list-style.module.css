@@ -50,7 +50,7 @@ table{
     visibility: visible;
 }
 
-.table, th, td{
+.table {
     
     padding: 1rem;
     border-collapse: collapse;

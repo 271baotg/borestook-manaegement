@@ -94,7 +94,7 @@ public class OrderController {
     }
 
     @PostMapping("orders")
-    public Order createOrder(@RequestBody OrderDTO order){
+    public OrderDTO createOrder(@RequestBody OrderDTO order){
         return orderService.createOrder(order);
     }
 
