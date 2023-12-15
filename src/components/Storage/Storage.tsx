@@ -180,6 +180,7 @@ export const Storage = () => {
   };
 
   const setQuantity = (id: number, quantity: number) => {
+    console.log("quantity", quantity);
     if (quantity === 0) {
       removeBillItem(id);
       return;
@@ -187,8 +188,12 @@ export const Storage = () => {
     const temp: BillItemModel[] = [...billItems];
     for (let i: number = 0; i < temp.length; i++) {
       if (temp[i].book.id === id) {
-        temp[i].quantity = quantity;
-        temp[i].amount = quantity * (temp[i].book.price ?? 1);
+        if (quantity <= (temp[i].book.available ?? 0)) {
+          temp[i].quantity = quantity;
+          temp[i].amount = quantity * (temp[i].book.price ?? 1);
+        } else {
+          setIsOpenMaxQtyReacedModal(true);
+        }
         break;
       }
     }
@@ -293,7 +298,7 @@ export const Storage = () => {
           }}
         ></Bill>
       </div>
-      <div className={`${st.storageDesktop} d-block d-lg-none`}>
+      <div className={`${st.storageDesktop} d-block d-lg-none p-4 pt-0`}>
         {/* Desktop */}
         <BookTable
           bookList={filteredBookList}
@@ -351,7 +356,7 @@ export const Storage = () => {
           }}
         />
       )}
-      {isOpenCheckOutModal && (
+      {isOpenMaxQtyReachedModal && (
         <MaxQtyReachedModal
           isOpen={isOpenMaxQtyReachedModal}
           onOpen={() => {

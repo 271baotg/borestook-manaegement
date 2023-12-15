@@ -3,15 +3,19 @@ import { ImportModel } from "./ImportModel"
 
 export class ImportDetailModel {
     id?: number;
-    book: BookModel;
+    bookID: number;
+    bookName?: string;
     unitPrice: number;
     quantity: number;
-    importModel?: ImportDetailModel
-    constructor(book: BookModel,
+    constructor(
+        bookID: number,
         unitPrice: number,
-        quantity: number, id?: number, importModel?: ImportModel) {
+        quantity: number,
+        bookName?:string,
+        id?: number) {
         this.id = id;
-        this.book = book;
+        bookName = bookName;
+        this.bookID = bookID;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
     }

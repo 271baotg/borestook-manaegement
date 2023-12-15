@@ -1,25 +1,27 @@
-import { Input, Table, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
-import { cp } from "node:fs";
-import { isTypedArray } from "node:util/types";
+import { Table, Tbody, Td, Th, Thead, Tr, } from "@chakra-ui/react";
 import Papa from "papaparse";
 import { Button, Col, Row } from "react-bootstrap";
 import { ImportBookItem } from "./utils/ImportBookItem";
+import { ImportModel } from "../../../models/ImportModel";
+import { ImportDetailModel } from "../../../models/ImportDetailModel";
+import { useState } from "react";
 
 
 const HEADER_NAME = {
-    IndexHeader: "STT",
+    IndexHeader: "INDEX",
     BookIdHeader: "BOOK ID",
     BookTitleHeader: "BOOK TITLE",
     PriceHeader: "UNIT PRICE",
     QuantityHeader: "QTY",
     TotalHeader: "TOTAL",
-    ProviderHeader:"PROVIDER"
+    ProviderHeader: "PROVIDER"
 }
-export const ImportBook: React.FC<{ userImportList: ImportBookItem[], setUserImportList: Function }> = (props) => {
+export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport: Function, userImportList: ImportBookItem[], setUserImportList: Function }> = (props) => {
+    const [provider, setProvider] = useState<string>();
     const handleImportCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target && e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            console.log(file);
+
             if (file.type !== 'text/csv') {
                 console.log('>>>error file type not test/csv');
                 return;
@@ -29,6 +31,13 @@ export const ImportBook: React.FC<{ userImportList: ImportBookItem[], setUserImp
                         // console.log(this.header);
                         let rawCSV = results.data;
                         console.log("Finished:", rawCSV);
+                        if (Array.isArray(rawCSV[0])) {
+                            if (rawCSV[0][0] !== 'PROVIDER') {
+                                alert("Provider is missing");
+                                return;
+                            }
+                            setProvider(rawCSV[0][1]);
+                        }
                         if (rawCSV) {
                             if (rawCSV.length < 2) {
                                 alert("Data is missing");
@@ -39,13 +48,13 @@ export const ImportBook: React.FC<{ userImportList: ImportBookItem[], setUserImp
                                     alert("Data format is wrong");
                                     return;
                                 }
-                                if (rawCSV[1][0] != HEADER_NAME.IndexHeader 
+                                if (rawCSV[1][0] != HEADER_NAME.IndexHeader
                                     || rawCSV[1][1] != HEADER_NAME.BookIdHeader
                                     || rawCSV[1][2] != HEADER_NAME.BookTitleHeader
                                     || rawCSV[1][3] != HEADER_NAME.PriceHeader
                                     || rawCSV[1][4] != HEADER_NAME.QuantityHeader
                                     || rawCSV[1][5] != HEADER_NAME.TotalHeader
-                                    ) {
+                                ) {
                                     alert("Data header is wrong");
                                     return;
                                 }
@@ -88,16 +97,51 @@ export const ImportBook: React.FC<{ userImportList: ImportBookItem[], setUserImp
                 });
             }
         }
+
+    }
+
+    const handleOnClickApply = () => {
+
+        const data: ImportDetailModel[] = props.userImportList.map((item, idx) => {
+            return new ImportDetailModel(item.book_id, item.price, item.qty, item.title);
+        })
+        props.handleApplyImport(data, provider);
     }
 
     return (
-        <Row>
-            <Col lg={6}>1</Col>
+        <Row className="mt-1">
+            <Col lg={8}>
+                <Table>
+                    <Thead>
+                        <Tr>
+                            <Th>ID</Th>
+                            <Th>PROVIDER</Th>
+                            <Th>CREATE DATE</Th>
+                            <Th>TOTAL</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {props.importList.map((item, idx) => {
+                            return (
+                                <Tr key={idx}>
+                                    <Td>{item.id}</Td>
+                                    <Td>{item.provider}</Td>
+                                    <Td>{item.create_date}</Td>
+                                    <Td>{item.total ?? 'NULL'}</Td>
+                                </Tr>
+                            )
+                        })}
+
+                    </Tbody>
+                </Table>
+            </Col>
             <Col>
                 <Row>
                     <label className="btn btn-warning" htmlFor="import_input">
-                        <i className="fa-solid fa-file-import"></i>
-                        IMPORT
+                        <div>
+                            <i className="fa-solid fa-file-import"></i>
+                            IMPORT
+                        </div>
                     </label>
                     <input type="file" id="import_input" hidden onChange={handleImportCSV} />
                 </Row>
@@ -128,7 +172,7 @@ export const ImportBook: React.FC<{ userImportList: ImportBookItem[], setUserImp
 
                         </Tbody>
                     </Table>
-                    <Button style={{ width: 'fit-content', }}>APPLY</Button>
+                    <Button onClick={handleOnClickApply} style={{ width: 'fit-content', }}>APPLY</Button>
                 </Row>
             </Col>
         </Row>
