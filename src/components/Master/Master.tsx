@@ -142,15 +142,16 @@ const Master = () => {
     }
   };
   //Hàm xử lý import here
-  const handleImportData = (detailList: ImportDetailModel[], provider: string) =>{
+  const handleImportData = async (detailList: ImportDetailModel[], provider: string) =>{
     try{
       const importData = new ImportModel(provider, detailList);
       const url = 'http://localhost:8081/imports';
-      const response = axiosPrivate.post(
+      const response = await axiosPrivate.post(
         url,
         importData
       )
-      console.log(response);
+      getAllImportListAxios();
+      setUserImportList([]);
     } catch(e){
       console.log(e);
     }

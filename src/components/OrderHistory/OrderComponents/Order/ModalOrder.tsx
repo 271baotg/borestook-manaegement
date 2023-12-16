@@ -30,9 +30,19 @@ const ModalOrder: React.FC<{
   // // Format the date
   // const formattedDate = format(utcDate, 'dd-MM-yyyy HH:mm:ss');
   // const formattedCustomerDate = format(customerDate, 'dd-MM-yyyy HH:mm:ss');
+  
+const truncateString = (str: string, maxLength: number) => {
+  if (str === null) {
+    return "";
+  }
+  return str.length > maxLength ? `${str.substring(0, maxLength)}` : str;
+};
 
   return props.currentOrder ? (
+    
     <div className="row">
+      <div style={{fontSize : '22px'}}>Name: <span className={`${st.fontInfo}`}>{props.currentOrder.username}</span></div>
+      <div className="mb-3" style={{fontSize : '22px'}}>Create Date: <span className={`${st.fontInfo}`}>{truncateString(props.currentOrder.createDate, 10)}</span></div>
       <div className="col-12 mb-5">
         <h2>Book</h2>
         <table className={`${st.table}`}>
