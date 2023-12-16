@@ -40,6 +40,9 @@ export const Storage = () => {
   //Customer states
   const [customer, setCustomer] = useState<CustomerModel>({});
 
+  //Order states
+  const [orderCheckoutSuccess, setOrderCheckoutSuccess] = useState<OrderModel>();
+
   //
   const getAllBook = async () => {
     try {
@@ -239,16 +242,17 @@ export const Storage = () => {
     );
 
     try {
-      const response = await axiosPrivate.post(
+      const response : OrderModel = await axiosPrivate.post(
         "http://localhost:8081/orders",
         order
       );
+      const responseData = response as OrderModel;
       setIsCheckOutSuccess(true);
       setIsOpenCheckOutResultModal(true);
       setBillItems([]);
       setIsOpenCheckOutModal(false);
       getAllBook();
-
+      setOrderCheckoutSuccess(responseData);
     } catch (e) {
       console.log(e);
       setIsCheckOutSuccess(false);
@@ -341,7 +345,7 @@ export const Storage = () => {
         }}
         onClickCheckOut={checkOut}
       ></CheckOutModal>}
-      {isOpenCheckOutResultModal && <CheckOutResultModal isSuccess={isCheckOutSuccess} isOpen={isOpenCheckOutResultModal} onClose={() => { setIsOpenCheckOutResultModal(false) }} />}
+      {isOpenCheckOutResultModal && orderCheckoutSuccess && <CheckOutResultModal order = {orderCheckoutSuccess} isSuccess={isCheckOutSuccess} isOpen={isOpenCheckOutResultModal} onClose={() => { setIsOpenCheckOutResultModal(false) }} />}
       {isOpenCheckOutModal && <MaxQtyReachedModal isOpen={isOpenMaxQtyReachedModal} onOpen={() => { setIsOpenMaxQtyReacedModal(true) }} onClose={() => { setIsOpenMaxQtyReacedModal(false) }} />}
 
     </>

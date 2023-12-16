@@ -60,7 +60,7 @@ const ModelUser: React.FC<{
                     {order.id}
                   </td>
                   <td className={st.tableData}>
-                    {order.customer.fullName}
+                    {order.customer?.fullName}
                   </td>
                   <td className={st.tableData}>
                     {order.username}

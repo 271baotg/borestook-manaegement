@@ -1,0 +1,12 @@
+.widthModal{
+    min-width: 800px;
+}
+
+.fontInfo{
+    font-size: 16px;
+    font-family: cursive;
+}
+
+.borderLeft{
+    border-left: 1px solid black;
+}

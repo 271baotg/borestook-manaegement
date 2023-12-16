@@ -14,7 +14,7 @@ public interface OrderService  {
     public List<OrderDTO> listOrder();
     public Optional<Order> orderById(Long id);
 
-    public Order createOrder(OrderDTO orderDTO);
+    public OrderDTO createOrder(OrderDTO orderDTO);
 
     public List<OrderDTO> getOrderBetweenDays(Date from, Date to);
 

@@ -4,6 +4,9 @@ import st from "../../style/book-item.module.css";
 import img from "../../images/book.png";
 import React from "react";
 import OrderModel from "../../../../models/OrderModel";
+import { CheckOutResultModal } from "../../../Storage/StorageComponents/Modals/CheckOutResultModal/CheckOutResultModal";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 // import { format } from 'date-fns';
 // import { zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
 
@@ -37,23 +40,10 @@ export const OrderItem: React.FC<{
     props.openModalDetail(props.order.id);
   };
 
-  // // Define the timezone for Vietnam (Asia/Ho_Chi_Minh)
-  // const vietnamTimeZone = "Asia/Ho_Chi_Minh";
+  //IsPrint states
 
-  // // Assuming props.order.checkoutDate is a JavaScript Date object
-  // const checkoutDate = props.order.checkoutDate;
+  const [isOpenPrintModal, setIsOpenPrintModal] = useState(false);
 
-  // // Convert to Vietnam timezone
-  // const checkoutDateInVietnamTime = utcToZonedTime(
-  //   checkoutDate,
-  //   vietnamTimeZone
-  // );
-
-  // // Convert the zoned time to UTC time
-  // const utcDate = zonedTimeToUtc(checkoutDateInVietnamTime, vietnamTimeZone);
-
-  // // Format the date
-  // const formattedDate = format(utcDate, "dd-MM-yyyy HH:mm:ss");
 
   const truncateString = (str: string, maxLength: number) => {
     if (str === null) {
@@ -62,7 +52,8 @@ export const OrderItem: React.FC<{
     return str.length > maxLength ? `${str.substring(0, maxLength)}` : str;
   };
   return (
-    <tr onClick={handleOnClickItem} className={st.tableRow}>
+    <>
+      <tr onClick={handleOnClickItem} className={st.tableRow}>
       <td className={st.tableData}>{props.order.id}</td>
       <td className={st.tableData}>
         {truncateString(props.order.createDate, 10)}
@@ -73,10 +64,15 @@ export const OrderItem: React.FC<{
       </td>
       <td className={st.tableData}>{props.order.total}</td>
       <td className={st.tableData}>
-        <button onClick={handleOpenModal} className={`btn btn-success`}>
-          View
+        <button onClick={handleOpenModal} className={`btn btn-outline-primary m-1`}>
+        <FontAwesomeIcon icon={icon({name: 'eye'})} />
+        </button>
+        <button onClick={() => setIsOpenPrintModal(true)} className={`btn btn-outline-primary m-1`}>
+        <FontAwesomeIcon icon={icon({name: 'print'})} />
         </button>
       </td>
-    </tr>
+      </tr>
+      {isOpenPrintModal && props.order && <CheckOutResultModal order = {props.order} isSuccess={true} isOpen={isOpenPrintModal} onClose={() => { setIsOpenPrintModal(false) }} />}
+    </>
   );
 };
