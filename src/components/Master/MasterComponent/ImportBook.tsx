@@ -1,10 +1,11 @@
-import { Table, Tbody, Td, Th, Thead, Tr, } from "@chakra-ui/react";
+import { Hide, Table, Tbody, Td, Th, Thead, Tr, } from "@chakra-ui/react";
 import Papa from "papaparse";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import { ImportBookItem } from "./utils/ImportBookItem";
 import { ImportModel } from "../../../models/ImportModel";
 import { ImportDetailModel } from "../../../models/ImportDetailModel";
 import { useState } from "react";
+import st from '../style/import-bookt-styled.module.css';
 
 
 const HEADER_NAME = {
@@ -101,7 +102,7 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
     }
 
     const handleOnClickApply = () => {
-        if(props.userImportList.length === 0){
+        if (props.userImportList.length === 0) {
             alert("Please upload file before APPLY");
             return;
         }
@@ -111,71 +112,86 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
         props.handleApplyImport(data, provider);
     }
 
+
+
     return (
         <Row className="mt-1">
-            <Col md={8}>
-                <Table>
-                    <Thead>
-                        <Tr>
-                            <Th>ID</Th>
-                            <Th>PROVIDER</Th>
-                            <Th>CREATE DATE</Th>
-                            <Th>TOTAL</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {props.importList.map((item, idx) => {
-                            return (
-                                <Tr key={idx}>
-                                    <Td>{item.id}</Td>
-                                    <Td>{item.provider}</Td>
-                                    <Td>{item.create_date}</Td>
-                                    <Td>{item.total ?? 'NULL'}</Td>
-                                </Tr>
-                            )
-                        })}
+            <Col>
+                <Card className="p-3" style={{overflow: 'hidden'}}>
+                    <Table style={{ borderRadius: '0.6rem', overflow: "hidden"}}>
+                        <Thead>
+                            <Tr>
+                                <Th>ID</Th>
+                                <Th>PROVIDER</Th>
+                                <Th>CREATE DATE</Th>
+                                <Th>TOTAL</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {props.importList.map((item, idx) => {
+                                return (
+                                    <Tr key={idx}>
+                                        <Td>{item.id}</Td>
+                                        <Td>{item.provider}</Td>
+                                        <Td>{item.create_date?.slice(0, 10)}</Td>
+                                        <Td>{item.total ?? 'NULL'}</Td>
+                                    </Tr>
+                                )
+                            })}
 
-                    </Tbody>
-                </Table>
+                        </Tbody>
+                    </Table>
+                </Card>
             </Col>
             <Col>
                 <Row>
-                    <label className="btn btn-warning" htmlFor="import_input">
-                        <div>
-                            <i className="fa-solid fa-file-import"></i>
-                            IMPORT
+                    <label className="btn btn-warning" style={{ minHeight: 200 }} htmlFor="import_input">
+                        <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
+                            <h3><i className="fa-solid fa-file-import"></i> IMPORT</h3>
+
                         </div>
                     </label>
                     <input type="file" id="import_input" hidden onChange={handleImportCSV} />
                 </Row>
                 <Row className="d-flex justify-content-end me-1 mt-4">
-                    <Table size='sm'>
-                        <Thead>
-                            <Tr>
-                                <Th>STT</Th>
-                                <Th>BOOK ID</Th>
-                                <Th>TITLE</Th>
-                                <Th>UNIT PRICE</Th>
-                                <Th>QTY</Th>
-                                <Th>TOTAL</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {props.userImportList.map((item, idx) => {
-                                return (
-                                    <Tr key={idx}>
-                                        <Th>{item.idx}</Th>
-                                        <Th>{item.book_id}</Th>
-                                        <Th>{item.title}</Th>
-                                        <Th>{item.price}</Th>
-                                        <Th>{item.qty}</Th>
-                                        <Th>{item.total}</Th>
-                                    </Tr>)
-                            })}
+                    {props.userImportList.length === 0 ?
+                        <>
+                            <h1 style={{ textAlign: 'center' }}><i style={{ color: 'green' }} className={` ${st.animatedHand} fa-regular fa-hand-point-up fa-2xl pb-5 animated-hand`}></i></h1>
+                            <h5 style={{ textAlign: 'center' }}>No data has been upload yet! Click here to upload data </h5>
+                        </>
+                        : <Card className="pt-2">
+                            <Table size='md' style={{ borderRadius: '0.6rem', overflow: "hidden", minHeight: 100 }}>
+                                <Thead>
+                                    <Tr>
+                                        <Th>STT</Th>
+                                        <Th>BOOK ID</Th>
+                                        <Th>TITLE</Th>
+                                        <Th>UNIT PRICE</Th>
+                                        <Th>QTY</Th>
+                                        <Th>TOTAL</Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {props.userImportList.map((item, idx) => {
+                                        return (
+                                            <Tr key={idx}>
+                                                <Th>{item.idx}</Th>
+                                                <Th>{item.book_id}</Th>
+                                                <Th>{item.title}</Th>
+                                                <Th>{item.price}</Th>
+                                                <Th>{item.qty}</Th>
+                                                <Th>{item.total}</Th>
+                                            </Tr>)
+                                    })}
 
-                        </Tbody>
-                    </Table>
-                    <Button onClick={handleOnClickApply} style={{ width: 'fit-content', }}>APPLY</Button>
+                                </Tbody>
+                            </Table>
+                            <Card.Footer>
+                                <Button onClick={handleOnClickApply} style={{ width: 'fit-content', }}>APPLY</Button>
+                            </Card.Footer>
+                        </Card>
+                    }
+
                 </Row>
             </Col>
         </Row>
