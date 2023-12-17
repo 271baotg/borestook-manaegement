@@ -3,13 +3,14 @@ package com.example.bookstore_backend.service;
 import com.example.bookstore_backend.dto.BookDTO;
 import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.model.Category;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BookService {
     List<BookDTO> findAll();
-    Book create(BookDTO book);
+    Book create(BookDTO book, MultipartFile img);
     Book update(Book book);
     Book update(BookDTO book);
     void deleteById(Long id);

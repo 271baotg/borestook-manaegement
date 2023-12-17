@@ -1,6 +1,7 @@
 package com.example.bookstore_backend.config;
 
 
+import com.cloudinary.Cloudinary;
 import com.example.bookstore_backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
@@ -39,6 +43,16 @@ public class ApplicationConfiguration {
         config.addAllowedOrigin("http://localhost:3000");
         source.registerCorsConfiguration("/**", config);
         return source;
+    }
+
+    @Bean
+    public Cloudinary getCloudinary(){
+        Map config = new HashMap();
+        config.put("cloud_name", "dgw7spnvc");
+        config.put("api_key", "537674271727676");
+        config.put("api_secret", "1pASI0OFB6h_mPmSGeHUyzEk8KQ");
+        config.put("secure", true);
+        return new Cloudinary(config);
     }
 
 
