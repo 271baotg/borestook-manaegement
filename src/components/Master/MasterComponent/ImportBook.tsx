@@ -101,7 +101,10 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
     }
 
     const handleOnClickApply = () => {
-
+        if(props.userImportList.length === 0){
+            alert("Please upload file before APPLY");
+            return;
+        }
         const data: ImportDetailModel[] = props.userImportList.map((item, idx) => {
             return new ImportDetailModel(item.book_id, item.price, item.qty, item.title);
         })
@@ -110,7 +113,7 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
 
     return (
         <Row className="mt-1">
-            <Col lg={8}>
+            <Col md={8}>
                 <Table>
                     <Thead>
                         <Tr>
@@ -146,7 +149,7 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
                     <input type="file" id="import_input" hidden onChange={handleImportCSV} />
                 </Row>
                 <Row className="d-flex justify-content-end me-1 mt-4">
-                    <Table>
+                    <Table size='sm'>
                         <Thead>
                             <Tr>
                                 <Th>STT</Th>
