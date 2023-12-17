@@ -282,16 +282,16 @@ const Statistic: React.FC<{}> = (props) => {
 
 
   return (
-    <Container fluid className="p-5">
+    <Container fluid className="p-5 pt-2">
       <Card className="p-2">
-        <Row>
-          <Col>
+        <Row className="d-block d-sm-flex">
+          <Col className="pt-1 pt-sm-0">
             <CompareTwoValuesBoxWithArrow lable={'Month Revenue'} currentValue={revenueCurrentMonth} oldValue={revenueLastMonth} />
           </Col>
-          <Col>
+          <Col className="pt-1 pt-sm-0">
             <CompareTwoValuesBoxWithArrow lable={'New Customer'} currentValue={createdCusCurrentMonth} oldValue={createdCusLastMonth} />
           </Col>
-          <Col>
+          <Col className="pt-1 pt-sm-0">
             <CompareTwoValuesBoxWithArrow lable={'Order'} currentValue={createdOrderCurrentMonth} oldValue={createdOrderLastMonth} />
           </Col>
         </Row>
