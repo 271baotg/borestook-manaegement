@@ -15,6 +15,7 @@ import OrderModel from "../../models/OrderModel";
 import OrderDetailModel from "../../models/OrderDetailModel";
 import { MaxQtyReachedModal } from "../../utils/components/MaxQtyReachedToast";
 import { CheckOutResultModal } from "./StorageComponents/Modals/CheckOutResultModal/CheckOutResultModal";
+import { Modal } from "react-bootstrap";
 
 export const Storage = () => {
   useAxiosPrivate();
@@ -40,6 +41,7 @@ export const Storage = () => {
   const [isOpenCheckOutResultModal, setIsOpenCheckOutResultModal] =
     useState<boolean>(false);
   const [isCheckOutSuccess, setIsCheckOutSuccess] = useState<boolean>(false);
+  const [isOpenChangePriceResult, setIsOpenChangePriceResult] =useState<boolean>(false);
   //Customer states
   const [customer, setCustomer] = useState<CustomerModel>({});
 
@@ -148,12 +150,12 @@ export const Storage = () => {
   }, [currentCategoryId]);
 
   const changePrice = async (id: number, price: number) => {
-    return;
     try {
       const url = `http://localhost:8081/books/update-price?id=${id}&price=${price}`
       const response = await axiosPrivate.post(
         url
       );
+        getAllBook();
       console.log("price", response);
     } catch (e) {
       console.log(e);
@@ -384,6 +386,14 @@ export const Storage = () => {
           }}
         />
       )}
+      {
+        <Modal show={isOpenChangePriceResult}>
+          <Modal.Header closeButton onHide={()=>{setIsOpenChangePriceResult(false)}}>Noti</Modal.Header>
+          <Modal.Body>Đã update giá thành công</Modal.Body>
+          <Modal.Footer>
+          </Modal.Footer>
+        </Modal>
+      }
     </>
   );
 };

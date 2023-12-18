@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UserModel from "../../models/UserModel";
 import BookModel from "../../models/BookModel";
 import { useAxiosPrivate } from "../../api/useAxiosHook";
@@ -9,6 +9,8 @@ import { ImportBook } from "./MasterComponent/ImportBook";
 import { ImportBookItem } from "./MasterComponent/utils/ImportBookItem";
 import { ImportModel } from "../../models/ImportModel";
 import { ImportDetailModel } from "../../models/ImportDetailModel";
+import AuthContext from "../../auth/AuthProvider";
+import sadImg from "../../images/sad.png";
 
 const Master = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -21,8 +23,14 @@ const Master = () => {
   const [importList, setImportList] = useState<ImportModel[]>([]);
   const [userImportList, setUserImportList] = useState<ImportBookItem[]>([]);
   const [category, setCategory] = useState<Category[]>([]);
-
-
+  const { auth } = useContext(AuthContext);
+  if (!auth?.roles.includes('admin')) {
+    return (
+      <div style={{display: 'flex',justifyContent:'center',flexDirection:'column', alignItems:'center', width: '100%', height: 'calc(100vh - 85px)'}}>
+        <img src={sadImg} width='250px'/>
+        <h3 className="mt-5"><i className="fa-solid fa-triangle-exclamation xl"></i>Your Staff account doesn't have Admin permission !</h3>
+      </div>)
+  }
 
   const getAllImportListAxios = async () => {
     try {
@@ -159,8 +167,8 @@ const Master = () => {
     }
   };
   //Hàm xử lý import here
-  const handleImportData = async (detailList: ImportDetailModel[], provider: string) =>{
-    try{
+  const handleImportData = async (detailList: ImportDetailModel[], provider: string) => {
+    try {
       const importData = new ImportModel(provider, detailList);
       const url = 'http://localhost:8081/imports';
       const response = await axiosPrivate.post(
@@ -169,7 +177,7 @@ const Master = () => {
       )
       getAllImportListAxios();
       setUserImportList([]);
-    } catch(e){
+    } catch (e) {
       console.log(e);
     }
   }
