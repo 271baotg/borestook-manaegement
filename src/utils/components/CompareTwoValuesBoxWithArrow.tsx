@@ -14,7 +14,7 @@ export const CompareTwoValuesBoxWithArrow: React.FC<{ lable: String, currentValu
 
     return (
         <>
-            <Card className="p-2" variant='filled' style={{minHeight: 140}}>
+            <Card className="p-2 h-100" variant='filled' >
                 <StatGroup>
                     <Stat>
                         <StatLabel>{props.lable}</StatLabel>

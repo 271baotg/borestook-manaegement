@@ -9,6 +9,7 @@ import com.example.bookstore_backend.model.Price;
 import com.example.bookstore_backend.repository.BookRepository;
 import com.example.bookstore_backend.repository.PriceRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 import java.util.Date;
@@ -23,10 +24,13 @@ public class BookServiceImpl implements BookService{
     private final PriceRepository priceRepository;
     private final BookRepository bookRepository;
     private BookDTOMapper bookDTOMapper;
-    public BookServiceImpl(PriceRepository priceRepository, BookRepository bookRepository, BookDTOMapper bookDTOMapper) {
+
+    private final CloudinaryService cloudinaryService;
+    public BookServiceImpl(PriceRepository priceRepository, BookRepository bookRepository, BookDTOMapper bookDTOMapper, CloudinaryService cloudinaryService) {
         this.priceRepository = priceRepository;
         this.bookRepository = bookRepository;
         this.bookDTOMapper = bookDTOMapper;
+        this.cloudinaryService = cloudinaryService;
     }
 
 
@@ -45,9 +49,11 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Book create(BookDTO bookDTO) {
+    public Book create(BookDTO bookDTO, MultipartFile image) {
         Book book = bookDTOMapper.mapToBook(bookDTO);
         Book savedBook = bookRepository.save(book);
+        String img = (String) cloudinaryService.upload(image).get("url");
+        savedBook.setImg(img);
         Price price = new Price(savedBook.getId(),bookDTO.getPrice());
         priceRepository.save(price);
         return savedBook;

@@ -18,6 +18,9 @@ export const BookItem: React.FC<{
 
   const handleAddToBill = (e: any) => {
     e.stopPropagation(); //Chặn sự kiện tiếp tục trên parent của nó
+    if(isDisable) {
+      return;
+    }
     props.addToBill(props.book);
   };
 
@@ -63,7 +66,6 @@ export const BookItem: React.FC<{
             "btn-outline-primary"}`}
           style={{ borderWidth: "2px" }}
           onClick={handleAddToBill}
-          disabled={isDisable}
         >
           {/* <svg
             xmlns="http://www.w3.org/2000/svg"

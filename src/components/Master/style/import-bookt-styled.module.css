@@ -1,0 +1,43 @@
+@keyframes moveHand {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-50px);
+    }
+  }
+  
+  .animatedHand {
+    animation: moveHand 2s infinite;
+  }
+
+.userImportSectionContainer, .importDataContainer{
+    box-shadow: 4px 4px 0 #34444c;
+    height: calc(89vh - 5rem);
+}
+
+
+
+.importDataTable{
+    border-radius: 0.6rem;
+    overflow: auto;
+}
+
+.scrollBar{
+    overflow: auto;
+}
+
+.scrollBar::-webkit-scrollbar{
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.scrollBar::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.scrollBar:hover::-webkit-scrollbar-thumb{
+    visibility: visible;
+}

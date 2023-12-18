@@ -28,6 +28,13 @@ export const AddBook: React.FC<componentProps> = (props) =>{
         price: 0
     });
 
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleFileChange = (event: any) => {
+        setSelectedFile(event.target.files[0]);
+    };
+
+
     useEffect(()=>{
         console.log("Book state: " + JSON.stringify(book));
     },[book])
@@ -81,10 +88,19 @@ export const AddBook: React.FC<componentProps> = (props) =>{
     //Create a new book
     const submitBook = async () => {
         try {
+          var formData = new FormData();
+          formData.append("image", selectedFile!);
+          formData.append(
+            "bookData",
+            new Blob([JSON.stringify(book)], { type: "application/json" })
+          );
           const response: BookModel = await props.axios({
             method: "post",
+            data: formData,
             url: "http://localhost:8081/books/save",
-            data: book,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           });
           console.log(response);
           console.log("Save Book: " + JSON.stringify(response));
@@ -93,7 +109,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
           console.log(error);
           setDisplayWarning(true);
         }
-    };
+      };
 
     return (
     <div className="container mt-5 mb-5">
@@ -109,7 +125,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
         }
         <div className="card">
             <div className="card-header">
-                <h4>Add a new book</h4>
+                <h3>Add a new book</h3>
             </div>
             <div className="card-body">
                 <form>
@@ -146,7 +162,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
                         <textarea className="form-control" cols={50} rows={5} name="description" required onChange={handleInput}></textarea>
                     </div>
                     <div className="d-flex justify-content-center align-items-center">
-                        <input type="file" onChange={e => base64ConversionForImages(e)}/>
+                        <input type="file" onChange={e => handleFileChange(e)}/>
                     </div>
                     <div className="d-flex justify-content-center align-items-center">
                         <button type="button" className="btn btn-primary mt-3" onClick={submitBook}>
