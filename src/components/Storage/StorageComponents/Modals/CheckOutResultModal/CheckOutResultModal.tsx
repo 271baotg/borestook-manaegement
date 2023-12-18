@@ -37,7 +37,7 @@ const PrintComponent: React.FC<PrintComponentProps> = ({ order, isSuccess }) => 
               <h6 className="mb-3">Create Date:</h6>
               <h6>{truncateString(order.createDate, 10)}</h6>
             </div>
-            <div className={`${st.borderLeft} col-sm-4`}>
+            <div className={`${st.borderColumn} col-sm-4`}>
               <h6 className="mb-3">From:</h6>
               <div>
                 Name: <span className={`${st.fontInfo}`}>Boresbook</span>
@@ -53,7 +53,7 @@ const PrintComponent: React.FC<PrintComponentProps> = ({ order, isSuccess }) => 
               </div>
             </div>
 
-            <div className={`${st.borderLeft} col-sm-4`}>
+            <div className={`${st.borderColumn} col-sm-4`}>
               <h6 className="mb-3">To:</h6>
               <div>
                 Name: <span className={`${st.fontInfo}`}>{order.customer?.fullName ?? ''}</span>

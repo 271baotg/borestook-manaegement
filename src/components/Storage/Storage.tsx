@@ -44,7 +44,8 @@ export const Storage = () => {
   const [customer, setCustomer] = useState<CustomerModel>({});
 
   //Order states
-  const [orderCheckoutSuccess, setOrderCheckoutSuccess] = useState<OrderModel>();
+  const [orderCheckoutSuccess, setOrderCheckoutSuccess] =
+    useState<OrderModel>();
 
   //
   const getAllBook = async () => {
@@ -242,7 +243,7 @@ export const Storage = () => {
     );
 
     try {
-      const response : OrderModel = await axiosPrivate.post(
+      const response: OrderModel = await axiosPrivate.post(
         "http://localhost:8081/orders",
         order
       );
@@ -334,21 +335,42 @@ export const Storage = () => {
         </div>
         <ModalBookDetail currentBook={currentBook}></ModalBookDetail>
       </dialog>
-      {isOpenCheckOutModal&&<CheckOutModal
-        billItems={billItems}
-        customer={customer}
-        onClickCustomer={handleOnClickCustomer}
-        isOpen={isOpenCheckOutModal}
-        onOpen={() => {
-          setIsOpenCheckOutModal(true);
-        }}
-        onClose={() => {
-          setIsOpenCheckOutModal(false);
-        }}
-        onClickCheckOut={checkOut}
-      ></CheckOutModal>}
-      {isOpenCheckOutResultModal && orderCheckoutSuccess && <CheckOutResultModal order = {orderCheckoutSuccess} isSuccess={isCheckOutSuccess} isOpen={isOpenCheckOutResultModal} onClose={() => { setIsOpenCheckOutResultModal(false) }} />}
-      {isOpenCheckOutModal && <MaxQtyReachedModal isOpen={isOpenMaxQtyReachedModal} onOpen={() => { setIsOpenMaxQtyReacedModal(true) }} onClose={() => { setIsOpenMaxQtyReacedModal(false) }} />}
+      {isOpenCheckOutModal && (
+        <CheckOutModal
+          billItems={billItems}
+          customer={customer}
+          onClickCustomer={handleOnClickCustomer}
+          isOpen={isOpenCheckOutModal}
+          onOpen={() => {
+            setIsOpenCheckOutModal(true);
+          }}
+          onClose={() => {
+            setIsOpenCheckOutModal(false);
+          }}
+          onClickCheckOut={checkOut}
+        ></CheckOutModal>
+      )}
+      {isOpenCheckOutResultModal && orderCheckoutSuccess && (
+        <CheckOutResultModal
+          order={orderCheckoutSuccess}
+          isSuccess={isCheckOutSuccess}
+          isOpen={isOpenCheckOutResultModal}
+          onClose={() => {
+            setIsOpenCheckOutResultModal(false);
+          }}
+        />
+      )}
+      {isOpenCheckOutModal && (
+        <MaxQtyReachedModal
+          isOpen={isOpenMaxQtyReachedModal}
+          onOpen={() => {
+            setIsOpenMaxQtyReacedModal(true);
+          }}
+          onClose={() => {
+            setIsOpenMaxQtyReacedModal(false);
+          }}
+        />
+      )}
     </>
   );
 };

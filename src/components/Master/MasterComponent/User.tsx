@@ -27,7 +27,7 @@ export const User: React.FC<componentProps> = (props) => {
   };
   return (
     <div className="row m-0">
-      <div className={`${st.storageDesktop} col-12 col-md-8 col-lg-8 mb-2`}>
+      <div className={`${st.desktop} col-12 col-md-8 col-lg-8 mb-2`}>
         {props.isLoading&&<div>Isloading</div>}
         {!props.isLoading&&<UserTable
           openModalDetail={props.openModelDetail}
@@ -43,7 +43,7 @@ export const User: React.FC<componentProps> = (props) => {
         />}
       </div> */}
 
-      <div className="card col-12 col-md-4 col-lg-4">
+      <div className="card col-12 col-md-4 col-lg-4" style={{marginTop : '15px'}}>
             <div className="card-header">
                 Add a User
             </div>

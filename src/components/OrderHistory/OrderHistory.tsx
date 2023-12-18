@@ -122,6 +122,7 @@ export const OrderHistory = () => {
       throw error; // Ném lỗi để xác định lỗi
     }
   };
+  
   const chooseOneOrder = async (id: number) => {
     const temp: OrderModel =
       orderList[orderList.findIndex((order) => order.id === id)];
@@ -145,18 +146,16 @@ export const OrderHistory = () => {
 
         <OrderTable
           orderList={orderList}
-          // addToBill={handleAddToBill}
           searchKeyWord={''}
           setSearchKeyWord={()=> {}}
           chooseOneOrder={chooseOneOrder}
           openModalDetail={openModalDetail}
         />
+        
         <Bill
           orderDetailItems={orderDetailItems}
-          // setQuantity={setQuantity}
-          // removeBillItem={removeBillItem}
-          // checkOut={checkOut}
         ></Bill>
+
       </div>
       <div className={`${st.storageDesktop} d-block d-lg-none`}>
         {/* Desktop */}
@@ -176,7 +175,7 @@ export const OrderHistory = () => {
         ></Bill>
       </div>
 
-      <dialog data-order-detail className={`${st.modal} m-5 `}>
+      <dialog data-order-detail className={`${st.modal}`}>
         <div className=" d-flex justify-content-end ">
           <button
             type="button"

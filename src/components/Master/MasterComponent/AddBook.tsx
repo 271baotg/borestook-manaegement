@@ -6,28 +6,56 @@ import { title } from "process";
 import { AxiosInstance } from "axios";
 
 interface componentProps {
-    axios: AxiosInstance
+    axios: AxiosInstance;
+    category: Category[];
 }
 export const AddBook: React.FC<componentProps> = (props) =>{
-    const [book, setBook] = useState({
+    const [book, setBook] = useState<{
+        title: string;
+        author: string;
+        description: string;
+        available: number;
+        categoryList: { id: number; categoryName: string; }[]; // Assuming id is of type 'number' (long)
+        img: string;
+        price: number;
+    }>({
         title: '',
         author: '',
         description: '',
         available: 1,
-        category: '',
+        categoryList: [],
         img: '',
         price: 0
-    })
+    });
+
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleFileChange = (event: any) => {
+        setSelectedFile(event.target.files[0]);
+    };
+
 
     useEffect(()=>{
         console.log("Book state: " + JSON.stringify(book));
     },[book])
     const [displayWarning, setDisplayWarning] = useState(false);
     const [displaySuccess, setDisplaySuccess] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const handleCategorySelect = (category: any) => {
-        setBook({ ...book, category });
-        setSelectedCategory(category);
+
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedOptions = Array.from(event.target.options)
+            .filter((option: HTMLOptionElement) => option.selected)
+            .map((option: HTMLOptionElement) => ({
+                id: parseInt(option.value), // Parse the value to ensure it's a number
+                categoryName: option.label,
+            })) as { id: number; categoryName: string; }[];
+    
+        // Update the categoryList by merging the new selected options with the existing ones
+        setBook((prevBook: typeof book) => ({
+            ...prevBook,
+            categoryList: [...prevBook.categoryList, ...selectedOptions],
+        }));
     };
 
     const handleInput = (event: any) => {
@@ -36,7 +64,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
     }
 
     async function base64ConversionForImages(e: any) {
-        if (e.target && e.target.file && e.target.file[0]) {
+        if (e.target && e.target.files && e.target.file[0]) {
             getBase64(e.target.file[0]);
         }
     }
@@ -57,12 +85,22 @@ export const AddBook: React.FC<componentProps> = (props) =>{
         }
     }
 
+    //Create a new book
     const submitBook = async () => {
         try {
+          var formData = new FormData();
+          formData.append("image", selectedFile!);
+          formData.append(
+            "bookData",
+            new Blob([JSON.stringify(book)], { type: "application/json" })
+          );
           const response: BookModel = await props.axios({
             method: "post",
+            data: formData,
             url: "http://localhost:8081/books/save",
-            data: book,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           });
           console.log(response);
           console.log("Save Book: " + JSON.stringify(response));
@@ -87,7 +125,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
         }
         <div className="card">
             <div className="card-header">
-                Add a new book
+                <h3>Add a new book</h3>
             </div>
             <div className="card-body">
                 <form>
@@ -102,22 +140,13 @@ export const AddBook: React.FC<componentProps> = (props) =>{
                         </div>
                         <div className="col-md-2 mb-3">
                             <label className="form-label">Category</label>
-                            <button
-                                className="form-control btn btn-secondary dropdown-toggle"
-                                type="button"
-                                id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                                {selectedCategory || 'Select Category'}
-                            </button>
-
-                            <ul id="addNewBookId" className="dropdown-menu">
-                                <li><a onClick={() => handleCategorySelect('Front End')} className="dropdown-item">Front End</a></li>
-                                <li><a onClick={() => handleCategorySelect('Back End')} className="dropdown-item">Back End</a></li>
-                                <li><a onClick={() => handleCategorySelect('Data')} className="dropdown-item">Data</a></li>
-                                <li><a onClick={() => handleCategorySelect('DevOps')} className="dropdown-item">DevOps</a></li>
-                            </ul>
+                            <select multiple className="form-control" name="categoryList" onChange={handleCategoryChange}>
+                                {props.category.map((cat, index) => (
+                                    <option key={index} value={cat.id}>
+                                        {cat.categoryName}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="col-md-2 mb-3">
                             <label className="form-label">Avalable</label>
@@ -133,7 +162,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
                         <textarea className="form-control" cols={50} rows={5} name="description" required onChange={handleInput}></textarea>
                     </div>
                     <div className="d-flex justify-content-center align-items-center">
-                        <input type="file" onChange={e => base64ConversionForImages(e)}/>
+                        <input type="file" onChange={e => handleFileChange(e)}/>
                     </div>
                     <div className="d-flex justify-content-center align-items-center">
                         <button type="button" className="btn btn-primary mt-3" onClick={submitBook}>

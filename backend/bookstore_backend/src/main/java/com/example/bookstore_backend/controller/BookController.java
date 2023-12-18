@@ -5,6 +5,7 @@ import com.example.bookstore_backend.dto.BookDTO;
 import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.service.BookServiceImpl;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,15 +31,18 @@ public class BookController {
         return bookService.Get(id);
     }
 
+
     @GetMapping("books/search")
     List<BookDTO> findBookByQuery(@RequestParam("query") String query){
         return bookService.findByQuery(query);
     }
 
-    @PostMapping("books/save")
-    Book createBook(@RequestBody BookDTO book){
-        return bookService.create(book);
+    @PostMapping(value = "books/save", consumes = {   "multipart/form-data" })
+    Book createBook(@RequestPart("bookData") BookDTO bookDTO,
+                    @RequestParam("image") MultipartFile image) {
+        return bookService.create(bookDTO, image);
     }
+
 
 
 }

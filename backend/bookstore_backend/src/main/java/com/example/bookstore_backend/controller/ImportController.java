@@ -32,7 +32,6 @@ public class ImportController {
     List<ImportDetail> findDetailByID(@PathVariable(name = "id") long id){
         return importDetailService.getListImportDetailByID(id);
     }
-
     @PostMapping("imports")
     Import createImport(@RequestBody ImportDTO anImport){
         return importService.create(anImport);
