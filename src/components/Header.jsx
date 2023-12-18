@@ -1,6 +1,8 @@
 import React from "react";
+import { Navbar, NavbarBrand } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import logo from "../images/web-logo.png";
 
 const NavContent = styled.div`
   li {
@@ -22,9 +24,11 @@ const Header = () => {
   return (
     <Wrapper className="row gx-0">
       <nav className="navbar navbar-expand-lg px-5">
-        <a className="navbar-brand" href="#">
-          BoreStook
-        </a>
+        <Navbar.Brand href="#">
+          <h1 className="d-inline ps"><i className="fa-solid fa-book-atlas 2-xl"></i></h1>
+          &nbsp;&nbsp;&nbsp;Book store
+        </Navbar.Brand>
+
         <button
           className="navbar-toggler"
           type="button"

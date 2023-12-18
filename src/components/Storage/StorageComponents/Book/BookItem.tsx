@@ -52,9 +52,9 @@ export const BookItem: React.FC<{
           <Badge colorScheme="red">Out of stock</Badge>
           :
           (props.book.available ?? 0) <= 10 ?
-            <Badge colorScheme="purple">{props.book.available}</Badge>
+            <Badge fontSize={`md`} colorScheme="purple">{props.book.available}</Badge>
             :
-            <Badge colorScheme="green">{props.book.available}</Badge>
+            <Badge fontSize={`md`} colorScheme="green">{props.book.available}</Badge>
 
 
         )}</td>
