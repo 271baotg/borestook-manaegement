@@ -147,6 +147,19 @@ export const Storage = () => {
     filterBookListByCategory(currentCategoryId);
   }, [currentCategoryId]);
 
+  const changePrice = async (id: number, price: number) => {
+    return;
+    try {
+      const url = `http://localhost:8081/books/update-price?id=${id}&price=${price}`
+      const response = await axiosPrivate.post(
+        url
+      );
+      console.log("price", response);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const handleClickGoToCheckOut = () => {
     if (billItems.length === 0) {
       alert("You have not added any product into cart");
@@ -333,7 +346,7 @@ export const Storage = () => {
             aria-label="Close"
           ></button>
         </div>
-        <ModalBookDetail currentBook={currentBook}></ModalBookDetail>
+        <ModalBookDetail currentBook={currentBook} changePrice={changePrice}></ModalBookDetail>
       </dialog>
       {isOpenCheckOutModal && (
         <CheckOutModal

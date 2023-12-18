@@ -243,11 +243,11 @@ const Statistic: React.FC<{}> = (props) => {
         const orderBySoldURL = 'top-sold-book';
         const orderByRevenueURL = 'top-revenue-book';
 
-        const url = `http://localhost:8081/orders/${orderBy === OrderBy.SOLD ? orderBySoldURL: orderByRevenueURL}`
+        const url = `http://localhost:8081/orders/${orderBy === OrderBy.SOLD ? orderBySoldURL : orderByRevenueURL}`
 
-        const response:TopBookData[] = await axiosPrivate.get(url, {params: {"limit": 10}})
+        const response: TopBookData[] = await axiosPrivate.get(url, { params: { "limit": 10 } })
 
-        if(response !== undefined){
+        if (response !== undefined) {
           setListTopBook(response);
         }
       } catch (e) {
@@ -286,23 +286,28 @@ const Statistic: React.FC<{}> = (props) => {
       <Card className="p-2">
         <Row className="d-block d-sm-flex">
           <Col className="pt-1 pt-sm-0">
-            <CompareTwoValuesBoxWithArrow lable={'Month Revenue'} currentValue={revenueCurrentMonth} oldValue={revenueLastMonth} />
+            <CompareTwoValuesBoxWithArrow
+              lable={'Month Revenue'}
+              currentValue={revenueCurrentMonth}
+              oldValue={revenueLastMonth}
+              icon={<i className="fa-solid fa-money-bill-transfer fa-2xl"></i>} />
           </Col>
           <Col className="pt-1 pt-sm-0">
-            <CompareTwoValuesBoxWithArrow lable={'New Customer'} currentValue={createdCusCurrentMonth} oldValue={createdCusLastMonth} />
+            <CompareTwoValuesBoxWithArrow icon={<i className="fa-solid fa-user fa-2xl"></i>} lable={'New Customer'} currentValue={createdCusCurrentMonth} oldValue={createdCusLastMonth} />
           </Col>
           <Col className="pt-1 pt-sm-0">
-            <CompareTwoValuesBoxWithArrow lable={'Order'} currentValue={createdOrderCurrentMonth} oldValue={createdOrderLastMonth} />
+            <CompareTwoValuesBoxWithArrow icon={<i className="fa-solid fa-cart-arrow-down fa-2xl "></i>} lable={'Order'} currentValue={createdOrderCurrentMonth} oldValue={createdOrderLastMonth} />
           </Col>
         </Row>
         <Row className="mt-2 h-100">
           <Col lg={8} md={7} sm={12}>
-            <h3>Year Revenue</h3>
+            <h2></h2>
+            <h3> <i className="fa-solid fa-chart-line fa-xl"></i> Year Revenue</h3>
             <YearRevenueChart yearRevenue={yearRevenue} />
           </Col>
-          <Col lg={4} md={5}>
+          <Col lg={4} md={5} className="mt-2">
             {/* Table UI from Charkra */}
-            <h3>{`Top Book`}</h3>
+            <h3><i className="fa-solid fa-book fa-xl"></i>{` Top Book`}</h3>
             <TopBookTable listTopBook={listTopBook} orderBy={orderBy} setOrderBy={setOrderBy} />
           </Col>
         </Row>
