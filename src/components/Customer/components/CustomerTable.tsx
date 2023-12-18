@@ -15,7 +15,7 @@ export const CustomerTable: React.FC<{
   return (
     <main className={`${st.tableContainer} card`}>
       <section className={st.table__header}>
-        <h1>Customers</h1>
+        <h1 className="ps-3">Customers</h1>
         <SearchBar
           searchKeyWord={props.searchKeyWord}
           setSeachKeyWord={props.setSearchKeyWord}
