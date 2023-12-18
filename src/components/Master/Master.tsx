@@ -20,6 +20,8 @@ const Master = () => {
   const [orderList, setOrderList] = useState<OrderModel[]>();
   const [importList, setImportList] = useState<ImportModel[]>([]);
   const [userImportList, setUserImportList] = useState<ImportBookItem[]>([]);
+  const [category, setCategory] = useState<Category[]>([]);
+
 
 
   const getAllImportListAxios = async () => {
@@ -79,6 +81,21 @@ const Master = () => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
+  useEffect(() => {
+    const url = "http://localhost:8081/category";
+    const getCategory = async () => {
+      try {
+        const response: Category[] = await axiosPrivate.get(url);
+        if (response !== null) {
+          setCategory(response);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getCategory();
+  }, []);
+
   const submitUser = async () => {
     try {
       const response: UserModel = await axiosPrivate({
@@ -106,7 +123,7 @@ const Master = () => {
       throw error; // Ném lỗi để xác định lỗi
     }
   };
-
+  //GetOrderAxios by username of staff
   const getOrderAxios = async (username: string | undefined) => {
     try {
       const response: OrderModel[] = await axiosPrivate({
@@ -170,7 +187,7 @@ const Master = () => {
       </nav>
       <div className="tab-content" id="nav-tabContent">
         <div className="tab-pane fade show active m-2" id="nav-addbook" role="tabpanel" aria-labelledby="nav-addbook-tab">
-          <AddBook axios={axiosPrivate}></AddBook>
+          <AddBook axios={axiosPrivate} category={category}></AddBook>
         </div>
         <div className="tab-pane fade m-2" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
           <User

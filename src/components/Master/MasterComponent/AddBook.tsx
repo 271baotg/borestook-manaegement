@@ -6,28 +6,49 @@ import { title } from "process";
 import { AxiosInstance } from "axios";
 
 interface componentProps {
-    axios: AxiosInstance
+    axios: AxiosInstance;
+    category: Category[];
 }
 export const AddBook: React.FC<componentProps> = (props) =>{
-    const [book, setBook] = useState({
+    const [book, setBook] = useState<{
+        title: string;
+        author: string;
+        description: string;
+        available: number;
+        categoryList: { id: number; categoryName: string; }[]; // Assuming id is of type 'number' (long)
+        img: string;
+        price: number;
+    }>({
         title: '',
         author: '',
         description: '',
         available: 1,
-        category: '',
+        categoryList: [],
         img: '',
         price: 0
-    })
+    });
 
     useEffect(()=>{
         console.log("Book state: " + JSON.stringify(book));
     },[book])
     const [displayWarning, setDisplayWarning] = useState(false);
     const [displaySuccess, setDisplaySuccess] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const handleCategorySelect = (category: any) => {
-        setBook({ ...book, category });
-        setSelectedCategory(category);
+
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedOptions = Array.from(event.target.options)
+            .filter((option: HTMLOptionElement) => option.selected)
+            .map((option: HTMLOptionElement) => ({
+                id: parseInt(option.value), // Parse the value to ensure it's a number
+                categoryName: option.label,
+            })) as { id: number; categoryName: string; }[];
+    
+        // Update the categoryList by merging the new selected options with the existing ones
+        setBook((prevBook: typeof book) => ({
+            ...prevBook,
+            categoryList: [...prevBook.categoryList, ...selectedOptions],
+        }));
     };
 
     const handleInput = (event: any) => {
@@ -36,7 +57,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
     }
 
     async function base64ConversionForImages(e: any) {
-        if (e.target && e.target.file && e.target.file[0]) {
+        if (e.target && e.target.files && e.target.file[0]) {
             getBase64(e.target.file[0]);
         }
     }
@@ -57,6 +78,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
         }
     }
 
+    //Create a new book
     const submitBook = async () => {
         try {
           const response: BookModel = await props.axios({
@@ -71,7 +93,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
           console.log(error);
           setDisplayWarning(true);
         }
-      };
+    };
 
     return (
     <div className="container mt-5 mb-5">
@@ -87,7 +109,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
         }
         <div className="card">
             <div className="card-header">
-                Add a new book
+                <h4>Add a new book</h4>
             </div>
             <div className="card-body">
                 <form>
@@ -102,22 +124,13 @@ export const AddBook: React.FC<componentProps> = (props) =>{
                         </div>
                         <div className="col-md-2 mb-3">
                             <label className="form-label">Category</label>
-                            <button
-                                className="form-control btn btn-secondary dropdown-toggle"
-                                type="button"
-                                id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                                {selectedCategory || 'Select Category'}
-                            </button>
-
-                            <ul id="addNewBookId" className="dropdown-menu">
-                                <li><a onClick={() => handleCategorySelect('Front End')} className="dropdown-item">Front End</a></li>
-                                <li><a onClick={() => handleCategorySelect('Back End')} className="dropdown-item">Back End</a></li>
-                                <li><a onClick={() => handleCategorySelect('Data')} className="dropdown-item">Data</a></li>
-                                <li><a onClick={() => handleCategorySelect('DevOps')} className="dropdown-item">DevOps</a></li>
-                            </ul>
+                            <select multiple className="form-control" name="categoryList" onChange={handleCategoryChange}>
+                                {props.category.map((cat, index) => (
+                                    <option key={index} value={cat.id}>
+                                        {cat.categoryName}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="col-md-2 mb-3">
                             <label className="form-label">Avalable</label>

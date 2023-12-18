@@ -14,7 +14,7 @@ export const UserTable: React.FC<{
     return (
         <main className={`${st.tableContainer} card`}>
       <section className={st.table__header}>
-        <h1 className="m-2">Users</h1>
+        <h1 style={{margin : '0 0 0 30px'}}>Users</h1>
       </section>
       <section className={st.table__body}>
         <UserList

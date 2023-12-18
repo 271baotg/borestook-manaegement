@@ -98,7 +98,7 @@ const truncateString = (str: string, maxLength: number) => {
                 <td className={st.tableData}>
                   {props.currentOrder.customer?.ranking}
                 </td>
-                <td className={st.tableData}>"14/11/2023"</td>
+                <td className={st.tableData}>{truncateString(props.currentOrder.createDate, 10)}</td>
               </tr>
             )}
           </tbody>
