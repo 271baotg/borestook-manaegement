@@ -390,7 +390,7 @@ export const Storage = () => {
           }}
         />
       )}
-      {isOpenCheckOutModal && (
+      {isOpenMaxQtyReachedModal && (
         <MaxQtyReachedModal
           isOpen={isOpenMaxQtyReachedModal}
           onOpen={() => {
