@@ -93,7 +93,11 @@ export const Customer = () => {
       return;
     } 
     const data = customerList.map((customer)=>[
-      customer
+      customer.id,
+      customer.fullName,
+      customer.phoneNumber,
+      customer.ranking,
+      customer.spent,
 
     ])
     const fields = ['ID', 'NAME','PHONENUMBER', 'RANKING', 'SPENT'];
