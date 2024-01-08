@@ -38,6 +38,9 @@ ChartJS.register(
 )
 
 
+const demoMonth = 10;
+const demoYear = 2023;
+
 
 type MonthlyRevenue = {
   month: number,
@@ -111,7 +114,8 @@ const Statistic: React.FC<{}> = (props) => {
     const getCurrentMonthRevenue = async () => {
       try {
         const currentDate = new Date();
-        const url = `http://localhost:8081/orders/get-revenue-by-month-and-year?month=${currentDate.getMonth() + 1}&year=${currentDate.getFullYear()}`;
+        //year -1
+        const url = `http://localhost:8081/orders/get-revenue-by-month-and-year?month=${demoMonth}&year=${demoYear}`;
         const response: MonthlyRevenue = await axiosPrivate.get(
           url
         )
@@ -127,7 +131,8 @@ const Statistic: React.FC<{}> = (props) => {
         const currentDate = new Date();
         const month = currentDate.getMonth() == 0 ? 12 : currentDate.getMonth();
         const year = currentDate.getMonth() == 0 ? currentDate.getFullYear() - 1 : currentDate.getFullYear();
-        const url = `http://localhost:8081/orders/get-revenue-by-month-and-year?month=${month}&year=${year}`;
+        //year -1 
+        const url = `http://localhost:8081/orders/get-revenue-by-month-and-year?month=${demoMonth - 1}&year=${demoYear}`;
         const response: MonthlyRevenue = await axiosPrivate.get(
           url
         )
@@ -147,7 +152,8 @@ const Statistic: React.FC<{}> = (props) => {
     const getCreatedCusCurrentMonth = async () => {
       try {
         const currentDate = new Date();
-        const url = `http://localhost:8081/customers/count?month=${currentDate.getMonth() + 1}&year=${currentDate.getFullYear()}`;
+        //year-1
+        const url = `http://localhost:8081/customers/count?month=${demoMonth}&year=${demoYear}`;
         const response: CustomerCount = await axiosPrivate.get(
           url
         )
@@ -164,7 +170,8 @@ const Statistic: React.FC<{}> = (props) => {
         const currentDate = new Date();
         const month = currentDate.getMonth() == 0 ? 12 : currentDate.getMonth();
         const year = currentDate.getMonth() == 0 ? currentDate.getFullYear() - 1 : currentDate.getFullYear();
-        const url = `http://localhost:8081/customers/count?month=${month}&year=${year}`;
+        //year-1
+        const url = `http://localhost:8081/customers/count?month=${demoMonth-1}&year=${demoYear}`;
         const response: CustomerCount = await axiosPrivate.get(
           url
         )
@@ -183,7 +190,9 @@ const Statistic: React.FC<{}> = (props) => {
     const getCreatedOrderCurrentMonth = async () => {
       try {
         const currentDate = new Date();
-        const url = `http://localhost:8081/orders/count?month=${currentDate.getMonth() + 1}&year=${currentDate.getFullYear()}`;
+        //year-1
+
+        const url = `http://localhost:8081/orders/count?month=${demoMonth}&year=${demoYear}`;
         const response: OrderCount = await axiosPrivate.get(
           url
         )
@@ -200,7 +209,8 @@ const Statistic: React.FC<{}> = (props) => {
         const currentDate = new Date();
         const month = currentDate.getMonth() == 0 ? 12 : currentDate.getMonth();
         const year = currentDate.getMonth() == 0 ? currentDate.getFullYear() - 1 : currentDate.getFullYear();
-        const url = `http://localhost:8081/orders/count?month=${month}&year=${year}`;
+        //year-1
+        const url = `http://localhost:8081/orders/count?month=${demoMonth}&year=${demoYear}`;
         const response: OrderCount = await axiosPrivate.get(
           url
         )
@@ -223,7 +233,8 @@ const Statistic: React.FC<{}> = (props) => {
         const response: MonthlyRevenueByYear = await axiosPrivate.get(
           url,
           {
-            params: { "year": year }
+            //year-1
+            params: { "year": year - 1}
           }
         )
 
