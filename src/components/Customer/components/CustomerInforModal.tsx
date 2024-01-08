@@ -1,8 +1,14 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { CustomerModel } from "../../../models/CustomerModel";
+import { CustomerValidator } from "../../../utils/validators/CustomerValidator";
+import { useState } from "react";
 
 const INIT_RANK: number = 0;
 const INIT_SPENT: number = 0;
+
+const validStyle = { fontFamily: 'monospace', fontSize: 13.5, color: 'green' };
+const inValidStyle = { fontFamily: 'monospace', fontSize: 13.5, color: 'red' };
+
 export const CustomerInforModal: React.FC<{
   isShow: boolean;
   customer: CustomerModel;
@@ -10,10 +16,14 @@ export const CustomerInforModal: React.FC<{
   onClose: Function;
   onOpen: Function;
   onSave: Function;
+  validation?: boolean;
   title?: string;
+
 }> = (props) => {
+  const { validation = true } = props;
   const isShow = props.isShow;
   const customer = props.customer;
+  const [customerValidator] = useState<CustomerValidator>(new CustomerValidator());
 
   const handleOnHide = () => {
     props.onClose();
@@ -56,6 +66,11 @@ export const CustomerInforModal: React.FC<{
               autoFocus={true}
               value={customer.fullName}
             ></Form.Control>
+            {validation &&
+              <>
+                <p style={customerValidator.nameValidator.isLongEnough(props.customer.fullName ?? '') ? validStyle: inValidStyle}>(*) Name must contain more than 3 characters</p>
+              </>
+            }
           </Form.Group>
           <Form.Group>
             <Form.Label>Phone</Form.Label>
