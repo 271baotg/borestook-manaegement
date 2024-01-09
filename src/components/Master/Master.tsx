@@ -67,9 +67,9 @@ const Master = () => {
   useEffect(() => {
     getAllImportListAxios();
   }, [])
-  useEffect(() => {
-    console.log(userList);
-  }, [userList])
+  // useEffect(() => {
+  //   console.log(userList);
+  // }, [userList])
 
   useEffect(() => {
     console.log(isActive);
@@ -81,9 +81,9 @@ const Master = () => {
     fullName: '',
   })
 
-  useEffect(() => {
-    console.log("Book state: " + JSON.stringify(user));
-  }, [user])
+  // useEffect(() => {
+  //   console.log("Book state: " + JSON.stringify(user));
+  // }, [user])
 
   const handleInput = (event: any) => {
     setUser({ ...user, [event.target.name]: event.target.value });
@@ -205,7 +205,8 @@ const Master = () => {
             submitUser={submitUser}
             currentUser={currentUser}
             orderList={orderList}
-            openModelDetail={openModalDetail}></User>
+            openModelDetail={openModalDetail}
+            user={user}></User>
         </div>
         <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
         <div className="tab-pane fade" id="nav-import" role="tabpanel" aria-labelledby="nav-import-tab">

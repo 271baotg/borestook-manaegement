@@ -10,13 +10,12 @@ export const UserItem: React.FC<{
   user: UserModel;
   openModalDetail: Function;
 }> = (props) => {
-  console.log(props.user);
   const handleOpenModal = (e: any) => {
     e.stopPropagation(); //Chặn sự kiện tiếp tục trên parent của nó
     props.openModalDetail(props.user.username);
   };
   let listRole = '';
-  props.user.roles.forEach((role) =>{
+  props.user.roles?.forEach((role) =>{
     listRole += `, ${role.name}`;
   })
 
