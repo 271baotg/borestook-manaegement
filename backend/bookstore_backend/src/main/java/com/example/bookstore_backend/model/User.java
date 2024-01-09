@@ -40,7 +40,6 @@ public class User  implements UserDetails {
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
     public User(String username, String password, String fullname) {

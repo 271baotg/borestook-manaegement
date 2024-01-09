@@ -14,9 +14,9 @@ export const CheckoutAndReviewBox: React.FC<{
     bookModel: BookModel,
     setBook: Function,
     isChangingPrice: boolean,
-    setIsChangingPrice: Function
-    changePrice: Function
-    cancel:Function
+    setIsChangingPrice: Function,
+    changePrice: Function,
+    cancel:Function,
 }> = (props) => {
 
     const [isChangingPrice, setIsChangingPrice] = useState<boolean>(false);
@@ -30,7 +30,7 @@ export const CheckoutAndReviewBox: React.FC<{
     };
 
     const handleOnClickApplyPrice = () => {
-        const isSuccess = props.changePrice();
+        const isSuccess = props.changePrice(props.bookModel.id, props.bookModel.price);
         if (isSuccess) {
             setIsChangingPrice(false);
         }
@@ -89,7 +89,7 @@ export const CheckoutAndReviewBox: React.FC<{
                             </InputGroup>
                             <hr></hr>
                             <InputGroup size="sm" className="mb-3 mt-3">
-                                <InputGroup.Text>Price</InputGroup.Text>
+                                <InputGroup.Text>Price($)</InputGroup.Text>
                                 <Form.Control
                                     className={st.hideArrow}
                                     aria-label="Small"

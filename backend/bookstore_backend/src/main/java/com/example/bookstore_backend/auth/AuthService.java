@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -34,17 +35,16 @@ public class AuthService {
                 passwordEncoder.encode(raw_password),
                 request.getFullName());
         if (userRepository.findUsersByUsername(request.getUsername()).isPresent()) {
-            return new AuthResponse("User exist");
+            return new AuthResponse("User exist",List.of());
         }
 
         Set<Role> roleDefault = new HashSet<>();
         Role userRole = rolesRepository.findRoleByName("user").get();
         roleDefault.add(userRole);
         user.setRoles(roleDefault);
-
-
-        userRepository.save(user);
-        return new AuthResponse(jwtServices.generateToken(user));
+        User registeredUser = userRepository.save(user);
+        List<String> roles = registeredUser.getRoles().stream().map(role -> role.getName()).toList();
+        return new AuthResponse(jwtServices.generateToken(user),roles);
     }
 
 
@@ -52,8 +52,11 @@ public class AuthService {
         Authentication authToken = new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword());
         authenticationManager.authenticate(authToken);
         UserDetails student = service.loadUserByUsername(request.getUsername());
-        
-        return new AuthResponse(jwtServices.generateToken(student));
+        List<String> roleList = student.getAuthorities().stream().map(grantedAuthority -> {
+            return grantedAuthority.getAuthority();
+        }).toList();
+
+        return new AuthResponse(jwtServices.generateToken(student), roleList);
     }
 
 

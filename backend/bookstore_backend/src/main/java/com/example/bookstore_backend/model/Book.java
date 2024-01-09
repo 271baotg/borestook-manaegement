@@ -3,13 +3,16 @@ package com.example.bookstore_backend.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
+
 @Table(name = "book")
 public class Book {
     @Id
@@ -36,7 +39,7 @@ public class Book {
     @OneToMany(mappedBy = "book")
     private List<OrderDetail> orderDetails;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "book_category",
                 joinColumns = {@JoinColumn(name = "book_ID")},
                 inverseJoinColumns = {@JoinColumn(name = "category_ID")})

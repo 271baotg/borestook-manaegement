@@ -46,7 +46,7 @@ export const OrderList: React.FC<{
               <th>Action</th>
             </tr>
           </thead>
-          <tbody className={st.tbody}>
+          <tbody className={st.tbody} style={{cursor: 'pointer'}}>
             {
               props.orderList.map((order)=>
                  (<OrderItem order={order} isChecked={true} 

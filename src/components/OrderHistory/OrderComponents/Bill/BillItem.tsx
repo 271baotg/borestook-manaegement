@@ -34,11 +34,13 @@ export const BillItem: React.FC<{
   return (
     <tr className={st.tableRow}>
       <td className={st.tableData}>{props.orderDetailItem.book?.id}</td>
-      <td className={st.tableData}>{props.orderDetailItem.book?.title}</td>
-      <td className={st.tableData}>{props.orderDetailItem.book.price}</td>
+      <td className={st.tableData} style={{ fontWeight: "bold" }}>
+        {props.orderDetailItem.book?.title}
+      </td>
+      <td className={st.tableData}>${props.orderDetailItem.book.price}</td>
       <td className={st.tableData}>{props.orderDetailItem.quantity}</td>
       <td className={st.tableData}>
-        {props.orderDetailItem.book.price * props.orderDetailItem.quantity}
+        ${props.orderDetailItem.book.price * props.orderDetailItem.quantity}
       </td>
     </tr>
   );

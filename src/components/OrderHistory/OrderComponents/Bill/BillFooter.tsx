@@ -25,8 +25,8 @@ export const BillFooter: React.FC<{
     return (
 
         <div className={st.billFooter}>
-            <p>{`Subtotal: ${subtotal}`}</p>
-            <p className='text-success' style={{fontSize:20}}>{`Total: ${subtotal}`}</p>
+            <p>{`Subtotal: $${subtotal}`}</p>
+            <p style={{fontSize:20, color: '#00BFFF'}}>{`Total: $${subtotal}`}</p>
             {/* <button className={`btn btn-success`} onClick={handleCheckOut}>Checkout</button> */}
         </div>
     )

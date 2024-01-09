@@ -10,7 +10,7 @@ export const BillList: React.FC<{ orderDetailItem?: OrderDetailModel[]
     return (
         <main className={`${st.tableContainer} card`}>
             <section className={st.table__header}>
-                <h1>Bill</h1>
+                <h3>Order History</h3>
             </section>
             <section className={`${st.table__body} card`}>
                 <table className={st.table}>

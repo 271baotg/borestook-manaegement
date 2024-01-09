@@ -22,9 +22,9 @@ export const BillFooter: React.FC<{billItem: BillItemModel[],
     return (
         <>
             <div className={st.billFooter}>
-                <p>{`Subtotal: ${subtotal}`}</p>
-                <p className='text-success' style={{ fontSize: 20 }}>{`Total: ${total}`}</p>
-                <button className={`btn btn-success`} onClick={handleClickGoToCheckOut}>Go to Checkout</button>
+                <p>{`Subtotal: $${subtotal}`}</p>
+                <p style={{color: "#00BFFF", fontSize: 20}} >{`Total: $${total}`}</p>
+                <button className={`btn`} style={{backgroundColor: "#00BFFF", color: 'white'}} onClick={handleClickGoToCheckOut}>Go to Checkout</button>
             </div>
         </>
     )

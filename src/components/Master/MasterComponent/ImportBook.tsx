@@ -150,7 +150,7 @@ export const ImportBook: React.FC<{ importList: ImportModel[], handleApplyImport
             <Col className="pt-2 p-sm-0">
                 <Card className={`${st.userImportSectionContainer}`}>
                     <Row className="m-3">
-                        <label className={`${st.importLable} btn btn-warning shadow`} style={{ minHeight: 200 }} htmlFor="import_input">
+                        <label className={`${st.importLable} btn btn-primary shadow`} style={{ minHeight: 200 }} htmlFor="import_input">
                             <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
                                 <h3><i className="fa-solid fa-file-import"></i> IMPORT</h3>
                             </div>

@@ -14,9 +14,10 @@
 
 .table__header{
     width: 100%;
-    background-color: rgba(209, 190, 190, 0.267);
+    background-color: #00BFFF;
     padding: .8rem 1rem;
     text-align: center;
+    color: white;
 }
 
 
