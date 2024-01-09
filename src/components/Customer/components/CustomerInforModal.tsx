@@ -4,7 +4,7 @@ import { CustomerValidator } from "../../../utils/validators/CustomerValidator";
 import { useContext, useState } from "react";
 import AuthContext from "../../../auth/AuthProvider";
 
-const INIT_RANK: number = 0;
+const INIT_RANK: number = 1;
 const INIT_SPENT: number = 0;
 
 const validStyle = { fontFamily: 'monospace', fontSize: 13.5, color: 'green' };
@@ -25,6 +25,7 @@ export const CustomerInforModal: React.FC<{
   const { validation = true } = props;
   const isShow = props.isShow;
   const customer = props.customer;
+  customer.ranking = INIT_RANK;
   const [customerValidator] = useState<CustomerValidator>(new CustomerValidator());
 
   const handleOnHide = () => {
@@ -32,7 +33,7 @@ export const CustomerInforModal: React.FC<{
   };
 
   const handleOnInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!auth?.roles.includes('admin')) {
+    if (e.currentTarget.name === 'spent' && !auth?.roles.includes('admin')) {
       return;
     }
     const { value, name } = e.target;
@@ -73,7 +74,7 @@ export const CustomerInforModal: React.FC<{
             ></Form.Control>
             {validation &&
               <div className="ms-2">
-                <p className="m-0" style={customerValidator.nameValidator.isLongEnough(props.customer.fullName ?? '') ? validStyle : inValidStyle}>(*) Name must contain more than 3 characters.</p>
+                <p className="m-0" style={customerValidator.nameValidator.isLongEnough(customer.fullName ?? '') ? validStyle : inValidStyle}>(*) Name must contain more than 3 characters.</p>
               </div>
             }
           </Form.Group>
@@ -87,7 +88,7 @@ export const CustomerInforModal: React.FC<{
             ></Form.Control>
             {validation &&
               <div className="ms-2">
-                <p className="m-0" style={customerValidator.phoneValidator.isLongEnough(props.customer.phoneNumber ?? '') ? validStyle : inValidStyle}>(*) Phonenumber length is exactly 10.</p>
+                <p className="m-0" style={customerValidator.phoneValidator.isLongEnough(props.customer.phoneNumber ?? '') ? validStyle : inValidStyle}>(*) Phonenumber length is exactly 9.</p>
                 <p className="m-0" style={customerValidator.phoneValidator.isRightFormat(props.customer.phoneNumber ?? '') ? validStyle : inValidStyle}>(*) Phonenumber have start with 0 (e.g. 0xxx...).</p>
               </div>
             }

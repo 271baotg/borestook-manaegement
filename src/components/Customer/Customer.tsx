@@ -18,7 +18,7 @@ export const Customer = () => {
   const [exportUrl, setExportUrl] = useState<string>('');
   const [customerList, setCustomerList] = useState<CustomerModel[]>([]);
   const [searchKeyWord, setSearchKeyWord] = useState('');
-  const [currentCustomer, setCurrentCustomer] = useState<CustomerModel | null>(null);
+  const [currentCustomer, setCurrentCustomer] = useState<CustomerModel | null>();
   const [isShowUpdateInforModal, setIsShowUpdateInforModal] = useState<boolean>(false);
   const [isShowInputInforModal, setIsShowInputInforModal] = useState<boolean>(false);
   const debouned = useDebounce(searchKeyWord);
