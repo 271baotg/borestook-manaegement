@@ -24,12 +24,10 @@ export const CreateCusModal: React.FC<{
   };
   const handleOnClickConfirmButton = () => {
     if (
-      !(
-        customer.fullName &&
-        customer.phoneNumber &&
-        customer.ranking &&
-        customer.spent != null
-      )
+      !customer.fullName &&
+      customer.phoneNumber &&
+      customer.ranking &&
+      customer.spent
     ) {
       alert("Please fill all the information");
     } else {

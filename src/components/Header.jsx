@@ -24,11 +24,9 @@ const Header = () => {
   return (
     <Wrapper className="row gx-0">
       <nav className="navbar navbar-expand-lg px-5">
-        <Navbar.Brand href="#">
-          <h1 className="d-inline ps"><i className="fa-solid fa-book-atlas 2-xl"></i></h1>
-          &nbsp;&nbsp;&nbsp;Book store
-        </Navbar.Brand>
-
+        <a style={{color: 'var(--blue-color)'}} className="navbar-brand" href="#">
+          BoreStook
+        </a>
         <button
           className="navbar-toggler"
           type="button"

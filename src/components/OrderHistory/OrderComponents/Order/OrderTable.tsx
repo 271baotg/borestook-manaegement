@@ -15,7 +15,7 @@ export const OrderTable: React.FC<{
   return (
     <main className={`${st.tableContainer} card`}>
       <section className={st.table__header}>
-        <h1>Orders</h1>
+        <h1 style={{color: '#00BFFF'}}>Orders</h1>
         <SearchBar
           searchKeyWord={props.searchKeyWord}
           setSeachKeyWord={props.setSearchKeyWord}

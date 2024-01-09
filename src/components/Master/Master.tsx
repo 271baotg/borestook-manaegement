@@ -67,9 +67,9 @@ const Master = () => {
   useEffect(() => {
     getAllImportListAxios();
   }, [])
-  useEffect(() => {
-    console.log(userList);
-  }, [userList])
+  // useEffect(() => {
+  //   console.log(userList);
+  // }, [userList])
 
   useEffect(() => {
     console.log(isActive);
@@ -81,9 +81,9 @@ const Master = () => {
     fullName: '',
   })
 
-  useEffect(() => {
-    console.log("Book state: " + JSON.stringify(user));
-  }, [user])
+  // useEffect(() => {
+  //   console.log("Book state: " + JSON.stringify(user));
+  // }, [user])
 
   const handleInput = (event: any) => {
     setUser({ ...user, [event.target.name]: event.target.value });
@@ -187,10 +187,10 @@ const Master = () => {
     <div>
       <nav>
         <div className="nav nav-tabs" id="nav-tab" role="tablist">
-          <button className="nav-link active" id="nav-addbook-tab" data-bs-toggle="tab" data-bs-target="#nav-addbook" type="button" role="tab" aria-controls="nav-addbook" aria-selected="true">Add Book</button>
-          <button className="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">User</button>
-          <button className="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
-          <button className="nav-link" id="nav-import-tab" data-bs-toggle="tab" data-bs-target="#nav-import" type="button" role="tab" aria-controls="nav-import" aria-selected="false">Import</button>
+          <button style={{ color: '#00BFFF'}} className="nav-link active" id="nav-addbook-tab" data-bs-toggle="tab" data-bs-target="#nav-addbook" type="button" role="tab" aria-controls="nav-addbook" aria-selected="true">Add Book</button>
+          <button style={{ color: '#00BFFF'}}className="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">User</button>
+          <button style={{ color: '#00BFFF'}}className="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+          <button style={{ color: '#00BFFF'}}className="nav-link" id="nav-import-tab" data-bs-toggle="tab" data-bs-target="#nav-import" type="button" role="tab" aria-controls="nav-import" aria-selected="false">Import</button>
         </div>
       </nav>
       <div className="tab-content" id="nav-tabContent">
@@ -205,7 +205,8 @@ const Master = () => {
             submitUser={submitUser}
             currentUser={currentUser}
             orderList={orderList}
-            openModelDetail={openModalDetail}></User>
+            openModelDetail={openModalDetail}
+            user={user}></User>
         </div>
         <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
         <div className="tab-pane fade" id="nav-import" role="tabpanel" aria-labelledby="nav-import-tab">

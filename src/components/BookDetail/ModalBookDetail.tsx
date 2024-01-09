@@ -5,6 +5,7 @@ import { useAxiosPrivate } from "../../api/useAxiosHook";
 import BookModel from "../../models/BookModel";
 import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
 import { axiosPrivate } from "../../api/axios";
+import { color } from "framer-motion";
 
 const ModalBookDetail: React.FC<{
   changePrice: Function;
@@ -19,12 +20,12 @@ const ModalBookDetail: React.FC<{
   //     const getBookDetail = async () => {
   //       try {
   //         const response: book = await axios({
-  //           method: `get`,
-  //           url: `http://localhost:8081/bookdetail/${id}`,
+  //           method: get,
+  //           url: http://localhost:8081/bookdetail/${id},
   //         });
   //         setbook(response);
   //       } catch (error) {
-  //         console.log(`Lỗi khi lấy dữ liệu sách: ${error}`);
+  //         console.log(Lỗi khi lấy dữ liệu sách: ${error});
   //       }
   //     };
   //     getBookDetail();
@@ -78,6 +79,12 @@ const ModalBookDetail: React.FC<{
     <Wrapper>
       {book ? (
         <div>
+          <div>
+            <h1 style={{ color: "var(--blue-color)", marginLeft: 10 }}>
+              Book Detail
+            </h1>
+          </div>
+          <hr className={`${basic_css.color_black}`} />
           <div
             className={`${basic_css.color_black} container d-none d-lg-block`}
           >

@@ -30,21 +30,31 @@ const ModalOrder: React.FC<{
   // // Format the date
   // const formattedDate = format(utcDate, 'dd-MM-yyyy HH:mm:ss');
   // const formattedCustomerDate = format(customerDate, 'dd-MM-yyyy HH:mm:ss');
-  
-const truncateString = (str: string, maxLength: number) => {
-  if (str === null) {
-    return "";
-  }
-  return str.length > maxLength ? `${str.substring(0, maxLength)}` : str;
-};
+
+  const truncateString = (str: string, maxLength: number) => {
+    if (str === null) {
+      return "";
+    }
+    return str.length > maxLength ? `${str.substring(0, maxLength)}` : str;
+  };
 
   return props.currentOrder ? (
-    
     <div className="row">
-      <div style={{fontSize : '22px'}}>Name: <span className={`${st.fontInfo}`}>{props.currentOrder.username}</span></div>
-      <div className="mb-3" style={{fontSize : '22px'}}>Create Date: <span className={`${st.fontInfo}`}>{truncateString(props.currentOrder.createDate, 10)}</span></div>
+      <div>
+        <h1 style={{ color: "var(--blue-color)" }}>Order Detail</h1>
+      </div>
+      <div style={{ fontSize: "22px" }}>
+        Name:{" "}
+        <span className={`${st.fontInfo}`}>{props.currentOrder.username}</span>
+      </div>
+      <div className="mb-3" style={{ fontSize: "22px" }}>
+        Create Date:{" "}
+        <span className={`${st.fontInfo}`}>
+          {truncateString(props.currentOrder.createDate, 10)}
+        </span>
+      </div>
       <div className="col-12 mb-5">
-        <h2>Book</h2>
+        <h2 style={{ color: "var(--blue-color)" }}>Book</h2>
         <table className={`${st.table}`}>
           <thead>
             <tr>
@@ -68,7 +78,7 @@ const truncateString = (str: string, maxLength: number) => {
         </table>
       </div>
       <div className="col-12">
-        <h2>Customer</h2>
+        <h2 style={{ color: "var(--blue-color)" }}>Customer</h2>
         <table className={`${st.table}`}>
           <thead>
             <tr>
@@ -87,7 +97,7 @@ const truncateString = (str: string, maxLength: number) => {
                   {props.currentOrder.customer.id}
                 </td>
                 <td className={st.tableData}>
-                  {props.currentOrder.customer?.spent}
+                  ${props.currentOrder.customer?.spent}
                 </td>
                 <td className={st.tableData}>
                   {props.currentOrder.customer?.phoneNumber}
@@ -98,7 +108,9 @@ const truncateString = (str: string, maxLength: number) => {
                 <td className={st.tableData}>
                   {props.currentOrder.customer?.ranking}
                 </td>
-                <td className={st.tableData}>{truncateString(props.currentOrder.createDate, 10)}</td>
+                <td className={st.tableData}>
+                  {truncateString(props.currentOrder.createDate, 10)}
+                </td>
               </tr>
             )}
           </tbody>

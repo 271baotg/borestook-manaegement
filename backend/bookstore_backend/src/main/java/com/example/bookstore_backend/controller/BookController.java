@@ -35,7 +35,6 @@ public class BookController {
         return bookService.Get(id);
     }
 
-
     @GetMapping("books/search")
     List<BookDTO> findBookByQuery(@RequestParam("query") String query){
         return bookService.findByQuery(query);

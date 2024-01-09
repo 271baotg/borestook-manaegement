@@ -23,7 +23,7 @@ export const BookTable: React.FC<{
   return (
     <main className={`${st.tableContainer} card`}>
       <section className={st.table__header}>
-        <h1 className="ms-3">Books</h1>
+        <h1 className="ms-3" style={{color: '#00BFFF'}}>Books</h1>
         <div className={`${st.searchAndFilter}`}>
           <SearchBar
             searchKeyWord={props.searchKeyWord}

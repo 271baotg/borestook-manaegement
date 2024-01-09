@@ -146,7 +146,7 @@ export const CheckOutResultModal: React.FC<{ order: OrderModel, isOpen: boolean,
     <div className="container">
       <Modal className="wider-modal-dialog" size="xl" show={props.isOpen} onHide={() => { props.onClose() }}>
         <Modal.Header closeButton>
-          <h3>Invoice</h3>
+          <h3 style={{color: 'var(--blue-color)'}}>Invoice</h3>
         </Modal.Header>
         <Modal.Body className="d-flex justify-content-end flex-column align-items-center">
         <button onClick={handlePrint} className="btn btn-outline-primary"><FontAwesomeIcon icon={icon({name: 'print'})} /></button>

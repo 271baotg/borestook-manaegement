@@ -358,7 +358,7 @@ export const Storage = () => {
         ></Bill>
       </div>
 
-      <dialog data-book-detail className={`${st.modal} m-5`}>
+      <dialog style={{borderRadius:16}} data-book-detail className={`${st.modal} m-5`}>
         <div className=" d-flex justify-content-end">
           <button
             type="button"

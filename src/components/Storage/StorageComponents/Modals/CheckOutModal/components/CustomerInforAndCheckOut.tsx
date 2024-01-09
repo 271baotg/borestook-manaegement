@@ -45,7 +45,11 @@ export const CustomerInforAndCheckOut: React.FC<{
     setSubTotal(tempSubtotal);
   }, []);
   useEffect(() => {
-    setTotal(subTotal * (10 - props.customer.ranking!) * 0.1);
+    if (props.customer.ranking) {
+      setTotal(subTotal * (10 - props.customer.ranking) * 0.1);
+    } else {
+      setTotal(subTotal);
+    }
   }, [subTotal, props.customer]);
 
   const handleOnClickCheckOut = () => {

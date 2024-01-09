@@ -1,4 +1,3 @@
-
 export class CustomerModel {
   id?: number;
   fullName?: string;
@@ -6,12 +5,19 @@ export class CustomerModel {
   ranking?: number;
   spent?: number;
   createDate?: Date;
-  constructor(id: number, spent: number, phoneNumber: string, fullName: string, ranking: number, createDate: Date ) {
+  constructor(
+    fullName: string,
+    spent: number,
+    phoneNumber: string,
+    ranking: number,
+    createDate?: Date,
+    id?: number
+  ) {
     this.id = id;
     this.spent = spent;
     this.phoneNumber = phoneNumber;
     this.fullName = fullName;
     this.ranking = ranking;
     this.createDate = createDate;
-}
+  }
 }

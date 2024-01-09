@@ -37,7 +37,7 @@ export const TopBookTable: React.FC<{ listTopBook: TopBookData[],orderBy:OrderBy
                             return (
                                 <Tr key={idx}>
                                     <Td className="pe-1">{item.book.title}</Td>
-                                    <Td className="pe-1">{item.revenue}</Td>
+                                    <Td className="pe-1">${item.revenue}</Td>
                                     <Td className="pe-1">{item.sold}</Td>
                                 </Tr>
                             )

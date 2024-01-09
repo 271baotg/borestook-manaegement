@@ -14,6 +14,7 @@ import { OrderTable } from "./OrderComponents/Order/OrderTable";
 import { Bill } from "./OrderComponents/Bill/Bill";
 import OrderDetailModel from "../../models/OrderDetailModel";
 import ModalOrder from "./OrderComponents/Order/ModalOrder";
+import Papa from "papaparse";
 
 
 export const OrderHistory = () => {
@@ -76,10 +77,10 @@ export const OrderHistory = () => {
       console.log(e);
     });
 
-    
+
   }, []);
 
-  
+
   const openModalDetail = async (id: number) => {
     const temp: OrderModel =
       orderList[orderList.findIndex((order) => order.id === id)];
@@ -106,7 +107,7 @@ export const OrderHistory = () => {
   };
 
   // GetOrderDetailItemsAxios
-  const getOrderDetailItemsAxios = async (id: number|undefined) => {
+  const getOrderDetailItemsAxios = async (id: number | undefined) => {
     try {
       const response: OrderDetailModel[] = await axios({
         method: "get",
@@ -122,7 +123,7 @@ export const OrderHistory = () => {
       throw error; // Ném lỗi để xác định lỗi
     }
   };
-  
+
   const chooseOneOrder = async (id: number) => {
     const temp: OrderModel =
       orderList[orderList.findIndex((order) => order.id === id)];
@@ -139,6 +140,32 @@ export const OrderHistory = () => {
     }
   };
 
+  const handleOnClickExportOrder = () => {
+    if(orderList.length === 0) {
+      return;
+    } 
+    const data = orderList.map((order)=>[
+      order.id,
+      order.createDate,
+      order.username,
+      order.customer ? order.customer.fullName : 'Vister',
+      order.total
+    ])
+    const fields = ['ID', 'DATE','EMPLOYEE', 'CUSTOMER', 'TOTAL'];
+
+    const csv = Papa.unparse({
+      data,
+      fields
+    })
+    const blob:Blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+    const a:HTMLAnchorElement = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'orders.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
   return (
     <>
       <div className={`${st.storageDesktop} d-none d-lg-flex`}>
@@ -147,11 +174,11 @@ export const OrderHistory = () => {
         <OrderTable
           orderList={orderList}
           searchKeyWord={''}
-          setSearchKeyWord={()=> {}}
+          setSearchKeyWord={() => { }}
           chooseOneOrder={chooseOneOrder}
           openModalDetail={openModalDetail}
         />
-        
+
         <Bill
           orderDetailItems={orderDetailItems}
         ></Bill>
@@ -163,19 +190,19 @@ export const OrderHistory = () => {
           orderList={orderList}
           // addToBill={handleAddToBill}
           searchKeyWord={''}
-          setSearchKeyWord={()=>{}}
+          setSearchKeyWord={() => { }}
           chooseOneOrder={chooseOneOrder}
           openModalDetail={openModalDetail}
         />
         <Bill
           orderDetailItems={orderDetailItems}
-          // setQuantity={setQuantity}
-          // removeBillItem={removeBillItem}
-          // checkOut={checkOut}
+        // setQuantity={setQuantity}
+        // removeBillItem={removeBillItem}
+        // checkOut={checkOut}
         ></Bill>
       </div>
 
-      <dialog data-order-detail className={`${st.modal}`}>
+      <dialog style={{borderRadius:16}} data-order-detail className={`${st.modal}`}>
         <div className=" d-flex justify-content-end ">
           <button
             type="button"
@@ -189,6 +216,9 @@ export const OrderHistory = () => {
           orderDetailItems={orderDetailItems}
         ></ModalOrder>
       </dialog>
+      <div className="d-flex flex-column" style={{ position: 'fixed', bottom: 30, right: 30 }}>
+        <button className="btn btn-primary p-2 mt-2" onClick={handleOnClickExportOrder} id="btnExportCustomer"><i className="fa-solid fa-file-export fa-xl"></i></button>
+      </div>
     </>
   );
 };

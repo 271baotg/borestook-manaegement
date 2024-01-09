@@ -33,7 +33,7 @@ export const CheckOutModal: React.FC<{
 
         <Modal size="xl" show={props.isOpen} onHide={() => { props.onClose() }}>
             <Modal.Header>
-                <Modal.Title as='h2'>Checkout information</Modal.Title>
+                <Modal.Title as='h2' style={{color: 'var(--blue-color)'}}>Checkout information</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <ModalContentContainer>

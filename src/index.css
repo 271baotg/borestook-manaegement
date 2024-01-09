@@ -6,3 +6,7 @@ body {
 td {
   font-family: cursive;
 }
+
+:root {
+  --blue-color: #00BFFF;
+}

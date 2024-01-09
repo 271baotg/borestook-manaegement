@@ -58,11 +58,11 @@ export const OrderItem: React.FC<{
       <td className={st.tableData}>
         {truncateString(props.order.createDate, 10)}
       </td>
-      <td className={st.tableData}>{props.order.username}</td>
+      <td className={st.tableData} style={{fontWeight: 600}}>{props.order.username}</td>
       <td className={`${st.tableData} text-primary`}>
         {props.order.customer?.fullName ?? ""}
       </td>
-      <td className={st.tableData}>{props.order.total}</td>
+      <td className={st.tableData}>${props.order.total}</td>
       <td className={st.tableData}>
         <button onClick={handleOpenModal} className={`btn btn-outline-primary m-1`}>
         <FontAwesomeIcon icon={icon({name: 'eye'})} />
