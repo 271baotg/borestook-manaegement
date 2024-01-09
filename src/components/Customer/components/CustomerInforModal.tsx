@@ -6,7 +6,7 @@ import { useState } from "react";
 const INIT_RANK: number = 0;
 const INIT_SPENT: number = 0;
 
-const validStyle = { fontFamily: 'monospace', fontSize: 13.5, color: 'green' };
+const validStyle = { fontFamily: 'monospace', fontSize: 13.5, color: 'green'};
 const inValidStyle = { fontFamily: 'monospace', fontSize: 13.5, color: 'red' };
 
 export const CustomerInforModal: React.FC<{
@@ -68,7 +68,7 @@ export const CustomerInforModal: React.FC<{
             ></Form.Control>
             {validation &&
               <>
-                <p style={customerValidator.nameValidator.isLongEnough(props.customer.fullName ?? '') ? validStyle: inValidStyle}>(*) Name must contain more than 3 characters</p>
+                <p className="m-0" style={customerValidator.nameValidator.isLongEnough(props.customer.fullName ?? '') ? validStyle : inValidStyle}>(*) Name must contain more than 3 characters.</p>
               </>
             }
           </Form.Group>
@@ -80,6 +80,12 @@ export const CustomerInforModal: React.FC<{
               type="number"
               value={customer.phoneNumber}
             ></Form.Control>
+            {validation &&
+              <>
+                <p className="m-0" style={customerValidator.phoneValidator.isLongEnough(props.customer.phoneNumber ?? '') ? validStyle : inValidStyle}>(*) Phonenumber length is exactly 10.</p>
+                <p className="m-0" style={customerValidator.phoneValidator.isRightFormat(props.customer.phoneNumber ?? '') ? validStyle : inValidStyle}>(*) Phonenumber have start with 0 or 8x (e.g. 0xxx..., 84xxx...).</p>
+              </>
+            }
           </Form.Group>
           <Form.Group>
             <Form.Label>Spent ($)</Form.Label>

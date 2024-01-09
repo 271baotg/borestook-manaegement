@@ -88,11 +88,11 @@ export const Customer = () => {
     setIsShowUpdateInforModal(false);
   }
 
-  const handleOnClickExportCustomer = (e: React.MouseEvent<HTMLButtonElement>) =>{
-    if(customerList.length === 0) {
+  const handleOnClickExportCustomer = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (customerList.length === 0) {
       return;
-    } 
-    const data = customerList.map((customer)=>[
+    }
+    const data = customerList.map((customer) => [
       customer.id,
       customer.fullName,
       customer.phoneNumber,
@@ -101,7 +101,7 @@ export const Customer = () => {
 
     ])
 
-    const fields = ['ID', 'NAME','PHONENUMBER', 'RANKING', 'SPENT'];
+    const fields = ['ID', 'NAME', 'PHONENUMBER', 'RANKING', 'SPENT'];
 
     const csv = Papa.unparse({
       data,
@@ -109,16 +109,16 @@ export const Customer = () => {
     })
     console.log('csv', csv);
 
-    
-    const blob:Blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+
+    const blob: Blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     console.log(blob.stream);
-    const a:HTMLAnchorElement = document.createElement('a');
+    const a: HTMLAnchorElement = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'customers.csv';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-  
+
   }
 
   const updateCustomer = async () => {
@@ -167,9 +167,9 @@ export const Customer = () => {
     {currentCustomer &&
       <UpdateCustomerModal customer={currentCustomer} setCurrentCustomer={setCurrentCustomer} isShowUpdateCustomerModal={isShowUpdateInforModal} setIsShowUpdateCustomerModal={setIsShowUpdateInforModal} updateCustomer={updateCustomer} />}
     <CreateCusModal isShowInputInforModal={isShowInputInforModal} setIsShowInputInforModal={setIsShowInputInforModal} createCustomer={createCustomer} />
-    <div className="d-flex flex-column" style={{ position: 'fixed', bottom: 30, right: 30 }}>
-      <button className="btn btn-success p-2" onClick={() => { setIsShowInputInforModal(true) }}><i className="fa-solid fa-plus fa-xl"></i></button>
-      <button className="btn btn-primary p-2 mt-2" onClick={handleOnClickExportCustomer} id="btnExportCustomer"><i className="fa-solid fa-file-export fa-xl"></i></button>
+    <div className="d-flex flex-column" style={{ position: 'fixed', bottom: 30, right: 25 }}>
+      <button className="btn btn-primary p-2 " onClick={handleOnClickExportCustomer} id="btnExportCustomer"><i className="fa-solid fa-file-export fa-xl"></i></button>
+      <button className="btn btn-success p-2 mt-2" onClick={() => { setIsShowInputInforModal(true) }}><i className="fa-solid fa-plus fa-xl"></i></button>
     </div>
 
   </>
