@@ -80,7 +80,7 @@ function Login() {
         username: username,
         password: password,
         token: response.data.token,
-        roles: response.data.roles
+        roles: response.data.roles,
       });
       alert("You're succesfully signed in !");
       navigate("/");

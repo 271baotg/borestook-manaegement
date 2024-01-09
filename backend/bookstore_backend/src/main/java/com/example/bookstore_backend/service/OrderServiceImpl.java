@@ -11,7 +11,9 @@ import com.example.bookstore_backend.model.Book;
 import com.example.bookstore_backend.model.Customer;
 import com.example.bookstore_backend.model.Order;
 import com.example.bookstore_backend.model.OrderDetail;
+import com.example.bookstore_backend.repository.CustomerRepository;
 import com.example.bookstore_backend.repository.OrderRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
     BookDTOMapper bookDTOMapper;
 
@@ -30,19 +33,8 @@ public class OrderServiceImpl implements OrderService {
     OrderDetailService orderDetailService;
     BookService bookService;
 
-    public OrderServiceImpl(OrderRepository repo,
-                            OrderDTOMapper orderDTOMapper,
-                            OrderDetailDTOMapper orderDetailDTOMapper,
-                            OrderDetailService orderDetailService,
-                            BookDTOMapper bookDTOMapper,
-                            BookService bookService) {
-        this.repo = repo;
-        this.orderDTOMapper = orderDTOMapper;
-        this.orderDetailDTOMapper = orderDetailDTOMapper;
-        this.orderDetailService = orderDetailService;
-        this.bookDTOMapper = bookDTOMapper;
-        this.bookService = bookService;
-    }
+    CustomerRepository customerRepository;
+
 
 
     @Override
@@ -89,6 +81,14 @@ public class OrderServiceImpl implements OrderService {
                     .username(orderDTO.getUsername())
                     .createDate(Date.from(Instant.now()))
                     .build();
+            Double updatedSpent = customer.getSpent() + orderDTO.getTotal();
+            if(updatedSpent >= 10000 * customer.getRanking() )
+            {
+                int ranking = customer.getRanking() + 1;
+                customer.setRanking(ranking);
+            }
+            customer.setSpent(updatedSpent);
+            customerRepository.save(customer);
             // Save the order or perform other actions
         } else {
             // Handle the case where the customer is null, such as logging a message or throwing an exception

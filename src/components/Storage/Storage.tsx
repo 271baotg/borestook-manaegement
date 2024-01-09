@@ -43,8 +43,10 @@ export const Storage = () => {
   const [isOpenCheckOutResultModal, setIsOpenCheckOutResultModal] =
     useState<boolean>(false);
   const [isCheckOutSuccess, setIsCheckOutSuccess] = useState<boolean>(false);
-  const [isOpenChangePriceResult, setIsOpenChangePriceResult] = useState<boolean>(false);
-  const [isChangePriceSuccess, setIsChangePriceSuccess] = useState<boolean>(false);
+  const [isOpenChangePriceResult, setIsOpenChangePriceResult] =
+    useState<boolean>(false);
+  const [isChangePriceSuccess, setIsChangePriceSuccess] =
+    useState<boolean>(false);
   //Customer states
   const [customer, setCustomer] = useState<CustomerModel>({});
 
@@ -133,7 +135,7 @@ export const Storage = () => {
       return;
     }
     setIsChangePriceSuccess(false);
-  }, [isOpenChangePriceResult])
+  }, [isOpenChangePriceResult]);
 
   useEffect(() => {
     const filterBookListByCategory = (id: number) => {
@@ -160,12 +162,10 @@ export const Storage = () => {
   }, [currentCategoryId]);
 
   const changePrice = async (id: number, price: number) => {
-    if(auth?.roles.includes('admin')){
+    if (auth?.roles.includes("admin")) {
       try {
-        const url = `http://localhost:8081/books/update-price?id=${id}&price=${price}`
-        const response = await axiosPrivate.post(
-          url
-        );
+        const url = `http://localhost:8081/books/update-price?id=${id}&price=${price}`;
+        const response = await axiosPrivate.post(url);
         getAllBook();
         setIsChangePriceSuccess(true);
         console.log("price", response);
@@ -175,7 +175,7 @@ export const Storage = () => {
     }
     closeModalDetail();
     setIsOpenChangePriceResult(true);
-  }
+  };
 
   const handleClickGoToCheckOut = () => {
     if (billItems.length === 0) {
@@ -262,6 +262,10 @@ export const Storage = () => {
     listOrderDetails.forEach((element, idx) => {
       total += element.book.price * element.quantity;
     });
+
+    if (customer != null) {
+      total = total * (10 - customer.ranking!) * 0.1;
+    }
 
     const order = new OrderModel(
       "",
@@ -363,7 +367,10 @@ export const Storage = () => {
             aria-label="Close"
           ></button>
         </div>
-        <ModalBookDetail currentBook={currentBook} changePrice={changePrice}></ModalBookDetail>
+        <ModalBookDetail
+          currentBook={currentBook}
+          changePrice={changePrice}
+        ></ModalBookDetail>
       </dialog>
       {isOpenCheckOutModal && (
         <CheckOutModal
@@ -401,9 +408,15 @@ export const Storage = () => {
           }}
         />
       )}
-      {isOpenChangePriceResult &&
-        <ChangePriceResultModal isOpen={isOpenChangePriceResult} isSuccess={isChangePriceSuccess} onClose={() => { setIsOpenChangePriceResult(false) }}></ChangePriceResultModal>
-      }
+      {isOpenChangePriceResult && (
+        <ChangePriceResultModal
+          isOpen={isOpenChangePriceResult}
+          isSuccess={isChangePriceSuccess}
+          onClose={() => {
+            setIsOpenChangePriceResult(false);
+          }}
+        ></ChangePriceResultModal>
+      )}
       {/* {
         <Modal show={isOpenChangePriceResult}>
           <Modal.Header closeButton onHide={()=>{setIsOpenChangePriceResult(false)}}>Noti</Modal.Header>

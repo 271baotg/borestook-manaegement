@@ -22,6 +22,7 @@ export default createGlobalStyle`
 --button-color: #b85043;
 --second-color: #eba04a;
 
+--table-header: #0d6;
 /* Gaps */
 --gap-11xl: 30px;
 
