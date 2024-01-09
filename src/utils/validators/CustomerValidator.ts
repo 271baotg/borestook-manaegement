@@ -1,9 +1,18 @@
+import { CustomerModel } from "../../models/CustomerModel";
+
+interface IValidation {
+    isValid: Function;
+}
+
 //Name 
-interface INameValidation {
+interface INameValidation  extends IValidation{
     isLongEnough: Function;
 }
 
 class NameValidator implements INameValidation {
+    isValid = (n:string) => {
+        return this.isLongEnough(n);
+    }
     isLongEnough = (name: string) => {
         if (name.length < 3) {
             return false;
@@ -13,11 +22,14 @@ class NameValidator implements INameValidation {
 
 }
 //Phone
-interface IPhoneValidation {
+interface IPhoneValidation extends IValidation{
     isLongEnough: Function;
     isRightFormat: Function;
 }
 class PhoneValidator implements IPhoneValidation {
+    isValid = (n:string) => {
+        return this.isLongEnough(n) && this.isRightFormat(n);
+    }
     isLongEnough = (num: string) => {
         if (num.length !== 10)
             return false;
@@ -33,7 +45,7 @@ class PhoneValidator implements IPhoneValidation {
 }
 
 //Customer
-interface ICustomerValidation {
+interface ICustomerValidation extends IValidation{
     isNameValid: Function,
     isPhoneValid: Function,
     isSpentValid: Function,
@@ -41,9 +53,12 @@ interface ICustomerValidation {
 }
 
 export class CustomerValidator implements ICustomerValidation {
-
+    
     nameValidator: NameValidator;
     phoneValidator: PhoneValidator;
+    isValid = (cus:CustomerModel) => {
+        return this.nameValidator.isValid(cus.fullName ?? '') && this.phoneValidator.isValid(cus.phoneNumber ?? '');
+    }
 
 
     constructor() {

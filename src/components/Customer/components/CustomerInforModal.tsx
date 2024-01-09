@@ -83,7 +83,7 @@ export const CustomerInforModal: React.FC<{
             {validation &&
               <>
                 <p className="m-0" style={customerValidator.phoneValidator.isLongEnough(props.customer.phoneNumber ?? '') ? validStyle : inValidStyle}>(*) Phonenumber length is exactly 10.</p>
-                <p className="m-0" style={customerValidator.phoneValidator.isRightFormat(props.customer.phoneNumber ?? '') ? validStyle : inValidStyle}>(*) Phonenumber have start with 0 or 8x (e.g. 0xxx..., 84xxx...).</p>
+                <p className="m-0" style={customerValidator.phoneValidator.isRightFormat(props.customer.phoneNumber ?? '') ? validStyle : inValidStyle}>(*) Phonenumber have start with 0 (e.g. 0xxx...).</p>
               </>
             }
           </Form.Group>
@@ -108,7 +108,7 @@ export const CustomerInforModal: React.FC<{
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={handleOnClickCreatButton} variant="success">
+        <Button onClick={handleOnClickCreatButton} variant="success" disabled={customerValidator.isValid(customer) ? false : true}>
           Create
         </Button>
         <Button onClick={handleOnClickClearButton} variant="warning">
