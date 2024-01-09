@@ -9,16 +9,28 @@
     border-collapse: collapse;
 }
 
-thead th {
+thead tr th {
     position: sticky;
     top: 0;
     left: 0;
-    background-color: #d5d1defe;
+    background-color: #00BFFF;
+    color: white;
+    font-size: 1rem;
+}
+
+thead tr th:first-child{
+    border-top-left-radius: 10px;
+
+}
+
+thead tr th:last-child{
+    border-top-right-radius: 10px;
+
 }
 
 tbody tr:nth-child(even){
     /* background-color: #00000027; */
-    background-color: #00000014;
+    background-color: #00BFFF;
 }
 
 /* 

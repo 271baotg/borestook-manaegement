@@ -5,6 +5,7 @@ import BookModel from "../../../models/BookModel";
 import { title } from "process";
 import { AxiosInstance } from "axios";
 
+
 interface componentProps {
     axios: AxiosInstance;
     category: Category[];
@@ -51,10 +52,16 @@ export const AddBook: React.FC<componentProps> = (props) =>{
                 categoryName: option.label,
             })) as { id: number; categoryName: string; }[];
     
-        // Update the categoryList by merging the new selected options with the existing ones
-        setBook((prevBook: typeof book) => ({
+        // Tạo một mảng mới chứa các category đã chọn
+        const updatedCategoryList = selectedOptions.map((selectedCategory) => ({
+            id: selectedCategory.id,
+            categoryName: selectedCategory.categoryName,
+        }));
+    
+        // Cập nhật mảng categoryList với danh sách mới
+        setBook((prevBook) => ({
             ...prevBook,
-            categoryList: [...prevBook.categoryList, ...selectedOptions],
+            categoryList: updatedCategoryList,
         }));
     };
 
@@ -94,6 +101,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
             "bookData",
             new Blob([JSON.stringify(book)], { type: "application/json" })
           );
+          console.log("Show Book: " + JSON.stringify(book))
           const response: BookModel = await props.axios({
             method: "post",
             data: formData,
@@ -124,7 +132,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
             </div>
         }
         <div className="card">
-            <div className="card-header">
+            <div className="card-header" style={{backgroundColor: '#00BFFF', color: 'white'}}>
                 <h3>Add a new book</h3>
             </div>
             <div className="card-body">
@@ -153,7 +161,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
                             <input type="number" className="form-control" min={1} defaultValue={1} name="available" required onChange={handleInput}/>
                         </div>
                         <div className="col-md-2 mb-3">
-                            <label className="form-label">Price</label>
+                            <label className="form-label">Price($)</label>
                             <input type="number" className="form-control" min={0} defaultValue={0} name="price" required onChange={handleInput}/>
                         </div>
                     </div>
@@ -165,7 +173,7 @@ export const AddBook: React.FC<componentProps> = (props) =>{
                         <input type="file" onChange={e => handleFileChange(e)}/>
                     </div>
                     <div className="d-flex justify-content-center align-items-center">
-                        <button type="button" className="btn btn-primary mt-3" onClick={submitBook}>
+                        <button type="button" style={{backgroundColor: 'var(--blue-color)'}} className="btn btn-primary mt-3" onClick={submitBook}>
                             Add Book
                         </button>
                     </div>

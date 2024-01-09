@@ -43,7 +43,7 @@ export const CustomerInforModal: React.FC<{
   return (
     <Modal show={isShow} onHide={handleOnHide}>
       <Modal.Header className="d-flex justify-content-center" closeButton>
-        <Modal.Title>{props.title ?? "Customer information"}</Modal.Title>
+        <Modal.Title style={{color: 'var(--blue-color)'}}>{props.title ?? "Customer information"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

@@ -153,9 +153,9 @@ export const CreateCusModal: React.FC<{
                 style={{ backgroundColor: "white" }}
                 id="create_customer_form"
               >
-                <fieldset>
+                <fieldset >
                   {/* <!-- Form Name --> */}
-                  <legend>Customer Information</legend>
+                  <legend >Customer Information</legend>
 
                   {/* <!-- Text input--> */}
 

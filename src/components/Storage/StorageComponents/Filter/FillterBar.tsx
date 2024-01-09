@@ -1,8 +1,8 @@
 import styled from "styled-components"
 const Select_Styled = styled.select`
-    border: 2px solid black;
+    border: 2px solid #00BFFF;
     border-radius: 0.5em;
-    margin-right: 10%;
+    margin-right: 9%;
 `;
 export const FillterBar: React.FC<{
     categoryList: Category[]

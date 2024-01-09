@@ -43,8 +43,8 @@ export const User: React.FC<componentProps> = (props) => {
         />}
       </div> */}
 
-      <div className="card col-12 col-md-4 col-lg-4" style={{marginTop : '15px'}}>
-            <div className="card-header">
+      <div className="card col-12 col-md-4 col-lg-4" style={{marginTop : '15px',paddingLeft: 0, paddingRight: 0}}>
+            <div className="card-header" style={{backgroundColor:'#00BFFF', color: 'white'}}>
                 Add a User
             </div>
             <div className="card-body">
@@ -76,7 +76,7 @@ export const User: React.FC<componentProps> = (props) => {
             </div>
         </div>
         
-        <dialog data-order-detail className={`${st.modal}`}>
+        <dialog style={{borderRadius:16}} data-order-detail className={`${st.modal}`}>
         <div className="d-flex justify-content-end ">
           <button
             type="button"

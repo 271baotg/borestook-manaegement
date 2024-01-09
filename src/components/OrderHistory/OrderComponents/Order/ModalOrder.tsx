@@ -41,10 +41,13 @@ const truncateString = (str: string, maxLength: number) => {
   return props.currentOrder ? (
     
     <div className="row">
+      <div>
+        <h1 style={{color: 'var(--blue-color)'}}>Book Detail</h1>
+      </div>
       <div style={{fontSize : '22px'}}>Name: <span className={`${st.fontInfo}`}>{props.currentOrder.username}</span></div>
       <div className="mb-3" style={{fontSize : '22px'}}>Create Date: <span className={`${st.fontInfo}`}>{truncateString(props.currentOrder.createDate, 10)}</span></div>
       <div className="col-12 mb-5">
-        <h2>Book</h2>
+        <h2 style={{color: 'var(--blue-color)'}}>Book</h2>
         <table className={`${st.table}`}>
           <thead>
             <tr>
@@ -68,7 +71,7 @@ const truncateString = (str: string, maxLength: number) => {
         </table>
       </div>
       <div className="col-12">
-        <h2>Customer</h2>
+        <h2 style={{color: 'var(--blue-color)'}}>Customer</h2>
         <table className={`${st.table}`}>
           <thead>
             <tr>
@@ -87,7 +90,7 @@ const truncateString = (str: string, maxLength: number) => {
                   {props.currentOrder.customer.id}
                 </td>
                 <td className={st.tableData}>
-                  {props.currentOrder.customer?.spent}
+                  ${props.currentOrder.customer?.spent}
                 </td>
                 <td className={st.tableData}>
                   {props.currentOrder.customer?.phoneNumber}

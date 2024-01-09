@@ -23,10 +23,10 @@ const ModelUser: React.FC<{
   return props.currentUser ? (
     <div className="row">
       <div className="col-12 mb-5">
-        <h2>UserDetail</h2>
+        <h2 style={{color: 'var(--blue-color)'}}>UserDetail</h2>
         <table className={`${st.table}`}>
           <thead>
-            <tr>
+            <tr >
               <th>ID</th>
               <th>UserName</th>
               <th>FullName</th>
@@ -43,7 +43,7 @@ const ModelUser: React.FC<{
         <h2>Orders</h2>
         <table className={`${st.table}`}>
           <thead>
-            <tr>
+            <tr style={{textAlign:'center'}}>
               <th>ID</th>
               <th>Customer Name</th>
               <th>UserName</th>
@@ -55,7 +55,7 @@ const ModelUser: React.FC<{
           <tbody className={st.tbody}>
           {props.orderList?.map((order) => {
               return (
-                <tr className={st.tableRow}>
+                <tr style={{textAlign:'center'}} className={st.tableRow}>
                   <td className={st.tableData}>
                     {order.id}
                   </td>
@@ -66,7 +66,7 @@ const ModelUser: React.FC<{
                     {order.username}
                   </td>
                   <td className={`${st.tableData} text-primary`}>
-                    {order.total}
+                    ${order.total}
                   </td>
                   <td className={st.tableData}>
                   {truncateString(order.createDate, 10)}

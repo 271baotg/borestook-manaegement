@@ -5,6 +5,7 @@ import { useAxiosPrivate } from "../../api/useAxiosHook";
 import BookModel from "../../models/BookModel";
 import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
 import { axiosPrivate } from "../../api/axios";
+import { color } from "framer-motion";
 
 const ModalBookDetail: React.FC<{ currentBook: BookModel | undefined }> = (props) => {
     // const id = props.id;
@@ -77,6 +78,10 @@ const ModalBookDetail: React.FC<{ currentBook: BookModel | undefined }> = (props
         <Wrapper>
             {book ? (
                 <div>
+                    <div>
+                        <h1 style={{color: 'var(--blue-color)', marginLeft: 10}}>Book Detail</h1>
+                    </div>
+                    <hr className={`${basic_css.color_black}`} />
                     <div className={`${basic_css.color_black} container d-none d-lg-block`}>
                         <div className="row mt-5">
                             <div className="col-sm-2 col-md-3">

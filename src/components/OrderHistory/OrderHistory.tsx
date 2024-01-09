@@ -175,7 +175,7 @@ export const OrderHistory = () => {
         ></Bill>
       </div>
 
-      <dialog data-order-detail className={`${st.modal}`}>
+      <dialog style={{borderRadius:16}} data-order-detail className={`${st.modal}`}>
         <div className=" d-flex justify-content-end ">
           <button
             type="button"

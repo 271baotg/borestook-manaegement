@@ -4,6 +4,8 @@
     height: 40px;
     flex-direction: row;
     justify-content: right;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .button, .input{
@@ -18,9 +20,12 @@
     margin-right: 6px;
     width: 70%;
     padding-left: 10px;
-    border: 1px solid #34444c;
+    height: 36px;
+    border: 1px solid #00BFFF;
 }
 
 .button{
     margin-left: 0px;
+    height: 36px;
+    background-color: #00BFFF;
 }

@@ -26,7 +26,7 @@ export const BookList: React.FC<{
               <th>Choose</th>
             </tr>
           </thead>
-          <tbody className={st.tbody}>
+          <tbody className={st.tbody} style={{cursor: 'pointer'}}>
             {
               props.bookList.map((book)=>
                  (<BookItem book={book} isChecked={true} addToBill={props.addToBill} key={book.id} openModalDetail={props.openModalDetail}/>)

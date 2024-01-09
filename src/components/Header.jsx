@@ -22,7 +22,7 @@ const Header = () => {
   return (
     <Wrapper className="row gx-0">
       <nav className="navbar navbar-expand-lg px-5">
-        <a className="navbar-brand" href="#">
+        <a style={{color: 'var(--blue-color)'}} className="navbar-brand" href="#">
           BoreStook
         </a>
         <button

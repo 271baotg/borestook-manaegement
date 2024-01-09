@@ -12,7 +12,7 @@ export const BillList: React.FC<{
     return (
         <main className={`${st.tableContainer} card`}>
             <section className={st.table__header}>
-                <h1>Bill</h1>
+                <h2 style={{marginBottom: 10, marginTop: 10}}>Bill</h2>
             </section>
             <section className={`${st.table__body} card`}>
                 <table className={st.table}>

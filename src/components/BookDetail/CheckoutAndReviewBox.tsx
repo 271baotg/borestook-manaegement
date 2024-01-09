@@ -89,7 +89,7 @@ export const CheckoutAndReviewBox: React.FC<{
                             </InputGroup>
                             <hr></hr>
                             <InputGroup size="sm" className="mb-3 mt-3">
-                                <InputGroup.Text>Price</InputGroup.Text>
+                                <InputGroup.Text>Price($)</InputGroup.Text>
                                 <Form.Control
                                     className={st.hideArrow}
                                     aria-label="Small"
