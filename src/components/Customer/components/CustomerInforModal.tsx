@@ -98,6 +98,7 @@ export const CustomerInforModal: React.FC<{
               <p style={{ fontFamily: 'monospace', fontSize: 13.5 }}>(Only admin can change this field)</p>
             </div>
             <Form.Control
+              disabled={!auth?.roles.includes('admin')}
               name="spent"
               onChange={handleOnInputChanged}
               type="number"
