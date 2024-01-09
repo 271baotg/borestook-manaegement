@@ -31,7 +31,7 @@ class PhoneValidator implements IPhoneValidation {
         return this.isLongEnough(n) && this.isRightFormat(n);
     }
     isLongEnough = (num: string) => {
-        if (num.length !== 10)
+        if (num.length > 9)
             return false;
         return true;
     }
