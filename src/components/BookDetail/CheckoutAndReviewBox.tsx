@@ -14,9 +14,9 @@ export const CheckoutAndReviewBox: React.FC<{
     bookModel: BookModel,
     setBook: Function,
     isChangingPrice: boolean,
-    setIsChangingPrice: Function
-    changePrice: Function
-    cancel:Function
+    setIsChangingPrice: Function,
+    changePrice: Function,
+    cancel:Function,
 }> = (props) => {
 
     const [isChangingPrice, setIsChangingPrice] = useState<boolean>(false);
@@ -30,7 +30,7 @@ export const CheckoutAndReviewBox: React.FC<{
     };
 
     const handleOnClickApplyPrice = () => {
-        const isSuccess = props.changePrice();
+        const isSuccess = props.changePrice(props.bookModel.id, props.bookModel.price);
         if (isSuccess) {
             setIsChangingPrice(false);
         }

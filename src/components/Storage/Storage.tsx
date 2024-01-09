@@ -15,6 +15,9 @@ import OrderModel from "../../models/OrderModel";
 import OrderDetailModel from "../../models/OrderDetailModel";
 import { MaxQtyReachedModal } from "../../utils/components/MaxQtyReachedToast";
 import { CheckOutResultModal } from "./StorageComponents/Modals/CheckOutResultModal/CheckOutResultModal";
+import { Modal } from "react-bootstrap";
+import { ChangePriceResultModal } from "./StorageComponents/Modals/ChangePriceResultModal/ChangePriceResultModal";
+import { close } from "inspector";
 
 export const Storage = () => {
   useAxiosPrivate();
@@ -40,6 +43,8 @@ export const Storage = () => {
   const [isOpenCheckOutResultModal, setIsOpenCheckOutResultModal] =
     useState<boolean>(false);
   const [isCheckOutSuccess, setIsCheckOutSuccess] = useState<boolean>(false);
+  const [isOpenChangePriceResult, setIsOpenChangePriceResult] = useState<boolean>(false);
+  const [isChangePriceSuccess, setIsChangePriceSuccess] = useState<boolean>(false);
   //Customer states
   const [customer, setCustomer] = useState<CustomerModel>({});
 
@@ -124,6 +129,13 @@ export const Storage = () => {
   }, [bookList]);
 
   useEffect(() => {
+    if (isChangePriceSuccess) {
+      return;
+    }
+    setIsChangePriceSuccess(false);
+  }, [isOpenChangePriceResult])
+
+  useEffect(() => {
     const filterBookListByCategory = (id: number) => {
       if (id == 0) {
         setFilterBookList(bookList);
@@ -146,6 +158,24 @@ export const Storage = () => {
     };
     filterBookListByCategory(currentCategoryId);
   }, [currentCategoryId]);
+
+  const changePrice = async (id: number, price: number) => {
+    if(auth?.roles.includes('admin')){
+      try {
+        const url = `http://localhost:8081/books/update-price?id=${id}&price=${price}`
+        const response = await axiosPrivate.post(
+          url
+        );
+        getAllBook();
+        setIsChangePriceSuccess(true);
+        console.log("price", response);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    closeModalDetail();
+    setIsOpenChangePriceResult(true);
+  }
 
   const handleClickGoToCheckOut = () => {
     if (billItems.length === 0) {
@@ -333,7 +363,7 @@ export const Storage = () => {
             aria-label="Close"
           ></button>
         </div>
-        <ModalBookDetail currentBook={currentBook}></ModalBookDetail>
+        <ModalBookDetail currentBook={currentBook} changePrice={changePrice}></ModalBookDetail>
       </dialog>
       {isOpenCheckOutModal && (
         <CheckOutModal
@@ -360,7 +390,7 @@ export const Storage = () => {
           }}
         />
       )}
-      {isOpenCheckOutModal && (
+      {isOpenMaxQtyReachedModal && (
         <MaxQtyReachedModal
           isOpen={isOpenMaxQtyReachedModal}
           onOpen={() => {
@@ -371,6 +401,17 @@ export const Storage = () => {
           }}
         />
       )}
+      {isOpenChangePriceResult &&
+        <ChangePriceResultModal isOpen={isOpenChangePriceResult} isSuccess={isChangePriceSuccess} onClose={() => { setIsOpenChangePriceResult(false) }}></ChangePriceResultModal>
+      }
+      {/* {
+        <Modal show={isOpenChangePriceResult}>
+          <Modal.Header closeButton onHide={()=>{setIsOpenChangePriceResult(false)}}>Noti</Modal.Header>
+          <Modal.Body>Đã update giá thành công</Modal.Body>
+          <Modal.Footer>
+          </Modal.Footer>
+        </Modal>
+      } */}
     </>
   );
 };

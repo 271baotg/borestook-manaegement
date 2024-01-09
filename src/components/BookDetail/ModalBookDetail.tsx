@@ -7,7 +7,7 @@ import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
 import { axiosPrivate } from "../../api/axios";
 import { color } from "framer-motion";
 
-const ModalBookDetail: React.FC<{ currentBook: BookModel | undefined }> = (props) => {
+const ModalBookDetail: React.FC<{ changePrice:Function, currentBook: BookModel | undefined}> = (props) => {
     // const id = props.id;
     // // const [book, setbook] = useState<BookModel | null>();
     // // const axios = useAxiosPrivate();
@@ -28,12 +28,12 @@ const ModalBookDetail: React.FC<{ currentBook: BookModel | undefined }> = (props
     //     getBookDetail();
     //   }, [id]);
 
-    const [book, setBook] = useState<BookModel|undefined>();
+    const [book, setBook] = useState<BookModel | undefined>();
     const [isChangingPrice, setIsChangingPrice] = useState<boolean>(false);
 
     useEffect(() => {
         const getBook: Function = async (id: number) => {
-            if(id === undefined){
+            if (id === undefined) {
                 return;
             }
             try {
@@ -49,20 +49,21 @@ const ModalBookDetail: React.FC<{ currentBook: BookModel | undefined }> = (props
         getBook(props.currentBook?.id);
     }, [props.currentBook])
 
-    useEffect(()=>{
-        if(book?.price != props.currentBook?.price){
+
+    useEffect(() => {
+        if (book?.price != props.currentBook?.price) {
+            console.log(book);
             setIsChangingPrice(true);
-        } else{
+        } else {
             setIsChangingPrice(false);
         }
-    },[book?.price])
+    }, [book?.price])
     //FUNCTIONS
-    const changePrice = () => {
-        console.log(book?.id, book?.price);
-        return true;
+    const handleChangePrice = (id:number, price: number) => {
+        props.changePrice(id, price);
     }
 
-    const cancel = () =>{
+    const cancel = () => {
         setBook(props.currentBook);
     }
 
@@ -108,8 +109,8 @@ const ModalBookDetail: React.FC<{ currentBook: BookModel | undefined }> = (props
                                 setBook={setBook}
                                 isChangingPrice={isChangingPrice}
                                 setIsChangingPrice={setIsChangingPrice}
-                                changePrice={changePrice}
-                                cancel={cancel}/>
+                                changePrice={handleChangePrice}
+                                cancel={cancel} />
                         </div>
                         <hr></hr>
                     </div>
@@ -131,10 +132,10 @@ const ModalBookDetail: React.FC<{ currentBook: BookModel | undefined }> = (props
                                 <p className="lead">{book.description}</p>
                             </div>
                         </div>
-                        <CheckoutAndReviewBox mobile={true} bookModel={book} setBook={setBook}isChangingPrice={isChangingPrice}
-                                setIsChangingPrice={setIsChangingPrice}
-                                changePrice={changePrice}
-                                cancel={cancel}/>
+                        <CheckoutAndReviewBox mobile={true} bookModel={book} setBook={setBook} isChangingPrice={isChangingPrice}
+                            setIsChangingPrice={setIsChangingPrice}
+                            changePrice={handleChangePrice}
+                            cancel={cancel} />
                         <hr />
                     </div>
                 </div>

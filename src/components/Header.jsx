@@ -1,6 +1,8 @@
 import React from "react";
+import { Navbar, NavbarBrand } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import logo from "../images/web-logo.png";
 
 const NavContent = styled.div`
   li {

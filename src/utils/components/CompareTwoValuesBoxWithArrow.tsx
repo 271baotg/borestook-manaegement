@@ -1,8 +1,9 @@
 import { Card, Stat, StatArrow, StatGroup, StatHelpText, StatLabel, StatNumber } from "@chakra-ui/react"
+import { ReactNode } from "react";
 
 
 
-export const CompareTwoValuesBoxWithArrow: React.FC<{ lable: String, currentValue: number | undefined, oldValue: number | undefined }> = (props) => {
+export const CompareTwoValuesBoxWithArrow: React.FC<{ lable: String, currentValue: number | undefined, oldValue: number | undefined, icon:ReactNode }> = (props) => {
 
     const curVal: number | undefined = props.currentValue;
     const oldVal: number | undefined = props.oldValue;
@@ -17,7 +18,8 @@ export const CompareTwoValuesBoxWithArrow: React.FC<{ lable: String, currentValu
             <Card className="p-2 h-100" variant='filled' >
                 <StatGroup>
                     <Stat>
-                        <StatLabel>{props.lable}</StatLabel>
+                        {props.icon}
+                        <StatLabel className="mt-2">{props.lable}</StatLabel>
                         <StatNumber>{curVal !== undefined ? curVal : 'Data missing'}</StatNumber>
                         <StatHelpText>
                             <StatArrow type={(curVal ?? 0) - (oldVal ?? 0) >= 0 ? 'increase' : 'decrease'} />
