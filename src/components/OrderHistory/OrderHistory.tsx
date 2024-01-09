@@ -157,7 +157,7 @@ export const OrderHistory = () => {
       data,
       fields
     })
-    const blob:Blob = new Blob([csv]);
+    const blob:Blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
     const a:HTMLAnchorElement = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'orders.csv';

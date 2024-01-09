@@ -100,13 +100,18 @@ export const Customer = () => {
       customer.spent,
 
     ])
+
     const fields = ['ID', 'NAME','PHONENUMBER', 'RANKING', 'SPENT'];
 
     const csv = Papa.unparse({
       data,
-      fields
+      fields,
     })
-    const blob:Blob = new Blob([csv]);
+    console.log('csv', csv);
+
+    
+    const blob:Blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+    console.log(blob.stream);
     const a:HTMLAnchorElement = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'customers.csv';
