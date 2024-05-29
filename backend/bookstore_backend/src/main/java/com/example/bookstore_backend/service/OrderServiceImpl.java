@@ -14,6 +14,10 @@ import com.example.bookstore_backend.model.OrderDetail;
 import com.example.bookstore_backend.repository.CustomerRepository;
 import com.example.bookstore_backend.repository.OrderRepository;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +29,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
+    private final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+
     BookDTOMapper bookDTOMapper;
 
     OrderRepository repo;
@@ -70,56 +76,66 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO createOrder(OrderDTO orderDTO) {
-
-        Customer customer = orderDTO.getCustomer();
-        Order orderTemp;
-        if (customer.getFullName() != null) {
-            orderTemp = Order.builder()
-                    .total(orderDTO.getTotal())
-                    .giftcode(orderDTO.getGiftcode())
-                    .customer(customer)
-                    .username(orderDTO.getUsername())
-                    .createDate(Date.from(Instant.now()))
-                    .build();
-            Double updatedSpent = customer.getSpent() + orderDTO.getTotal();
-            if(updatedSpent >= 10000 * customer.getRanking() )
-            {
-                int ranking = customer.getRanking() + 1;
-                customer.setRanking(ranking);
+        String username = null;
+        try {
+            // Retrieve the username of the currently authenticated user
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof UserDetails) {
+                username = ((UserDetails) principal).getUsername();
+            } else {
+                username = principal.toString();
             }
-            customer.setSpent(updatedSpent);
-            customerRepository.save(customer);
-            // Save the order or perform other actions
-        } else {
-            // Handle the case where the customer is null, such as logging a message or throwing an exception
-            orderTemp = Order.builder()
-                    .total(orderDTO.getTotal())
-                    .customer(null)
-                    .giftcode(orderDTO.getGiftcode())
-                    .username(orderDTO.getUsername())
-                    .createDate(Date.from(Instant.now()))
-                    .build();
+
+            Customer customer = orderDTO.getCustomer();
+            Order orderTemp;
+            if (customer.getFullName() != null) {
+                orderTemp = Order.builder()
+                        .total(orderDTO.getTotal())
+                        .giftcode(orderDTO.getGiftcode())
+                        .customer(customer)
+                        .username(orderDTO.getUsername())
+                        .createDate(Date.from(Instant.now()))
+                        .build();
+                Double updatedSpent = customer.getSpent() + orderDTO.getTotal();
+                if (updatedSpent >= 10000 * customer.getRanking()) {
+                    int ranking = customer.getRanking() + 1;
+                    customer.setRanking(ranking);
+                }
+                customer.setSpent(updatedSpent);
+                customerRepository.save(customer);
+            } else {
+                orderTemp = Order.builder()
+                        .total(orderDTO.getTotal())
+                        .customer(null)
+                        .giftcode(orderDTO.getGiftcode())
+                        .username(orderDTO.getUsername())
+                        .createDate(Date.from(Instant.now()))
+                        .build();
+            }
+
+            Order savedOrder = repo.save(orderTemp);
+
+            List<OrderDetail> listOrder = orderDTO.getOrderDetails().stream()
+                    .map(orderDetailDTO -> {
+                        long bookId = orderDetailDTO.getBook().getId();
+                        Book optionalBook = bookService.findById(bookId)
+                                .orElseThrow(() -> new RuntimeException("Book with ID " + bookId + " not found"));
+                        int newAvailable = optionalBook.getAvailable() - orderDetailDTO.getQuantity();
+                        optionalBook.setAvailable(newAvailable);
+                        bookService.update(optionalBook);
+                        return new OrderDetail(savedOrder, optionalBook, orderDetailDTO.getQuantity());
+                    })
+                    .collect(Collectors.toList());
+
+            orderDetailService.saveListOrderDetail(listOrder);
+            savedOrder.setOrderDetails(listOrder);
+
+            logger.info("User {} created an order with ID {}", username, savedOrder.getId());
+            return orderDTOMapper.apply(savedOrder);
+        } catch (Exception e) {
+            logger.error("Failed to create order by user {}: {}", username, e.getMessage(), e);
+            throw e;
         }
-        Order savedOrder = repo.save(orderTemp);
-
-        List<OrderDetail> listOrder = orderDTO.getOrderDetails().stream()
-                .map(orderDetailDTO -> {
-                    long bookId = orderDetailDTO.getBook().getId();
-                    Book optionalBook = bookService.findById(bookId)
-                            .orElseThrow(() -> new RuntimeException("Book with ID " + bookId + " not found"));
-                    int newAvailable = optionalBook.getAvailable() - orderDetailDTO.getQuantity();
-                    optionalBook.setAvailable(newAvailable);
-                    Book updatedBook = bookService.update(optionalBook);
-                    Book book = bookDTOMapper.mapToBook(orderDetailDTO.getBook());
-                    book.setAvailable(newAvailable);
-                    return new OrderDetail(savedOrder,book,orderDetailDTO.getQuantity());
-                })
-                .collect(Collectors.toList());
-
-        orderDetailService.saveListOrderDetail(listOrder);
-        savedOrder.setOrderDetails(listOrder);
-
-        return orderDTOMapper.apply(savedOrder);
     }
 
 

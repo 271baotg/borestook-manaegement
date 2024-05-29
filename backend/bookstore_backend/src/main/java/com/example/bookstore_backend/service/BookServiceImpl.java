@@ -8,6 +8,10 @@ import com.example.bookstore_backend.model.Category;
 import com.example.bookstore_backend.model.Price;
 import com.example.bookstore_backend.repository.BookRepository;
 import com.example.bookstore_backend.repository.PriceRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService{
+    private final Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
 
     private final PriceRepository priceRepository;
     private final BookRepository bookRepository;
@@ -50,13 +55,29 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public Book create(BookDTO bookDTO, MultipartFile image) {
-        Book book = bookDTOMapper.mapToBook(bookDTO);
-        Book savedBook = bookRepository.save(book);
-        String img = (String) cloudinaryService.upload(image).get("url");
-        savedBook.setImg(img);
-        Price price = new Price(savedBook.getId(),bookDTO.getPrice());
-        priceRepository.save(price);
-        return savedBook;
+        String username = null;
+        try {
+            // Retrieve the username of the currently authenticated user
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof UserDetails) {
+                username = ((UserDetails) principal).getUsername();
+            } else {
+                username = principal.toString();
+            }
+
+            Book book = bookDTOMapper.mapToBook(bookDTO);
+            Book savedBook = bookRepository.save(book);
+            String img = (String) cloudinaryService.upload(image).get("url");
+            savedBook.setImg(img);
+            Price price = new Price(savedBook.getId(), bookDTO.getPrice());
+            priceRepository.save(price);
+
+            logger.info("User {} created a book with ID {}", username, savedBook.getId());
+            return savedBook;
+        } catch (Exception e) {
+            logger.error("Failed to create book by user {}: {}", username, e.getMessage(), e);
+            throw e; // Optionally rethrow the exception or handle it as needed
+        }
     }
 
     @Override
