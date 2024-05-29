@@ -29,3 +29,6 @@
 2024-05-29 10:27:26.387 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
 2024-05-29 10:27:26.401 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path ''
 2024-05-29 10:27:26.409 [restartedMain] INFO  c.e.b.BookstoreBackendApplication - Started BookstoreBackendApplication in 5.418 seconds (process running for 6.694)
+2024-05-29 10:32:09.692 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-29 10:32:09.695 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-05-29 10:32:09.756 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
